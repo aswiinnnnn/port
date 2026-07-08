@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import L from 'leaflet';
 import { Anchor, Clock, Map as MapIcon, ZoomIn, ZoomOut, Maximize2, Ship, Info, MapPin } from 'lucide-react';
+import { Communications } from './Communications';
 
 interface DockDetail {
   id: string;
@@ -966,6 +967,11 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ viewMode = '
         </div>
       </div>
     );
+  }
+
+  // RENDER VIEW: communications
+  if (viewMode === 'communications') {
+    return <Communications />;
   }
 
   // RENDER VIEW: vessels

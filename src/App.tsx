@@ -12,6 +12,8 @@ function App() {
         return 'Operations Dashboard';
       case 'live-map':
         return 'Live Port Map';
+      case 'communications':
+        return 'Multilingual Communication Center';
       case 'analytics':
         return 'Vessel Analytics';
       default:
