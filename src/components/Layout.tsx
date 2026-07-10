@@ -3,18 +3,26 @@ import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import type { PageId } from '../types';
 
+type UserRole = 'port-service-provider' | 'tug-operator' | 'ship-agent' | 'harbour-pilot';
+
 interface LayoutProps {
   children: React.ReactNode;
   currentPage: PageId;
   pageTitle: string;
   onPageChange: (pageId: PageId) => void;
+  currentUserRole?: UserRole;
+  onUserRoleChange?: (role: UserRole) => void;
+  onSelectVesselForAllocation?: (vesselName: string | null) => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ 
-  children, 
-  currentPage, 
-  pageTitle, 
-  onPageChange 
+export const Layout: React.FC<LayoutProps> = ({
+  children,
+  currentPage,
+  pageTitle,
+  onPageChange,
+  currentUserRole,
+  onUserRoleChange,
+  onSelectVesselForAllocation
 }) => {
   return (
     <div 
@@ -24,24 +32,9 @@ export const Layout: React.FC<LayoutProps> = ({
         width: '100vw',
         overflow: 'hidden',
         position: 'relative',
-        backgroundColor: 'var(--bg-primary)'
+        backgroundColor: 'transparent'
       }}
     >
-      {/* Absolute background image layer (allows backdrop-filter to work properly) */}
-      <div 
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: "linear-gradient(to right, rgba(140, 177, 178, 0.4), rgba(140, 177, 178, 0.1)), url('/ship_bg.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          zIndex: -2,
-          pointerEvents: 'none'
-        }}
-      />
       {/* Background overlay for non-map views to reduce contrast and improve readability */}
       <div 
         style={{
@@ -50,9 +43,14 @@ export const Layout: React.FC<LayoutProps> = ({
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: currentPage === 'vessels' ? 'rgba(240, 244, 246, 0.4)' : 'rgba(21, 37, 41, 0.65)',
-          backdropFilter: 'blur(25px)',
-          opacity: currentPage === 'live-map' ? 0 : 1,
+          backgroundColor:
+            currentPage === 'live-map'
+              ? 'rgba(255, 255, 255, 0.25)'
+              : 'rgba(255, 255, 255, 0.7)',
+          backdropFilter: currentPage === 'live-map' ? 'blur(1.5px)' : 'blur(10px)',
+          WebkitBackdropFilter: currentPage === 'live-map' ? 'blur(1.5px)' : 'blur(10px)',
+          opacity: 1,
+          display: 'block',
           transition: 'opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.8s cubic-bezier(0.25, 1, 0.5, 1)',
           pointerEvents: 'none',
           zIndex: 0
@@ -60,21 +58,30 @@ export const Layout: React.FC<LayoutProps> = ({
       />
       {/* Floating Sidebar Navigation (Absolutely positioned, no long background bar) */}
       <div style={{ position: 'absolute', left: '12px', top: '24px', bottom: '24px', zIndex: 10000, display: 'flex', alignItems: 'center' }}>
-        <Sidebar currentPage={currentPage} onPageChange={onPageChange} />
+        <Sidebar currentPage={currentPage} onPageChange={onPageChange} currentUserRole={currentUserRole} />
       </div>
 
-      <div 
+      <div
         style={{
           display: 'flex',
           flexDirection: 'column',
           flex: 1,
           height: '100%',
           overflow: 'hidden',
-          padding: '0px 32px 32px 64px', /* Offset left padding to clear the floating sidebar icons */
-          gap: '12px'
+          padding: '0px 32px 32px 88px', /* Offset left padding to clear the floating sidebar icons */
+          gap: '12px',
+          position: 'relative',
+          zIndex: 1
         }}
       >
-        <Header pageTitle={pageTitle} />
+        <Header
+          pageTitle={pageTitle}
+          isLightMode={currentPage !== 'live-map'}
+          currentRole={currentUserRole}
+          onRoleChange={onUserRoleChange}
+          onSelectVesselForAllocation={onSelectVesselForAllocation}
+          onPageChange={onPageChange}
+        />
         <main 
           style={{
             flex: 1,

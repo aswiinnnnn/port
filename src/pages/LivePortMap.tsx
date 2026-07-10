@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import L from 'leaflet';
-import { Ship, Info, Compass, RotateCcw } from 'lucide-react';
+import { Ship, Info, RotateCcw } from 'lucide-react';
 
 interface DockDetail {
   id: string;
@@ -211,6 +211,11 @@ export const LivePortMap: React.FC = () => {
       maxZoom: 20,
       opacity: 0.65
     }).addTo(map);
+
+    // Fix Leaflet sizing bug on initial display
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 250);
 
     // Add 2 Nautical Miles boundary circle (3704 meters radius)
     L.circle([41.360, 2.176], {

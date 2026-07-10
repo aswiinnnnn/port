@@ -1,38 +1,83 @@
 import React from 'react';
-import { 
-  LayoutDashboard, 
-  Ship, 
-  Box, 
-  Anchor, 
-  Map, 
+import {
+  LayoutDashboard,
+  Ship,
+  Anchor,
   Cloud,
   Activity,
-  Settings,
   MessageSquare,
-  User
+  FileText,
+  Clipboard,
+  Settings
 } from 'lucide-react';
 import type { PageId } from '../types';
+
+const CraneIcon: React.FC<{ size?: number; strokeWidth?: number }> = ({ size = 20, strokeWidth = 1.8 }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth={strokeWidth} 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <path d="M3 22h18" />
+    <path d="M6 22V4c0-.6.4-1 1-1h3c.6 0 1 .4 1 1v18" />
+    <path d="m6 8 5-4" />
+    <path d="m11 12-5-4" />
+    <path d="m6 16 5-4" />
+    <path d="m11 20-5-4" />
+    <path d="M11 5h10l-3 4H11" />
+    <path d="M18 9v6" />
+    <path d="M18 15h-2" />
+  </svg>
+);
 
 interface SidebarProps {
   currentPage: PageId;
   onPageChange: (pageId: PageId) => void;
+  currentUserRole?: string;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange }) => {
-  const topItems = [
-    { id: 'dashboard', icon: LayoutDashboard },
-    { id: 'vessels', icon: Ship },
-    { id: 'cargo', icon: Box },
-    { id: 'ports', icon: Anchor },
-    { id: 'live-map', icon: Map },
-    { id: 'weather', icon: Cloud },
-    { id: 'analytics', icon: Activity },
-    { id: 'settings', icon: Settings },
-    { id: 'messages', icon: MessageSquare },
-    { id: 'profile', icon: User },
-  ];
+export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange, currentUserRole }) => {
+  const isLightMode = currentPage !== 'live-map';
 
-  const renderIcon = (item: any) => {
+  const topItems: { id: PageId; icon: typeof LayoutDashboard }[] = 
+    currentUserRole === 'ship-agent'
+      ? [
+          { id: 'notifications', icon: Clipboard },
+          { id: 'documents', icon: FileText },
+          { id: 'berth', icon: Anchor },
+          { id: 'communications', icon: MessageSquare },
+          { id: 'departure', icon: Ship }
+        ]
+      : currentUserRole === 'tug-operator'
+      ? [
+          { id: 'tug-dashboard', icon: LayoutDashboard },
+          { id: 'tug-assignments', icon: Clipboard },
+          { id: 'tug-fleet', icon: Ship },
+          { id: 'tug-communications', icon: MessageSquare }
+        ]
+      : currentUserRole === 'harbour-pilot'
+      ? [
+          { id: 'pilot-dashboard', icon: LayoutDashboard },
+          { id: 'pilot-assignments', icon: Clipboard },
+          { id: 'pilot-vessel-data', icon: FileText },
+          { id: 'pilot-conditions', icon: Cloud }
+        ]
+      : [
+          { id: 'live-map', icon: LayoutDashboard },
+          { id: 'vessels', icon: Ship },
+          { id: 'communications', icon: MessageSquare },
+          { id: 'resources', icon: CraneIcon as any },
+          { id: 'analytics', icon: Activity },
+          { id: 'settings', icon: Settings },
+        ];
+
+  const renderIcon = (item: { id: PageId; icon: typeof LayoutDashboard }) => {
     const isActive = currentPage === item.id;
     const IconComponent = item.icon;
     
@@ -44,25 +89,35 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange }) =
           width: '46px',
           height: '46px',
           borderRadius: '16px',
-          backgroundColor: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.12)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          backgroundColor: isActive 
+            ? (isLightMode ? '#1e293b' : '#ffffff') 
+            : (isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.12)'),
+          border: isLightMode 
+            ? '1px solid rgba(0, 0, 0, 0.08)' 
+            : '1px solid rgba(255, 255, 255, 0.08)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
-          color: isActive ? '#1a202c' : '#ffffff',
+          color: isActive 
+            ? (isLightMode ? '#ffffff' : '#1a202c') 
+            : (isLightMode ? '#475569' : '#ffffff'),
           transition: 'all 0.2s ease',
           marginBottom: '10px',
           boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.15)' : 'none'
         }}
         onMouseEnter={(e) => {
           if (!isActive) {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
+            e.currentTarget.style.backgroundColor = isLightMode 
+              ? 'rgba(0, 0, 0, 0.12)' 
+              : 'rgba(255, 255, 255, 0.25)';
           }
         }}
         onMouseLeave={(e) => {
           if (!isActive) {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
+            e.currentTarget.style.backgroundColor = isLightMode 
+              ? 'rgba(0, 0, 0, 0.05)' 
+              : 'rgba(255, 255, 255, 0.12)';
           }
         }}
       >

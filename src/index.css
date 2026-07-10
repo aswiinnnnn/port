@@ -36,10 +36,9 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-primary);
+  background-color: #8cb1b2;
   min-height: 100vh;
   color: var(--text-primary);
-  min-height: 100vh;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -53,6 +52,7 @@ body {
   border: 1px solid var(--border-color);
   box-shadow: none;
   border-radius: 12px;
+  isolation: isolate;
 }
 
 .glass-pill {
@@ -61,6 +61,7 @@ body {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   border-radius: 8px;
+  isolation: isolate;
 }
 
 .glass-dark-panel {
@@ -69,6 +70,7 @@ body {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
+  isolation: isolate;
 }
 
 /* Typography Helpers */
@@ -113,17 +115,10 @@ body {
 }
 
 /* Map Overrides */
-.custom-map {
-  background-color: transparent !important;
-}
-
-.custom-map .leaflet-container {
-  background-color: transparent !important;
+.custom-map .leaflet-container,
+.custom-map .leaflet-pane,
+.custom-map .leaflet-tile-pane {
   font-family: var(--font-sans) !important;
-}
-
-.custom-map .leaflet-tile {
-  opacity: 0.3; /* Makes the map tile layer extremely transparent */
 }
 
 .custom-map .leaflet-control-zoom {
@@ -187,13 +182,7 @@ body {
   opacity: 1;
 }
 
-/* Force Leaflet map containers to be transparent so backdrop-filter blurs the background image */
-.leaflet-container,
-.custom-map,
-.dark-map {
-  background: transparent !important;
-  background-color: transparent !important;
-}
+
 
 /* Photoshop-like feathered edge blend using CSS Mask compositing */
 .feathered-map {
@@ -208,11 +197,9 @@ body {
 @keyframes fadeIn {
   from { 
     opacity: 0; 
-    transform: translateY(6px); 
   }
   to { 
     opacity: 1; 
-    transform: translateY(0); 
   }
 }
 

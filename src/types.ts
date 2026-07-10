@@ -5,8 +5,25 @@ export type PageId =
   | 'live-map'
   | 'vessels'
   | 'communications'
+  | 'cargo'
+  | 'ports'
+  | 'weather'
   | 'analytics'
-  | 'resources';
+  | 'settings'
+  | 'profile'
+  | 'resources'
+  | 'notifications'
+  | 'documents'
+  | 'berth'
+  | 'departure'
+  | 'tug-dashboard'
+  | 'tug-assignments'
+  | 'tug-fleet'
+  | 'tug-communications'
+  | 'pilot-dashboard'
+  | 'pilot-assignments'
+  | 'pilot-vessel-data'
+  | 'pilot-conditions';
 
 export interface NavItem {
   id: PageId;

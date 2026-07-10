@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import L from 'leaflet';
-import { Anchor, Clock, Map as MapIcon, ZoomIn, ZoomOut, Maximize2, Ship, Info, MapPin } from 'lucide-react';
+import { Anchor, Clock, Ship, Info, MessageSquare } from 'lucide-react';
 import { Communications } from './Communications';
 
 interface DockDetail {
@@ -22,7 +22,7 @@ interface DockDetail {
   nextArrival?: string;
 }
 
-const docks: DockDetail[] = [
+export const docks: DockDetail[] = [
   {
     id: 'S',
     label: 'S',
@@ -140,6 +140,206 @@ const docks: DockDetail[] = [
   }
 ];
 
+export interface VesselChecklistStep {
+  label: string;
+  done: boolean;
+  num?: number;
+}
+
+export interface VesselListItem {
+  flag: string;
+  status: string;
+  statusLabel: string;
+  name: string;
+  type: string;
+  image: string;
+  loa: string;
+  draft: string;
+  gt: string;
+  eta: string;
+  cargo: string;
+  berth: string;
+  risk: number;
+  riskLevel: string;
+  tugs: number;
+  operator: string;
+  checklist: VesselChecklistStep[];
+}
+
+export const listVessels: VesselListItem[] = [
+  {
+    flag: '🇵🇦',
+    status: 'APPR',
+    statusLabel: 'Approaching',
+    name: 'MSC BARCELONA',
+    type: 'Container Ship · Panama · IMO 9705217',
+    image: '/ships/ship_1.png',
+    loa: '366m',
+    draft: '14.2m',
+    gt: '153K',
+    eta: '08 Jul 16:12',
+    cargo: 'Containers',
+    berth: 'BEST-T1-B4',
+    risk: 35,
+    riskLevel: 'MEDIUM RISK',
+    tugs: 4,
+    operator: 'Maritima Barcelonesa',
+    checklist: [
+      { label: 'AIS', done: true },
+      { label: 'Pilot', done: false, num: 2 },
+      { label: 'Tug', done: false, num: 3 },
+      { label: 'Berthing', done: false, num: 4 },
+      { label: 'Customs', done: false, num: 5 },
+      { label: 'Cargo', done: false, num: 6 },
+      { label: 'Departure', done: false, num: 7 }
+    ]
+  },
+  {
+    flag: '🇮🇹',
+    status: 'APPR',
+    statusLabel: 'Approaching',
+    name: 'COSTA FORTUNA',
+    type: 'Cruise Ship · Italy · IMO 9239783',
+    image: '/ships/ship_2.png',
+    loa: '272m',
+    draft: '8.2m',
+    gt: '103K',
+    eta: '08 Jul 16:54',
+    cargo: 'Passengers',
+    berth: 'TERMINAL-C-P1',
+    risk: 22,
+    riskLevel: 'LOW RISK',
+    tugs: 2,
+    operator: 'Costa Crociere',
+    checklist: [
+      { label: 'AIS', done: true },
+      { label: 'Pilot', done: false, num: 2 },
+      { label: 'Berthing', done: false, num: 3 },
+      { label: 'Passenger', done: false, num: 4 },
+      { label: 'Provisioning', done: false, num: 5 },
+      { label: 'Departure', done: false, num: 6 }
+    ]
+  },
+  {
+    flag: '🇲🇭',
+    status: 'BERT',
+    statusLabel: 'Berthing',
+    name: 'ATLANTIC HORIZON',
+    type: 'Bulk Carrier · Marshall Islands · IMO 9456123',
+    image: '/ships/ship_3.png',
+    loa: '225m',
+    draft: '13.5m',
+    gt: '44K',
+    eta: '08 Jul 15:00',
+    cargo: 'Iron Ore',
+    berth: 'NORTH-DOCK-B8',
+    risk: 58,
+    riskLevel: 'HIGH RISK',
+    tugs: 3,
+    operator: 'Transmediterranea',
+    checklist: [
+      { label: 'AIS', done: true },
+      { label: 'Pilot', done: true },
+      { label: 'Berthing', done: false, num: 3 },
+      { label: 'Mooring', done: false, num: 4 },
+      { label: 'Cargo', done: false, num: 5 }
+    ]
+  },
+  {
+    flag: '🇲🇹',
+    status: 'ANCH',
+    statusLabel: 'Anchored',
+    name: 'GRAND ZEPHYR',
+    type: 'Ro-Ro Vessel · Malta · IMO 9812345',
+    image: '/ships/ship_4.png',
+    loa: '198m',
+    draft: '6.8m',
+    gt: '31K',
+    eta: '08 Jul 19:12',
+    cargo: 'Vehicles & Trucks',
+    berth: 'RO-RO-T2',
+    risk: 44,
+    riskLevel: 'MEDIUM RISK',
+    tugs: 1,
+    operator: 'Grimaldi Lines',
+    checklist: [
+      { label: 'AIS', done: true },
+      { label: 'Waiting', done: false, num: 2 },
+      { label: 'Berthing', done: false, num: 3 },
+      { label: 'Cargo', done: false, num: 4 }
+    ]
+  },
+  {
+    flag: '🇪🇸',
+    status: 'APPR',
+    statusLabel: 'Approaching',
+    name: 'TANKER IBERIA',
+    type: 'Chemical Tanker · Spain · IMO 9234567',
+    image: '/ships/ship_6.png',
+    loa: '183m',
+    draft: '11.2m',
+    gt: '28K',
+    eta: '08 Jul 20:42',
+    cargo: 'Chemical Products',
+    berth: 'LIQUID-T3-B2',
+    risk: 72,
+    riskLevel: 'HIGH RISK',
+    tugs: 2,
+    operator: 'Boluda Corporación',
+    checklist: [
+      { label: 'AIS', done: true },
+      { label: 'ISPS', done: false, num: 2 },
+      { label: 'Hazmat', done: false, num: 3 },
+      { label: 'Berthing', done: false, num: 4 }
+    ]
+  },
+  {
+    flag: '🇱🇷',
+    status: 'APPR',
+    statusLabel: 'Approaching',
+    name: 'EVER ONWARDS',
+    type: 'Container Ship · Liberia · IMO 9890123',
+    image: '/ships/ship_1.png',
+    loa: '399m',
+    draft: '15.8m',
+    gt: '215K',
+    eta: '08 Jul 22:42',
+    cargo: 'Containers',
+    berth: 'BEST-T2-B1',
+    risk: 82,
+    riskLevel: 'CRITICAL RISK',
+    tugs: 6,
+    operator: 'Evergreen Marine',
+    checklist: [
+      { label: 'AIS', done: true },
+      { label: 'Deep', done: false, num: 2 },
+      { label: 'Special', done: false, num: 3 },
+      { label: 'Berthing', done: false, num: 4 }
+    ]
+  },
+  {
+    flag: '🇳🇴',
+    status: 'BERT',
+    statusLabel: 'Berthed',
+    name: 'NORDIC SUPPLY',
+    type: 'General Cargo · Norway · IMO 9345678',
+    image: '/ships/ship_3.png',
+    loa: '142m',
+    draft: '7.4m',
+    gt: '9K',
+    eta: '08 Jul 12:42',
+    cargo: 'General Cargo',
+    berth: 'SOUTH-CARGO-B3',
+    risk: 15,
+    riskLevel: 'LOW RISK',
+    tugs: 0,
+    operator: 'Nordisk Shipping',
+    checklist: [
+      { label: 'AIS', done: true }
+    ]
+  }
+];
+
 const getRotatedCoords = (
   centerLat: number,
   centerLng: number,
@@ -190,6 +390,26 @@ interface ShipData {
 }
 
 const shipsData: ShipData[] = [
+  {
+    name: 'GRAND ZEPHYR',
+    image: '/ships/ship_3.png',
+    flag: '🇲🇹',
+    status: 'ANCH',
+    type: 'Ro-Ro Vessel · Malta · IMO 9482933',
+    loa: '200m',
+    draft: '9.2m',
+    gt: '56K',
+    eta: '08 Jul 14:56',
+    cargo: 'Vehicles & Trucks',
+    berth: 'RO-RO-T2',
+    risk: 44,
+    tugs: 2,
+    riskLevel: 'MEDIUM RISK',
+    operator: 'Grimaldi Lines Agency',
+    lat: 41.335,
+    lng: 2.205,
+    routeColor: '#fbbf24'
+  },
   {
     name: 'MSC BARCELONA',
     image: '/ships/ship_1.png',
@@ -294,11 +514,15 @@ const shipsData: ShipData[] = [
 
 export interface UnifiedDashboardProps {
   viewMode?: string;
+  onPageChange?: (pageId: any) => void;
+  selectedMessageId?: string | null;
+  onSelectMessageId?: (id: string | null) => void;
+  onSelectVesselForAllocation?: (vesselName: string) => void;
 }
 
 const VesselArrivalsChart: React.FC = () => {
   return (
-    <div className="glass-dark-panel" style={{ padding: '12px 16px', borderRadius: '12px', marginTop: '12px', flex: 1, minWidth: '280px', border: '1px solid rgba(255,255,255,0.15)' }}>
+    <div className="glass-dark-panel" style={{ padding: '12px 16px', borderRadius: '12px', marginTop: '12px', flex: 1, minWidth: '280px', border: '1px solid rgba(255,255,255,0.15)', background: 'var(--card-gradient-1)' }}>
       <div style={{ fontSize: '10px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: '8px' }}>
         DAILY VESSEL ARRIVALS
       </div>
@@ -379,7 +603,7 @@ const VesselArrivalsChart: React.FC = () => {
 
 const TurnaroundTimeChart: React.FC = () => {
   return (
-    <div className="glass-dark-panel" style={{ padding: '12px 16px', borderRadius: '12px', marginTop: '12px', flex: 1, minWidth: '280px', border: '1px solid rgba(255,255,255,0.15)' }}>
+    <div className="glass-dark-panel" style={{ padding: '12px 16px', borderRadius: '12px', marginTop: '12px', flex: 1, minWidth: '280px', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'var(--card-gradient-1)' }}>
       <div style={{ fontSize: '10px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: '8px' }}>
         AVG TURNAROUND TIME (HOURS)
       </div>
@@ -433,13 +657,20 @@ const TurnaroundTimeChart: React.FC = () => {
   );
 };
 
-export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ viewMode = 'live-map' }) => {
+export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
+  viewMode = 'live-map',
+  onPageChange,
+  selectedMessageId,
+  onSelectMessageId,
+  onSelectVesselForAllocation
+}) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const polygonsRef = useRef<Map<string, L.Polygon>>(new Map());
   const [selectedDock, setSelectedDock] = useState<DockDetail | null>(null);
   const [hasUserSelected, setHasUserSelected] = useState(false);
   const [mapViewMode, setMapViewMode] = useState<'harbor' | 'vector'>('harbor');
+  if (false as boolean) setMapViewMode('harbor');
   const [selectedShipName, setSelectedShipName] = useState<string | null>(null);
   const [vesselSearch, setVesselSearch] = useState('');
   const [vesselFilter, setVesselFilter] = useState('All Vessels');
@@ -463,12 +694,16 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ viewMode = '
     });
     mapRef.current = map;
 
-    // CartoDB Voyager Tile Layer (Muted light cream theme as requested)
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd',
-      maxZoom: 20,
-      opacity: 0.65
+    // Standard OpenStreetMap Tile Layer (with natural blue sea colors)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      opacity: 0.85
     }).addTo(map);
+
+    // Fix Leaflet sizing bug on initial display
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 250);
 
     // Add 2 Nautical Miles boundary circle (3704 meters radius)
     L.circle([41.360, 2.176], {
@@ -680,7 +915,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ viewMode = '
           {/* Card 2 */}
           <div className="glass-panel" style={{ padding: '20px', borderRadius: '14px', position: 'relative' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '10px', backgroundColor: 'rgba(59, 130, 246, 0.12)', display: 'flex', alignItems: 'center', justify: 'center' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '10px', backgroundColor: 'rgba(59, 130, 246, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Anchor size={20} color="var(--accent-blue)" />
               </div>
               <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--accent-green)', display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -694,7 +929,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ viewMode = '
           {/* Card 3 */}
           <div className="glass-panel" style={{ padding: '20px', borderRadius: '14px', position: 'relative' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '10px', backgroundColor: 'rgba(251, 191, 36, 0.12)', display: 'flex', alignItems: 'center', justify: 'center' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '10px', backgroundColor: 'rgba(251, 191, 36, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Clock size={20} color="var(--accent-amber)" />
               </div>
               <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--accent-green)', display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -831,7 +1066,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ viewMode = '
           </div>
 
           {/* Bottom Row Stats */}
-          <div className="glass-dark-panel" style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 28px', borderRadius: '12px', fontSize: '14px', border: '1px solid rgba(255,255,255,0.15)' }}>
+          <div className="glass-dark-panel" style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 28px', borderRadius: '12px', fontSize: '14px', border: '1px solid rgba(255,255,255,0.15)', background: 'var(--card-gradient-1)' }}>
             <div><span style={{ color: 'var(--text-muted)' }}>CO₂ Saved</span> <span style={{ fontWeight: 600, marginLeft: '6px', color: 'var(--accent-cyan)' }}>18.4T</span></div>
             <div><span style={{ color: 'var(--text-muted)' }}>Fuel Saved</span> <span style={{ fontWeight: 600, marginLeft: '6px' }}>6.2T</span></div>
             <div><span style={{ color: 'var(--accent-cyan)' }}>Active Berths</span> <span style={{ fontWeight: 600, color: 'var(--accent-cyan)', marginLeft: '6px' }}>5/7</span></div>
@@ -971,185 +1206,16 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ viewMode = '
 
   // RENDER VIEW: communications
   if (viewMode === 'communications') {
-    return <Communications />;
+    return (
+      <Communications 
+        selectedMessageId={selectedMessageId}
+        onSelectMessageId={onSelectMessageId}
+      />
+    );
   }
 
   // RENDER VIEW: vessels
   if (viewMode === 'vessels') {
-    const listVessels = [
-      {
-        flag: '🇵🇦',
-        status: 'APPR',
-        statusLabel: 'Approaching',
-        name: 'MSC BARCELONA',
-        type: 'Container Ship · Panama · IMO 9705217',
-        image: '/ships/ship_1.png',
-        loa: '366m',
-        draft: '14.2m',
-        gt: '153K',
-        eta: '08 Jul 16:12',
-        cargo: 'Containers',
-        berth: 'BEST-T1-B4',
-        risk: 35,
-        riskLevel: 'MEDIUM RISK',
-        tugs: 4,
-        operator: 'Maritima Barcelonesa',
-        checklist: [
-          { label: 'AIS', done: true },
-          { label: 'Pilot', done: false, num: 2 },
-          { label: 'Tug', done: false, num: 3 },
-          { label: 'Berthing', done: false, num: 4 },
-          { label: 'Customs', done: false, num: 5 },
-          { label: 'Cargo', done: false, num: 6 },
-          { label: 'Departure', done: false, num: 7 }
-        ]
-      },
-      {
-        flag: '🇮🇹',
-        status: 'APPR',
-        statusLabel: 'Approaching',
-        name: 'COSTA FORTUNA',
-        type: 'Cruise Ship · Italy · IMO 9239783',
-        image: '/ships/ship_2.png',
-        loa: '272m',
-        draft: '8.2m',
-        gt: '103K',
-        eta: '08 Jul 16:54',
-        cargo: 'Passengers',
-        berth: 'TERMINAL-C-P1',
-        risk: 22,
-        riskLevel: 'LOW RISK',
-        tugs: 2,
-        operator: 'Costa Crociere',
-        checklist: [
-          { label: 'AIS', done: true },
-          { label: 'Pilot', done: false, num: 2 },
-          { label: 'Berthing', done: false, num: 3 },
-          { label: 'Passenger', done: false, num: 4 },
-          { label: 'Provisioning', done: false, num: 5 },
-          { label: 'Departure', done: false, num: 6 }
-        ]
-      },
-      {
-        flag: '🇲🇭',
-        status: 'BERT',
-        statusLabel: 'Berthing',
-        name: 'ATLANTIC HORIZON',
-        type: 'Bulk Carrier · Marshall Islands · IMO 9456123',
-        image: '/ships/ship_3.png',
-        loa: '225m',
-        draft: '13.5m',
-        gt: '44K',
-        eta: '08 Jul 15:00',
-        cargo: 'Iron Ore',
-        berth: 'NORTH-DOCK-B8',
-        risk: 58,
-        riskLevel: 'HIGH RISK',
-        tugs: 3,
-        operator: 'Transmediterranea',
-        checklist: [
-          { label: 'AIS', done: true },
-          { label: 'Pilot', done: true },
-          { label: 'Berthing', done: false, num: 3 },
-          { label: 'Mooring', done: false, num: 4 },
-          { label: 'Cargo', done: false, num: 5 }
-        ]
-      },
-      {
-        flag: '🇲🇹',
-        status: 'ANCH',
-        statusLabel: 'Anchored',
-        name: 'GRAND ZEPHYR',
-        type: 'Ro-Ro Vessel · Malta · IMO 9812345',
-        image: '/ships/ship_2.png',
-        loa: '198m',
-        draft: '6.8m',
-        gt: '31K',
-        eta: '08 Jul 19:12',
-        cargo: 'Vehicles & Trucks',
-        berth: 'RO-RO-T2',
-        risk: 44,
-        riskLevel: 'MEDIUM RISK',
-        tugs: 1,
-        operator: 'Grimaldi Lines',
-        checklist: [
-          { label: 'AIS', done: true },
-          { label: 'Waiting', done: false, num: 2 },
-          { label: 'Berthing', done: false, num: 3 },
-          { label: 'Cargo', done: false, num: 4 }
-        ]
-      },
-      {
-        flag: '🇪🇸',
-        status: 'APPR',
-        statusLabel: 'Approaching',
-        name: 'TANKER IBERIA',
-        type: 'Chemical Tanker · Spain · IMO 9234567',
-        image: '/ships/ship_1.png',
-        loa: '183m',
-        draft: '11.2m',
-        gt: '28K',
-        eta: '08 Jul 20:42',
-        cargo: 'Chemical Products',
-        berth: 'LIQUID-T3-B2',
-        risk: 72,
-        riskLevel: 'HIGH RISK',
-        tugs: 2,
-        operator: 'Boluda Corporación',
-        checklist: [
-          { label: 'AIS', done: true },
-          { label: 'ISPS', done: false, num: 2 },
-          { label: 'Hazmat', done: false, num: 3 },
-          { label: 'Berthing', done: false, num: 4 }
-        ]
-      },
-      {
-        flag: '🇱🇷',
-        status: 'APPR',
-        statusLabel: 'Approaching',
-        name: 'EVER ONWARDS',
-        type: 'Container Ship · Liberia · IMO 9890123',
-        image: '/ships/ship_1.png',
-        loa: '399m',
-        draft: '15.8m',
-        gt: '215K',
-        eta: '08 Jul 22:42',
-        cargo: 'Containers',
-        berth: 'BEST-T2-B1',
-        risk: 82,
-        riskLevel: 'CRITICAL RISK',
-        tugs: 6,
-        operator: 'Evergreen Marine',
-        checklist: [
-          { label: 'AIS', done: true },
-          { label: 'Deep', done: false, num: 2 },
-          { label: 'Special', done: false, num: 3 },
-          { label: 'Berthing', done: false, num: 4 }
-        ]
-      },
-      {
-        flag: '🇳🇴',
-        status: 'BERT',
-        statusLabel: 'Berthed',
-        name: 'NORDIC SUPPLY',
-        type: 'General Cargo · Norway · IMO 9345678',
-        image: '/ships/ship_3.png',
-        loa: '142m',
-        draft: '7.4m',
-        gt: '9K',
-        eta: '08 Jul 12:42',
-        cargo: 'General Cargo',
-        berth: 'SOUTH-CARGO-B3',
-        risk: 15,
-        riskLevel: 'LOW RISK',
-        tugs: 0,
-        operator: 'Nordisk Shipping',
-        checklist: [
-          { label: 'AIS', done: true }
-        ]
-      }
-    ];
-
     const filteredVessels = listVessels.filter((vessel) => {
       const matchesSearch = vessel.name.toLowerCase().includes(vesselSearch.toLowerCase()) ||
                             vessel.type.toLowerCase().includes(vesselSearch.toLowerCase()) ||
@@ -1245,172 +1311,207 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ viewMode = '
                 <div 
                   key={vessel.name}
                   className="glass-panel" 
+                  onClick={() => {
+                    if (onPageChange) {
+                      onPageChange('vessels');
+                    }
+                    if (onSelectVesselForAllocation) {
+                      onSelectVesselForAllocation(vessel.name);
+                    }
+                  }}
                   style={{ 
-                    padding: '12px 18px 12px 200px', 
+                    padding: '20px', 
                     borderRadius: '12px', 
                     display: 'flex', 
-                    flexDirection: 'column', 
-                    gap: '10px',
+                    flexDirection: 'row', 
+                    gap: '24px',
                     border: '1px solid rgba(0,0,0,0.08)',
-                    backgroundColor: '#DBE7EA',
+                    backgroundColor: '#EAF1F3',
                     boxShadow: 'none',
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    cursor: 'pointer'
                   }}
                 >
-                  {/* Background ship image aligned at bottom-left corner (no overlap due to left padding) */}
-                  <img 
-                    src={vessel.image} 
-                    alt={vessel.name} 
-                    style={{ 
-                      position: 'absolute', 
-                      bottom: 0, 
-                      left: '-50px', 
-                      height: '80%', 
-                      width: '220px', 
-                      objectFit: 'contain', 
-                      objectPosition: 'left bottom', 
-                      pointerEvents: 'none',
-                      opacity: 1, 
-                      filter: 'none', 
-                      transform: 'scaleX(-1)', 
-                      zIndex: 0
-                    }} 
-                  />
+                  {/* Left Column: Ship Name and Image */}
+                  <div style={{ width: '180px', display: 'flex', flexDirection: 'column', gap: '14px', position: 'relative', zIndex: 1, borderRight: '1px solid rgba(0,0,0,0.06)', paddingRight: '20px', flexShrink: 0 }}>
+                    {/* Ship Name Row */}
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                        <span style={{ fontSize: '18px' }}>{vessel.flag}</span>
+                        <div 
+                          style={{ 
+                            fontSize: '9px', 
+                            fontWeight: 700, 
+                            color: getStatusColor(vessel.status), 
+                            backgroundColor: getStatusBg(vessel.status), 
+                            padding: '2px 6px', 
+                            borderRadius: '5px',
+                            border: `1px solid ${getStatusColor(vessel.status)}15`
+                          }}
+                        >
+                          {vessel.status}
+                        </div>
+                      </div>
+                      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1e293b', margin: 0, lineHeight: 1.2 }}>
+                        {vessel.name}
+                      </h2>
+                      <div style={{ fontSize: '10.5px', color: '#475569', marginTop: '3px' }}>
+                        {vessel.type}
+                      </div>
+                    </div>
 
-                  {/* Row 1: Header */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', position: 'relative', zIndex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <span style={{ fontSize: '20px' }}>{vessel.flag}</span>
-                      <div 
+                    {/* Ship Image (Regular visible image of selected ship, not absolute bg) */}
+                    <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'center', width: '100%', minHeight: '100px' }}>
+                      <img 
+                        src={vessel.image} 
+                        alt={vessel.name} 
                         style={{ 
-                          fontSize: '10px', 
-                          fontWeight: 700, 
-                          color: getStatusColor(vessel.status), 
-                          backgroundColor: getStatusBg(vessel.status), 
-                          padding: '2px 6px', 
-                          borderRadius: '5px',
-                          border: `1px solid ${getStatusColor(vessel.status)}15`
+                          maxHeight: '100px', 
+                          maxWidth: '100%', 
+                          objectFit: 'contain'
+                        }} 
+                      />
+                    </div>
+                  </div>
+
+                  {/* Right Column: Rest of specs & Operational Progression */}
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '14px', position: 'relative', zIndex: 1 }}>
+                    {/* Operator and Show Allocation Button */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                      <div>
+                        <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>OPERATOR</span>
+                        <div style={{ fontSize: '12px', fontWeight: 600, color: '#0f172a', marginTop: '2px' }}>
+                          {vessel.operator}
+                        </div>
+                      </div>
+                      
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (onSelectVesselForAllocation) {
+                            onSelectVesselForAllocation(vessel.name);
+                          }
+                          if (onPageChange) {
+                            onPageChange('allocation');
+                          }
                         }}
+                        style={{
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          color: 'white',
+                          backgroundColor: '#2563eb',
+                          border: 'none',
+                          padding: '8px 14px',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          whiteSpace: 'nowrap',
+                          transition: 'background-color 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1d4ed8')}
+                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#2563eb')}
                       >
-                        {vessel.status}
+                        Show Allocation
+                      </button>
+                    </div>
+
+                    {/* Grid of Remaining Specs */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '12px', borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '10px' }}>
+                      <div>
+                        <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>DIMENSIONS</span>
+                        <div style={{ fontSize: '12px', fontWeight: 600, color: '#0f172a', marginTop: '2px' }}>
+                          LOA: {vessel.loa} · Draft: {vessel.draft} · GT: {vessel.gt}
+                        </div>
                       </div>
                       <div>
-                        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#1e293b', margin: 0 }}>
-                          {vessel.name}
-                        </h2>
-                        <div style={{ fontSize: '11px', color: '#475569', marginTop: '1px' }}>
-                          {vessel.type}
+                        <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>ETA</span>
+                        <div style={{ fontSize: '12px', fontWeight: 600, color: '#0f172a', marginTop: '2px' }}>
+                          {vessel.eta}
+                        </div>
+                      </div>
+                      <div>
+                        <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>CARGO & BERTH</span>
+                        <div style={{ fontSize: '12px', fontWeight: 600, color: '#0f172a', marginTop: '2px' }}>
+                          {vessel.cargo} · {vessel.berth}
+                        </div>
+                      </div>
+                      <div>
+                        <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>RISK PROFILE & TUGS</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
+                          <span style={{ fontSize: '11px', fontWeight: 700, color: getRiskColor(vessel.riskLevel) }}>
+                            {vessel.riskLevel} ({vessel.risk})
+                          </span>
+                          <span style={{ fontSize: '11px', color: '#475569' }}>
+                            · {vessel.tugs} Tugs
+                          </span>
                         </div>
                       </div>
                     </div>
-                    
-                    {/* Operator Tag */}
-                    <div style={{ textAlign: 'right' }}>
-                      <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>OPERATOR</span>
-                      <div style={{ fontSize: '12px', fontWeight: 600, color: '#0f172a', marginTop: '1px' }}>
-                        {vessel.operator}
-                      </div>
-                    </div>
-                  </div>
 
-                  {/* Row 2: Specs & Details Grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '12px', borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '10px', position: 'relative', zIndex: 1 }}>
-                    <div>
-                      <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>DIMENSIONS</span>
-                      <div style={{ fontSize: '12px', fontWeight: 600, color: '#0f172a', marginTop: '2px' }}>
-                        LOA: {vessel.loa} · Draft: {vessel.draft} · GT: {vessel.gt}
-                      </div>
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>ETA</span>
-                      <div style={{ fontSize: '12px', fontWeight: 600, color: '#0f172a', marginTop: '2px' }}>
-                        {vessel.eta}
-                      </div>
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>CARGO & BERTH</span>
-                      <div style={{ fontSize: '12px', fontWeight: 600, color: '#0f172a', marginTop: '2px' }}>
-                        {vessel.cargo} · {vessel.berth}
-                      </div>
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>RISK PROFILE & TUGS</span>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
-                        <span style={{ fontSize: '11px', fontWeight: 700, color: getRiskColor(vessel.riskLevel) }}>
-                          {vessel.riskLevel} ({vessel.risk})
-                        </span>
-                        <span style={{ fontSize: '11px', color: '#475569' }}>
-                          · {vessel.tugs} Tugs
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                    {/* Progress Checklist */}
+                    <div style={{ borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>OPERATIONAL PROCESS PROGRESSION</span>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', width: '100%', maxWidth: '800px', overflowX: 'auto', padding: '6px 0' }}>
+                        {vessel.checklist.map((step, sIdx) => {
+                          const isFirstUncompleted = !step.done && (sIdx === 0 || vessel.checklist[sIdx - 1].done);
+                          
+                          let circleBg = 'rgba(0, 0, 0, 0.02)';
+                          let circleBorder = '1.5px solid rgba(0, 0, 0, 0.08)';
+                          let circleColor = 'rgba(0, 0, 0, 0.35)';
+                          
+                          if (step.done) {
+                            circleBg = 'rgba(16, 185, 129, 0.08)';
+                            circleBorder = '1.5px solid #10b981';
+                            circleColor = '#10b981';
+                          } else if (isFirstUncompleted) {
+                            circleBg = 'rgba(59, 130, 246, 0.08)';
+                            circleBorder = '1.5px solid #3b82f6';
+                            circleColor = '#3b82f6';
+                          }
 
-                  {/* Row 3: Progress Checklist */}
-                  <div style={{ borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '10px', display: 'flex', flexDirection: 'column', gap: '6px', position: 'relative', zIndex: 1 }}>
-                    <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>OPERATIONAL PROCESS PROGRESSION</span>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', width: '100%', maxWidth: '800px', overflowX: 'auto', padding: '6px 0' }}>
-                      {vessel.checklist.map((step, sIdx) => {
-                        const isFirstUncompleted = !step.done && (sIdx === 0 || vessel.checklist[sIdx - 1].done);
-                        
-                        let circleBg = 'rgba(0, 0, 0, 0.02)';
-                        let circleBorder = '1.5px solid rgba(0, 0, 0, 0.08)';
-                        let circleColor = 'rgba(0, 0, 0, 0.35)';
-                        
-                        if (step.done) {
-                          circleBg = 'rgba(16, 185, 129, 0.08)';
-                          circleBorder = '1.5px solid #10b981';
-                          circleColor = '#10b981';
-                        } else if (isFirstUncompleted) {
-                          circleBg = 'rgba(59, 130, 246, 0.08)';
-                          circleBorder = '1.5px solid #3b82f6';
-                          circleColor = '#3b82f6';
-                        }
+                          const hasLine = sIdx < vessel.checklist.length - 1;
+                          const lineColors = step.done ? '#10b981' : 'rgba(0, 0, 0, 0.08)';
 
-                        const hasLine = sIdx < vessel.checklist.length - 1;
-                        const lineColors = step.done ? '#10b981' : 'rgba(0, 0, 0, 0.08)';
-
-                        return (
-                          <React.Fragment key={sIdx}>
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '70px' }}>
-                              <div style={{
-                                width: '30px',
-                                height: '30px',
-                                borderRadius: '50%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: circleBg,
-                                border: circleBorder,
-                                color: circleColor,
-                                fontSize: '12px',
-                                fontWeight: 600,
-                                marginBottom: '4px'
-                              }}>
-                                {step.done ? '✓' : (step.num || sIdx + 1)}
+                          return (
+                            <React.Fragment key={sIdx}>
+                              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '70px' }}>
+                                <div style={{
+                                  width: '30px',
+                                  height: '30px',
+                                  borderRadius: '50%',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  backgroundColor: circleBg,
+                                  border: circleBorder,
+                                  color: circleColor,
+                                  fontSize: '12px',
+                                  fontWeight: 600,
+                                  marginBottom: '4px'
+                                }}>
+                                  {step.done ? '✓' : (step.num || sIdx + 1)}
+                                </div>
+                                <span style={{ fontSize: '10px', color: isFirstUncompleted ? '#0f172a' : '#475569', fontWeight: isFirstUncompleted ? 600 : 400, textAlign: 'center', whiteSpace: 'nowrap' }}>
+                                  {step.label}
+                                </span>
                               </div>
-                              <span style={{ fontSize: '10px', color: isFirstUncompleted ? '#0f172a' : '#475569', fontWeight: isFirstUncompleted ? 600 : 400, textAlign: 'center', whiteSpace: 'nowrap' }}>
-                                {step.label}
-                              </span>
-                            </div>
-                            
-                            {hasLine && (
-                              <div style={{
-                                flex: 1,
-                                height: '1.5px',
-                                backgroundColor: lineColors,
-                                minWidth: '16px',
-                                maxWidth: '50px',
-                                marginTop: '15px'
-                              }} />
-                            )}
-                          </React.Fragment>
-                        );
-                      })}
+                              
+                              {hasLine && (
+                                <div style={{
+                                  flex: 1,
+                                  height: '1.5px',
+                                  backgroundColor: lineColors,
+                                  minWidth: '16px',
+                                  maxWidth: '50px',
+                                  marginTop: '15px'
+                                }} />
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
-
                 </div>
               );
             })
@@ -1432,22 +1533,111 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ viewMode = '
       {/* Left Dashboard Panel */}
       <div style={{ flex: 1.2, display: 'flex', flexDirection: 'column', gap: '16px', overflowY: 'auto', paddingRight: '12px' }}>
         
-        {/* Main Ship Highlight */}
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <div style={{ display: 'flex', gap: '48px', marginTop: '24px' }}>
-            <div>
-              <span className="pill-label" style={{ fontSize: '13px', padding: '4px 12px', background: 'rgba(255,255,255,0.12)', borderRadius: '6px' }}>Berth Utilization</span>
-              <div style={{ fontSize: '38px', fontWeight: 700, marginTop: '8px', color: 'white' }}>71%</div>
+        {/* Main Stats Header (Transparent, borderless, clean white text and graphs) */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '48px', marginTop: '16px', padding: '0 8px' }}>
+          
+          {/* Card 1: Berth Utilization */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <span style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.65)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>Berth Utilization</span>
+              <div style={{ fontSize: '32px', fontWeight: 700, color: 'white' }}>71%</div>
+              <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                ↑ 6% vs yesterday
+              </span>
             </div>
-            <div>
-              <span className="pill-label" style={{ fontSize: '13px', padding: '4px 12px', background: 'rgba(255,255,255,0.12)', borderRadius: '6px' }}>On-Time Rate</span>
-              <div style={{ fontSize: '38px', fontWeight: 700, marginTop: '8px', color: 'white' }}>87%</div>
-            </div>
-            <div>
-              <span className="pill-label" style={{ fontSize: '13px', padding: '4px 12px', background: 'rgba(255,255,255,0.12)', borderRadius: '6px' }}>Vessels Today</span>
-              <div style={{ fontSize: '38px', fontWeight: 700, marginTop: '8px', color: 'white' }}>7 vessels</div>
+            {/* Mini Sparkline Graph */}
+            <div style={{ width: '80px', height: '40px', display: 'flex', alignItems: 'center' }}>
+              <svg width="80" height="40" viewBox="0 0 100 40" style={{ overflow: 'visible' }}>
+                <defs>
+                  <linearGradient id="berth-grad-white" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
+                    <stop offset="100%" stopColor="#ffffff" stopOpacity="0.0" />
+                  </linearGradient>
+                </defs>
+                <path 
+                  d="M 0 35 C 15 28, 25 35, 40 18 C 55 10, 65 30, 80 15 C 90 8, 95 10, 100 5 L 100 40 L 0 40 Z" 
+                  fill="url(#berth-grad-white)" 
+                />
+                <path 
+                  d="M 0 35 C 15 28, 25 35, 40 18 C 55 10, 65 30, 80 15 C 90 8, 95 10, 100 5" 
+                  fill="none" 
+                  stroke="#ffffff" 
+                  strokeWidth="2.2" 
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </div>
           </div>
+
+          {/* Card 2: On-Time Rate */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <span style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.65)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>On-Time Rate</span>
+              <div style={{ fontSize: '32px', fontWeight: 700, color: 'white' }}>87%</div>
+              <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                ↑ 4% vs yesterday
+              </span>
+            </div>
+            {/* Mini Sparkline Graph */}
+            <div style={{ width: '80px', height: '40px', display: 'flex', alignItems: 'center' }}>
+              <svg width="80" height="40" viewBox="0 0 100 40" style={{ overflow: 'visible' }}>
+                <defs>
+                  <linearGradient id="ontime-grad-white" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
+                    <stop offset="100%" stopColor="#ffffff" stopOpacity="0.0" />
+                  </linearGradient>
+                </defs>
+                <path 
+                  d="M 0 38 C 15 32, 25 38, 40 22 C 55 15, 65 25, 80 10 C 90 5, 95 8, 100 2 L 100 40 L 0 40 Z" 
+                  fill="url(#ontime-grad-white)" 
+                />
+                <path 
+                  d="M 0 38 C 15 32, 25 38, 40 22 C 55 15, 65 25, 80 10 C 90 5, 95 8, 100 2" 
+                  fill="none" 
+                  stroke="#ffffff" 
+                  strokeWidth="2.2" 
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+
+          {/* Card 3: Vessels Today */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <span style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.65)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>Vessels Today</span>
+              <div style={{ fontSize: '32px', fontWeight: 700, color: 'white' }}>7</div>
+              <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                ↑ 2 vs yesterday
+              </span>
+            </div>
+            {/* Mini Sparkline Graph */}
+            <div style={{ width: '80px', height: '40px', display: 'flex', alignItems: 'center' }}>
+              <svg width="80" height="40" viewBox="0 0 100 40" style={{ overflow: 'visible' }}>
+                <defs>
+                  <linearGradient id="vessels-grad-white" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
+                    <stop offset="100%" stopColor="#ffffff" stopOpacity="0.0" />
+                  </linearGradient>
+                </defs>
+                <path 
+                  d="M 0 30 C 15 35, 30 15, 45 25 C 60 10, 75 28, 90 12 C 95 8, 100 5, 100 5 L 100 40 L 0 40 Z" 
+                  fill="url(#vessels-grad-white)" 
+                />
+                <path 
+                  d="M 0 30 C 15 35, 30 15, 45 25 C 60 10, 75 28, 90 12 C 95 8, 100 5, 100 5" 
+                  fill="none" 
+                  stroke="#ffffff" 
+                  strokeWidth="2.2" 
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+
         </div>
 
         {/* Vessel Performance Trend Charts */}
@@ -1457,7 +1647,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ viewMode = '
         </div>
 
         {/* Bottom Row Stats */}
-        <div className="glass-dark-panel" style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 28px', borderRadius: '12px', fontSize: '14px', border: '1px solid rgba(255,255,255,0.15)' }}>
+        <div className="glass-dark-panel" style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 28px', borderRadius: '12px', fontSize: '14px', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'var(--card-gradient-1)' }}>
           <div><span style={{ color: 'var(--text-muted)' }}>CO₂ Saved</span> <span style={{ fontWeight: 600, marginLeft: '6px', color: 'var(--accent-cyan)' }}>18.4T</span></div>
           <div><span style={{ color: 'var(--text-muted)' }}>Fuel Saved</span> <span style={{ fontWeight: 600, marginLeft: '6px' }}>6.2T</span></div>
           <div><span style={{ color: 'var(--accent-cyan)' }}>Active Berths</span> <span style={{ fontWeight: 600, color: 'var(--accent-cyan)', marginLeft: '6px' }}>5/7</span></div>
@@ -1473,32 +1663,64 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ viewMode = '
         {/* Ship Cards Carousel */}
         <div style={{ display: 'flex', gap: '20px', overflowX: 'auto', paddingBottom: '20px', marginTop: '-12px' }}>
           {shipsData.map((ship, idx) => {
-            const isFirst = idx === 0;
             const isSelected = selectedShipName === ship.name;
+            const hasUnread = ship.name === 'MSC BARCELONA' || ship.name === 'ATLANTIC HORIZON' || ship.name === 'GRAND ZEPHYR';
+            const unreadMsgId = ship.name === 'MSC BARCELONA' ? '2' : ship.name === 'GRAND ZEPHYR' ? '4' : '6';
+            
             return (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 id={`ship-card-${ship.name.replace(/\s+/g, '-').toLowerCase()}`}
-                className={isFirst ? "" : "glass-panel"} 
-                style={{ 
-                  minWidth: '400px', 
-                  borderRadius: '14px', 
-                  padding: '20px', 
-                  display: 'flex', 
-                  flexDirection: 'row', 
+                style={{
+                  minWidth: '400px',
+                  borderRadius: '14px',
+                  padding: '20px',
+                  display: 'flex',
+                  flexDirection: 'row',
                   gap: '16px',
-                  background: isFirst ? 'var(--card-gradient-1)' : undefined,
-                  border: isSelected 
-                    ? '2px solid var(--accent-cyan)' 
-                    : isFirst 
-                      ? '1px solid rgba(255,255,255,0.25)' 
-                      : '1px solid rgba(255,255,255,0.15)',
+                  background: 'var(--card-gradient-1)',
+                  border: isSelected
+                    ? '2px solid var(--accent-cyan)'
+                    : '1px solid rgba(255,255,255,0.25)',
                   boxShadow: isSelected ? '0 0 16px rgba(91, 226, 200, 0.4)' : undefined,
                   position: 'relative',
                   overflow: 'hidden',
                   transition: 'all 0.3s ease'
                 }}
               >
+                {hasUnread && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onPageChange) {
+                        onPageChange('communications');
+                      }
+                      if (onSelectMessageId) {
+                        onSelectMessageId(unreadMsgId);
+                      }
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: '12px',
+                      right: '12px',
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: '50%',
+                      backgroundColor: '#fbbf24',
+                      border: '2px solid white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      color: 'white',
+                      boxShadow: '0 2px 8px rgba(251, 191, 36, 0.4)',
+                      zIndex: 10
+                    }}
+                    title="New unread communication"
+                  >
+                    <MessageSquare size={12} fill="white" />
+                  </button>
+                )}
                 {/* Left Column (Vessel metadata, Image, Specs) */}
                 <div style={{ flex: 1.3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', zIndex: 2, position: 'relative' }}>
                   <div>
@@ -1593,7 +1815,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ viewMode = '
       </div>
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <div className="glass-panel" style={{ flex: 1, overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px', backgroundColor: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+        <div className="glass-panel" style={{ flex: 1, overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px', backgroundColor: 'rgba(15, 23, 42, 0.2)' }}>
           
           {/* Leaflet Map canvas (Always rendered but hidden in vector mode to keep Leaflet instance alive) */}
           <div 
