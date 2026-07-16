@@ -74,7 +74,7 @@ const getPilotImage = (id: string) => {
   return `/pilots/${id}.png`;
 };
 
-const CardMiniMap: React.FC<{ lat?: number; lng?: number; status: string; location: string }> = ({ lat, lng, status, location }) => {
+const CardMiniMap: React.FC<{ lat?: number; lng?: number; status: string; location: string }> = ({ lat, lng, status }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
 

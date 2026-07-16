@@ -94,7 +94,7 @@ const outcomeColor = (outcome: ActivityEntry['outcome']) => {
   return '#3b82f6';
 };
 
-const MiniPositionMap: React.FC<{ resource: ResourceDetailData }> = ({ resource }) => {
+export const MiniPositionMap: React.FC<{ resource: ResourceDetailData }> = ({ resource }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
 
