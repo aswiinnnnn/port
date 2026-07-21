@@ -502,6 +502,8 @@ const shipsData: ShipData[] = [
     eta: '09 Jul 08:30',
     cargo: 'Grain',
     berth: 'SOUTH-DOCK-B1',
+    risk: 42,
+    tugs: 2,
     riskLevel: 'MEDIUM RISK',
     operator: 'Atlantic Chartering',
     lat: 41.315,
