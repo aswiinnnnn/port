@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Ship, Anchor, Compass, Sparkles, Check, X, RefreshCw, Calendar, ArrowDownRight, ArrowUpRight, Box, Layers, ChevronDown } from 'lucide-react';
+import { Ship, Anchor, Compass, Sparkles, Check, X, RefreshCw, Calendar, ArrowDownRight, ArrowUpRight, Box, Layers, ChevronDown, Info } from 'lucide-react';
 import { listVessels, docks, type VesselListItem } from './UnifiedDashboard';
 
 interface TugBoat {
@@ -300,6 +300,26 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
 
           {/* Column 1: Vessel Specifications & Image (Independent Scroll) */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', borderRight: '1px solid rgba(0,0,0,0.08)', paddingRight: '20px', overflowY: 'auto', maxHeight: '100%', paddingBottom: '12px' }}>
+            
+            {/* Vessel Image Banner (Positioned at TOP of left column with transparent background) */}
+            <div style={{ 
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '4px 0'
+            }}>
+              <img 
+                src={vessel.image} 
+                alt={vessel.name} 
+                style={{ 
+                  maxHeight: '130px', 
+                  maxWidth: '100%', 
+                  objectFit: 'contain',
+                  filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))'
+                }} 
+              />
+            </div>
+
             <h3 style={{ fontSize: '12px', fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.5px', margin: 0 }}>Vessel Specifications</h3>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
@@ -345,25 +365,6 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
             <div style={{ backgroundColor: 'rgba(255,255,255,0.7)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(0,0,0,0.06)' }}>
               <div style={{ fontSize: '10px', color: '#64748b', fontWeight: 600 }}>OPERATOR</div>
               <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', marginTop: '2px' }}>{vessel.operator}</div>
-            </div>
-
-            {/* Vessel Image Container (Sticks directly under Operator card) */}
-            <div style={{ 
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '12px 0 0 0'
-            }}>
-              <img 
-                src={vessel.image} 
-                alt={vessel.name} 
-                style={{ 
-                  maxHeight: '120px', 
-                  maxWidth: '100%', 
-                  objectFit: 'contain',
-                  filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))'
-                }} 
-              />
             </div>
           </div>
 
@@ -491,7 +492,43 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                   Tug Boat Allocation
                 </label>
                 {selectedTugId === suggestion.tugId && (
-                  <span style={{ fontSize: '9px', color: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>AI SUGGESTED</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '9px', color: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>AI SUGGESTED</span>
+                    <div 
+                      className="group"
+                      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '3px', borderRadius: '50%' }}
+                    >
+                      <Info size={14} color="#2563eb" />
+                      {/* Custom UI Tooltip Card */}
+                      <div 
+                        style={{
+                          position: 'absolute',
+                          bottom: 'calc(100% + 8px)',
+                          right: '0',
+                          width: '240px',
+                          padding: '10px 12px',
+                          backgroundColor: '#0f172a',
+                          color: '#ffffff',
+                          borderRadius: '8px',
+                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.25)',
+                          fontSize: '11px',
+                          lineHeight: '1.4',
+                          pointerEvents: 'none',
+                          opacity: 0,
+                          transform: 'translateY(4px)',
+                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                          zIndex: 9999,
+                          border: '1px solid rgba(255,255,255,0.1)'
+                        }} 
+                        className="group-hover:opacity-100 group-hover:translate-y-0"
+                      >
+                        <div style={{ fontWeight: 700, color: '#38bdf8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Sparkles size={11} color="#38bdf8" /> AI Allocation Rationale
+                        </div>
+                        Selected based on vessel LOA ({vessel?.loa || '280m'}) and required bollard pull efficiency for optimal maneuverability.
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -581,7 +618,43 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                   Harbor Pilot Allocation
                 </label>
                 {selectedPilotId === suggestion.pilotId && (
-                  <span style={{ fontSize: '9px', color: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>AI SUGGESTED</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '9px', color: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>AI SUGGESTED</span>
+                    <div 
+                      className="group"
+                      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '3px', borderRadius: '50%' }}
+                    >
+                      <Info size={14} color="#2563eb" />
+                      {/* Custom UI Tooltip Card */}
+                      <div 
+                        style={{
+                          position: 'absolute',
+                          bottom: 'calc(100% + 8px)',
+                          right: '0',
+                          width: '240px',
+                          padding: '10px 12px',
+                          backgroundColor: '#0f172a',
+                          color: '#ffffff',
+                          borderRadius: '8px',
+                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.25)',
+                          fontSize: '11px',
+                          lineHeight: '1.4',
+                          pointerEvents: 'none',
+                          opacity: 0,
+                          transform: 'translateY(4px)',
+                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                          zIndex: 9999,
+                          border: '1px solid rgba(255,255,255,0.1)'
+                        }} 
+                        className="group-hover:opacity-100 group-hover:translate-y-0"
+                      >
+                        <div style={{ fontWeight: 700, color: '#38bdf8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Sparkles size={11} color="#38bdf8" /> AI Allocation Rationale
+                        </div>
+                        Matched pilot certification rank to vessel draft ({vessel?.draft || '12m'}) and current tide window.
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -669,7 +742,43 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                   Quay Crane Allocation
                 </label>
                 {selectedCraneId === suggestion.craneId && (
-                  <span style={{ fontSize: '9px', color: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>AI SUGGESTED</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '9px', color: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>AI SUGGESTED</span>
+                    <div 
+                      className="group"
+                      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '3px', borderRadius: '50%' }}
+                    >
+                      <Info size={14} color="#2563eb" />
+                      {/* Custom UI Tooltip Card */}
+                      <div 
+                        style={{
+                          position: 'absolute',
+                          bottom: 'calc(100% + 8px)',
+                          right: '0',
+                          width: '240px',
+                          padding: '10px 12px',
+                          backgroundColor: '#0f172a',
+                          color: '#ffffff',
+                          borderRadius: '8px',
+                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.25)',
+                          fontSize: '11px',
+                          lineHeight: '1.4',
+                          pointerEvents: 'none',
+                          opacity: 0,
+                          transform: 'translateY(4px)',
+                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                          zIndex: 9999,
+                          border: '1px solid rgba(255,255,255,0.1)'
+                        }} 
+                        className="group-hover:opacity-100 group-hover:translate-y-0"
+                      >
+                        <div style={{ fontWeight: 700, color: '#38bdf8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Sparkles size={11} color="#38bdf8" /> AI Allocation Rationale
+                        </div>
+                        High-speed gantry crane assigned to maximize container clearance rate.
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -758,7 +867,43 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                   Berth Assignment
                 </label>
                 {selectedBerthId === suggestion.berthId && (
-                  <span style={{ fontSize: '9px', color: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>AI SUGGESTED</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '9px', color: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>AI SUGGESTED</span>
+                    <div 
+                      className="group"
+                      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '3px', borderRadius: '50%' }}
+                    >
+                      <Info size={14} color="#2563eb" />
+                      {/* Custom UI Tooltip Card */}
+                      <div 
+                        style={{
+                          position: 'absolute',
+                          bottom: 'calc(100% + 8px)',
+                          right: '0',
+                          width: '240px',
+                          padding: '10px 12px',
+                          backgroundColor: '#0f172a',
+                          color: '#ffffff',
+                          borderRadius: '8px',
+                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.25)',
+                          fontSize: '11px',
+                          lineHeight: '1.4',
+                          pointerEvents: 'none',
+                          opacity: 0,
+                          transform: 'translateY(4px)',
+                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                          zIndex: 9999,
+                          border: '1px solid rgba(255,255,255,0.1)'
+                        }} 
+                        className="group-hover:opacity-100 group-hover:translate-y-0"
+                      >
+                        <div style={{ fontWeight: 700, color: '#38bdf8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Sparkles size={11} color="#38bdf8" /> AI Allocation Rationale
+                        </div>
+                        Optimal depth berth closest to assigned container yard zone.
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 

@@ -214,29 +214,30 @@ export const ResourceDetailModal: React.FC<ResourceDetailModalProps> = ({ resour
           flexDirection: 'column'
         }}
       >
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            {resource.image ? (
-              <div style={{ width: '48px', height: '48px', borderRadius: resource.type === 'pilot' ? '50%' : '8px', overflow: 'hidden', border: '2px solid white', boxShadow: '0 2px 6px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>
-                <img src={resource.image} alt={resource.name} style={{ width: '100%', height: '100%', objectFit: resource.type === 'pilot' ? 'cover' : 'contain' }} />
-              </div>
-            ) : (
-              <div style={{ width: '48px', height: '48px', borderRadius: '10px', backgroundColor: `${statusColor}15`, border: `1px solid ${statusColor}33`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Gauge size={22} color={statusColor} />
-              </div>
-            )}
-            <div>
-              <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#1e293b', margin: 0 }}>{resource.name}</h2>
-              <div style={{ fontSize: '12px', color: '#64748b', textTransform: 'capitalize' }}>{resource.type} · {resource.operator}</div>
-            </div>
-          </div>
+        {/* Header with image at top */}
+        <div style={{ display: 'flex', flexDirection: 'column', padding: '24px 24px 18px 24px', borderBottom: '1px solid rgba(0,0,0,0.08)', position: 'relative' }}>
           <button
             onClick={onClose}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            style={{ position: 'absolute', top: '18px', right: '18px', background: 'none', border: 'none', cursor: 'pointer', padding: '6px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.04)' }}
+            title="Close"
           >
             <X size={20} color="#475569" />
           </button>
+
+          {/* Top Resource Image Header Banner */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', width: '100%', marginBottom: '12px' }}>
+            {resource.image ? (
+              <div style={{ width: '100%', maxHeight: '180px', height: '140px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.1)', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', backgroundColor: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px', marginBottom: '16px' }}>
+                <img src={resource.image} alt={resource.name} style={{ width: '100%', height: '100%', objectFit: resource.type === 'pilot' ? 'cover' : 'contain' }} />
+              </div>
+            ) : (
+              <div style={{ width: '72px', height: '72px', borderRadius: '16px', backgroundColor: `${statusColor}15`, border: `1px solid ${statusColor}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
+                <Gauge size={32} color={statusColor} />
+              </div>
+            )}
+            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#1e293b', margin: 0, textAlign: 'center' }}>{resource.name}</h2>
+            <div style={{ fontSize: '13px', color: '#64748b', textTransform: 'capitalize', marginTop: '2px', textAlign: 'center' }}>{resource.type} · {resource.operator}</div>
+          </div>
         </div>
 
         {/* Content */}

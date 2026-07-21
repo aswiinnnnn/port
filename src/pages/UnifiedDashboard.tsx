@@ -199,13 +199,13 @@ export const listVessels: VesselListItem[] = [
     status: 'APPR',
     statusLabel: 'Approaching',
     name: 'COSTA FORTUNA',
-    type: 'Cruise Ship · Italy · IMO 9239783',
+    type: 'Container Cargo Ship · Italy · IMO 9239783',
     image: '/ships/ship_2.png',
     loa: '272m',
     draft: '8.2m',
     gt: '103K',
-    eta: '08 Jul 16:54',
-    cargo: 'Passengers',
+    eta: '09 Jul 08:00',
+    cargo: 'Containers',
     berth: 'TERMINAL-C-P1',
     risk: 22,
     riskLevel: 'LOW RISK',
@@ -432,15 +432,15 @@ const shipsData: ShipData[] = [
   },
   {
     name: 'COSTA FORTUNA',
-    image: '/ships/ship_2.png',
+    image: '/ships/ship_1.png',
     flag: '🇮🇹',
     status: 'APPR',
-    type: 'Cruise Ship · Italy · IMO 9239783',
+    type: 'Container Cargo Ship · Italy · IMO 9239783',
     loa: '272m',
     draft: '8.3m',
     gt: '102K',
-    eta: '08 Jul 12:38',
-    cargo: 'Passengers',
+    eta: '08 Jul 16:54',
+    cargo: 'Containers',
     berth: 'TERMINAL-C-P1',
     risk: 22,
     tugs: 2,
@@ -1726,10 +1726,26 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
                 )}
                 {/* Left Column (Vessel metadata, Image, Specs) */}
                 <div style={{ flex: 1.3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', zIndex: 2, position: 'relative' }}>
+                  {/* Ship Silhouette Image positioned at TOP */}
+                  <img 
+                    src={ship.image} 
+                    alt={ship.name} 
+                    className="dashboard-vessel-img"
+                    style={{ 
+                      width: '100%', 
+                      height: '80px', 
+                      objectFit: 'contain', 
+                      objectPosition: 'left center', 
+                      pointerEvents: 'none',
+                      filter: 'brightness(1.1) contrast(1.1)',
+                      marginBottom: '8px'
+                    }} 
+                  />
+
                   <div>
                     {/* Flag and Status Pill */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                      <span style={{ fontSize: '18px' }}>{ship.flag}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                      <span style={{ fontSize: '16px' }}>{ship.flag}</span>
                       <span style={{ fontSize: '10px', fontWeight: 700, color: 'var(--accent-cyan)', backgroundColor: 'rgba(91,226,200,0.1)', padding: '2px 6px', borderRadius: '4px', border: '1px solid rgba(91,226,200,0.2)' }}>
                         {ship.status}
                       </span>
@@ -1741,7 +1757,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
                   </div>
 
                   {/* Specs overlay layout */}
-                  <div className="dashboard-vessel-specs" style={{ display: 'flex', flexDirection: 'row', gap: '6px', marginTop: '36px', fontSize: '11px', color: 'rgba(255,255,255,0.85)', textShadow: '0 1px 2px rgba(0,0,0,0.5)', whiteSpace: 'nowrap' }}>
+                  <div className="dashboard-vessel-specs" style={{ display: 'flex', flexDirection: 'row', gap: '6px', marginTop: '12px', fontSize: '11px', color: 'rgba(255,255,255,0.85)', textShadow: '0 1px 2px rgba(0,0,0,0.5)', whiteSpace: 'nowrap' }}>
                     <div>LOA <span style={{ fontWeight: 600 }}>{ship.loa}</span></div>
                     <div style={{ color: 'rgba(255,255,255,0.3)' }}>·</div>
                     <div>Draft <span style={{ fontWeight: 600 }}>{ship.draft}</span></div>
@@ -1749,25 +1765,6 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
                     <div>GT <span style={{ fontWeight: 600 }}>{ship.gt}</span></div>
                   </div>
                 </div>
-
-                {/* Ship Silhouette Image (Bleeding off bottom-left corner) */}
-                <img 
-                  src={ship.image} 
-                  alt={ship.name} 
-                  className="dashboard-vessel-img"
-                  style={{ 
-                    position: 'absolute', 
-                    left: '-42px', 
-                    bottom: '24px', 
-                    height: '135px', 
-                    width: '65%', 
-                    objectFit: 'contain', 
-                    objectPosition: 'left bottom', 
-                    pointerEvents: 'none',
-                    filter: 'brightness(1.1) contrast(1.1)',
-                    zIndex: 1
-                  }} 
-                />
 
                 {/* Right Column (Operational details separated by border) */}
                 <div style={{ flex: 1.1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '16px', zIndex: 2, position: 'relative' }}>
