@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
-import { X, Clock, TrendingUp, History, Gauge, MapPin, Sparkles } from 'lucide-react';
+import { X, Clock, TrendingUp, History, Gauge, MapPin, Sparkles, ChevronDown } from 'lucide-react';
 
 export interface ResourceDetailData {
   id: string;
@@ -164,7 +164,8 @@ interface ResourceDetailModalProps {
 }
 
 export const ResourceDetailModal: React.FC<ResourceDetailModalProps> = ({ resource, onClose, onAssign }) => {
-  const [selectedVessel, setSelectedVessel] = useState('');
+  const [selectedVessel, setSelectedVessel] = useState<string>('');
+  const [openVesselDropdown, setOpenVesselDropdown] = useState(false);
   const [assignSuccess, setAssignSuccess] = useState(false);
 
   const handleConfirmAssignment = () => {
@@ -299,27 +300,70 @@ export const ResourceDetailModal: React.FC<ResourceDetailModalProps> = ({ resour
             </h3>
             
             <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
-              <select
-                value={selectedVessel}
-                onChange={(e) => setSelectedVessel(e.target.value)}
-                style={{
-                  flex: 1,
-                  minWidth: '200px',
-                  backgroundColor: '#ffffff',
-                  border: '1px solid rgba(0,0,0,0.12)',
-                  borderRadius: '8px',
-                  padding: '8px 12px',
-                  fontSize: '13px',
-                  outline: 'none',
-                  color: '#1e293b',
-                  fontFamily: 'var(--font-sans)'
-                }}
-              >
-                <option value="">Select Vessel to Assign...</option>
-                {VESSEL_POOL.map(v => (
-                  <option key={v} value={v}>{v}</option>
-                ))}
-              </select>
+              {/* Shadcn Custom Select Dropdown for Assign / Reassign */}
+              <div style={{ position: 'relative', flex: 1, minWidth: '220px' }}>
+                <button
+                  type="button"
+                  onClick={() => setOpenVesselDropdown(!openVesselDropdown)}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '9px 12px',
+                    borderRadius: '8px',
+                    border: '1px solid #cbd5e1',
+                    backgroundColor: '#ffffff',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    color: selectedVessel ? '#0f172a' : '#64748b',
+                    cursor: 'pointer',
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                    textAlign: 'left'
+                  }}
+                >
+                  <span>{selectedVessel || 'Select Vessel to Assign...'}</span>
+                  <ChevronDown size={14} color="#64748b" style={{ transform: openVesselDropdown ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+                </button>
+
+                {openVesselDropdown && (
+                  <div style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 4px)',
+                    left: 0,
+                    right: 0,
+                    backgroundColor: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
+                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                    zIndex: 200,
+                    padding: '4px',
+                    maxHeight: '180px',
+                    overflowY: 'auto'
+                  }}>
+                    {VESSEL_POOL.map(v => (
+                      <div
+                        key={v}
+                        onClick={() => {
+                          setSelectedVessel(v);
+                          setOpenVesselDropdown(false);
+                        }}
+                        style={{
+                          padding: '8px 10px',
+                          borderRadius: '6px',
+                          fontSize: '12px',
+                          fontWeight: v === selectedVessel ? 700 : 500,
+                          backgroundColor: v === selectedVessel ? '#f1f5f9' : 'transparent',
+                          color: '#1e293b',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {v}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
               
               <button
                 onClick={handleConfirmAssignment}

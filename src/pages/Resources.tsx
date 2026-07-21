@@ -388,19 +388,20 @@ export const Resources: React.FC = () => {
                         }}
                         style={{
                           alignSelf: 'flex-end',
-                          fontSize: '10px',
-                          fontWeight: 600,
-                          color: '#2563eb',
-                          backgroundColor: 'rgba(37, 99, 235, 0.06)',
-                          border: '1px solid rgba(37, 99, 235, 0.15)',
-                          padding: '4px 10px',
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          color: '#ffffff',
+                          backgroundColor: '#2563eb',
+                          border: 'none',
+                          padding: '6px 14px',
                           borderRadius: '6px',
                           cursor: 'pointer',
                           marginTop: '8px',
+                          boxShadow: '0 2px 6px rgba(37, 99, 235, 0.3)',
                           transition: 'all 0.15s ease'
                         }}
-                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(37, 99, 235, 0.12)')}
-                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(37, 99, 235, 0.06)')}
+                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1d4ed8')}
+                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#2563eb')}
                       >
                         View Details
                       </button>
@@ -492,19 +493,20 @@ export const Resources: React.FC = () => {
                     }}
                     style={{
                       alignSelf: 'flex-end',
-                      fontSize: '10px',
-                      fontWeight: 600,
-                      color: '#2563eb',
-                      backgroundColor: 'rgba(37, 99, 235, 0.06)',
-                      border: '1px solid rgba(37, 99, 235, 0.15)',
-                      padding: '4px 10px',
+                      fontSize: '11px',
+                      fontWeight: 700,
+                      color: '#ffffff',
+                      backgroundColor: '#2563eb',
+                      border: 'none',
+                      padding: '6px 14px',
                       borderRadius: '6px',
                       cursor: 'pointer',
                       marginTop: '8px',
+                      boxShadow: '0 2px 6px rgba(37, 99, 235, 0.3)',
                       transition: 'all 0.15s ease'
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(37, 99, 235, 0.12)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(37, 99, 235, 0.06)')}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1d4ed8')}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#2563eb')}
                   >
                     View Details
                   </button>
@@ -562,19 +564,20 @@ export const Resources: React.FC = () => {
                   }}
                   style={{
                     alignSelf: 'flex-end',
-                    fontSize: '10px',
-                    fontWeight: 600,
-                    color: '#2563eb',
-                    backgroundColor: 'rgba(37, 99, 235, 0.06)',
-                    border: '1px solid rgba(37, 99, 235, 0.15)',
-                    padding: '4px 10px',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    color: '#ffffff',
+                    backgroundColor: '#2563eb',
+                    border: 'none',
+                    padding: '6px 14px',
                     borderRadius: '6px',
                     cursor: 'pointer',
                     marginTop: '8px',
+                    boxShadow: '0 2px 6px rgba(37, 99, 235, 0.3)',
                     transition: 'all 0.15s ease'
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(37, 99, 235, 0.12)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(37, 99, 235, 0.06)')}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1d4ed8')}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#2563eb')}
                 >
                   View Details
                 </button>
@@ -638,19 +641,20 @@ export const Resources: React.FC = () => {
                   }}
                   style={{
                     alignSelf: 'flex-end',
-                    fontSize: '10px',
-                    fontWeight: 600,
-                    color: '#2563eb',
-                    backgroundColor: 'rgba(37, 99, 235, 0.06)',
-                    border: '1px solid rgba(37, 99, 235, 0.15)',
-                    padding: '4px 10px',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    color: '#ffffff',
+                    backgroundColor: '#2563eb',
+                    border: 'none',
+                    padding: '6px 14px',
                     borderRadius: '6px',
                     cursor: 'pointer',
                     marginTop: '8px',
+                    boxShadow: '0 2px 6px rgba(37, 99, 235, 0.3)',
                     transition: 'all 0.15s ease'
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(37, 99, 235, 0.12)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(37, 99, 235, 0.06)')}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1d4ed8')}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#2563eb')}
                 >
                   View Details
                 </button>

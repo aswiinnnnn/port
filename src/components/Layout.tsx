@@ -68,7 +68,7 @@ export const Layout: React.FC<LayoutProps> = ({
           flex: 1,
           height: '100%',
           overflow: 'hidden',
-          padding: '0px 32px 32px 88px', /* Offset left padding to clear the floating sidebar icons */
+          padding: '0px 16px 16px 80px', /* Offset left padding to clear floating sidebar icons */
           gap: '12px',
           position: 'relative',
           zIndex: 1

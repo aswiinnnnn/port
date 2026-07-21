@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Bell, Shield, Plus, Search, MoreVertical, Send, X, Check, Trash2, Edit2 } from 'lucide-react';
+import { Users, Bell, Shield, Plus, Search, MoreVertical, Send, X, Check, Trash2, Edit2, ChevronDown } from 'lucide-react';
 
 type Role = 'Port Service Provider' | 'Tug Operator' | 'Ship Agent' | 'Harbour Pilot' | 'Administrator';
 type AccountStatus = 'Active' | 'Suspended' | 'Pending Invite';
@@ -86,6 +86,8 @@ export const Settings: React.FC = () => {
   const [editingUser, setEditingUser] = useState<PortUser | null>(null);
   const [showAddUser, setShowAddUser] = useState(false);
   const [newUser, setNewUser] = useState<{ name: string; email: string; role: Role }>({ name: '', email: '', role: 'Ship Agent' });
+  const [openRoleDropdown, setOpenRoleDropdown] = useState(false);
+  const [openEditRoleDropdown, setOpenEditRoleDropdown] = useState(false);
   const [broadcast, setBroadcast] = useState('');
   const [broadcastSent, setBroadcastSent] = useState(false);
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
@@ -233,17 +235,67 @@ export const Settings: React.FC = () => {
                   style={{ marginTop: '6px', width: '100%', padding: '8px 10px', borderRadius: '6px', border: '1px solid rgba(0,0,0,0.1)', fontSize: '12px', outline: 'none' }}
                 />
               </div>
-              <div>
+              <div style={{ position: 'relative' }}>
                 <div style={eyebrowStyle}>Role</div>
-                <select
-                  value={newUser.role}
-                  onChange={e => setNewUser(prev => ({ ...prev, role: e.target.value as Role }))}
-                  style={{ marginTop: '6px', width: '100%', padding: '8px 10px', borderRadius: '6px', border: '1px solid rgba(0,0,0,0.1)', fontSize: '12px', outline: 'none', backgroundColor: 'white' }}
+                <button
+                  type="button"
+                  onClick={() => setOpenRoleDropdown(!openRoleDropdown)}
+                  style={{
+                    marginTop: '6px',
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '8px 10px',
+                    borderRadius: '6px',
+                    border: '1px solid #cbd5e1',
+                    backgroundColor: '#ffffff',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    color: '#0f172a',
+                    cursor: 'pointer',
+                    textAlign: 'left'
+                  }}
                 >
-                  {(['Administrator', 'Port Service Provider', 'Tug Operator', 'Ship Agent', 'Harbour Pilot'] as Role[]).map(r => (
-                    <option key={r} value={r}>{r}</option>
-                  ))}
-                </select>
+                  <span>{newUser.role}</span>
+                  <ChevronDown size={14} color="#64748b" style={{ transform: openRoleDropdown ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+                </button>
+
+                {openRoleDropdown && (
+                  <div style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 4px)',
+                    left: 0,
+                    right: 0,
+                    backgroundColor: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '6px',
+                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                    zIndex: 200,
+                    padding: '4px'
+                  }}>
+                    {(['Administrator', 'Port Service Provider', 'Tug Operator', 'Ship Agent', 'Harbour Pilot'] as Role[]).map(r => (
+                      <div
+                        key={r}
+                        onClick={() => {
+                          setNewUser(prev => ({ ...prev, role: r }));
+                          setOpenRoleDropdown(false);
+                        }}
+                        style={{
+                          padding: '6px 10px',
+                          borderRadius: '4px',
+                          fontSize: '12px',
+                          fontWeight: r === newUser.role ? 700 : 500,
+                          backgroundColor: r === newUser.role ? '#f1f5f9' : 'transparent',
+                          color: '#1e293b',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {r}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
               <button
                 onClick={handleAddUser}
@@ -362,17 +414,67 @@ export const Settings: React.FC = () => {
                   </button>
                 </div>
                 <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <div>
+                  <div style={{ position: 'relative' }}>
                     <div style={eyebrowStyle}>Role</div>
-                    <select
-                      value={editingUser.role}
-                      onChange={e => setEditingUser(prev => prev ? { ...prev, role: e.target.value as Role } : prev)}
-                      style={{ marginTop: '8px', width: '100%', padding: '9px 10px', borderRadius: '6px', border: '1px solid rgba(0,0,0,0.1)', fontSize: '12px', outline: 'none', backgroundColor: 'white' }}
+                    <button
+                      type="button"
+                      onClick={() => setOpenEditRoleDropdown(!openEditRoleDropdown)}
+                      style={{
+                        marginTop: '8px',
+                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '9px 10px',
+                        borderRadius: '6px',
+                        border: '1px solid #cbd5e1',
+                        backgroundColor: '#ffffff',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        color: '#0f172a',
+                        cursor: 'pointer',
+                        textAlign: 'left'
+                      }}
                     >
-                      {(['Administrator', 'Port Service Provider', 'Tug Operator', 'Ship Agent', 'Harbour Pilot'] as Role[]).map(r => (
-                        <option key={r} value={r}>{r}</option>
-                      ))}
-                    </select>
+                      <span>{editingUser.role}</span>
+                      <ChevronDown size={14} color="#64748b" style={{ transform: openEditRoleDropdown ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+                    </button>
+
+                    {openEditRoleDropdown && (
+                      <div style={{
+                        position: 'absolute',
+                        top: 'calc(100% + 4px)',
+                        left: 0,
+                        right: 0,
+                        backgroundColor: '#ffffff',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '6px',
+                        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                        zIndex: 200,
+                        padding: '4px'
+                      }}>
+                        {(['Administrator', 'Port Service Provider', 'Tug Operator', 'Ship Agent', 'Harbour Pilot'] as Role[]).map(r => (
+                          <div
+                            key={r}
+                            onClick={() => {
+                              setEditingUser(prev => prev ? { ...prev, role: r } : prev);
+                              setOpenEditRoleDropdown(false);
+                            }}
+                            style={{
+                              padding: '6px 10px',
+                              borderRadius: '4px',
+                              fontSize: '12px',
+                              fontWeight: r === editingUser.role ? 700 : 500,
+                              backgroundColor: r === editingUser.role ? '#f1f5f9' : 'transparent',
+                              color: '#1e293b',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            {r}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <div>

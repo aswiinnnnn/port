@@ -194,10 +194,13 @@ export const ShipAgent: React.FC<ShipAgentProps> = ({ activeTab }) => {
     setDocuments(prev => [doc, ...prev]);
   };
 
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+
   const handleSendReply = () => {
     if (!messageDraft.trim()) return;
-    alert(`Reply sent to ${selectedMessage.vessel}:\n"${messageDraft.trim()}"`);
+    setToastMsg(`Reply sent to ${selectedMessage.vessel}: "${messageDraft.trim()}"`);
     setMessageDraft('');
+    setTimeout(() => setToastMsg(null), 4000);
   };
 
   const handleDocAction = (id: string, action: 'View' | 'Edit') => {
@@ -206,7 +209,8 @@ export const ShipAgent: React.FC<ShipAgentProps> = ({ activeTab }) => {
     if (action === 'Edit') {
       setDocuments(prev => prev.map(d => d.id === id && d.status === 'Pending' ? { ...d, status: 'Submitted' } : d));
     } else {
-      alert(`${doc.name}\nVessel: ${doc.vessel}\nType: ${doc.type} · ${doc.size}\nStatus: ${doc.status}`);
+      setToastMsg(`${doc.name} · Vessel: ${doc.vessel} · Status: ${doc.status}`);
+      setTimeout(() => setToastMsg(null), 4000);
     }
   };
 
@@ -642,7 +646,10 @@ export const ShipAgent: React.FC<ShipAgentProps> = ({ activeTab }) => {
                 </div>
               )}
               <button
-                onClick={() => alert(`Pilot change requested for ${selectedDepartureVessel}.`)}
+                onClick={() => {
+                  setToastMsg(`Pilot change requested for ${selectedDepartureVessel}.`);
+                  setTimeout(() => setToastMsg(null), 4000);
+                }}
                 style={{ marginTop: '10px', width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid rgba(0,0,0,0.1)', backgroundColor: 'white', fontWeight: 600, fontSize: '11px', cursor: 'pointer' }}
               >
                 Request Pilot Change
@@ -661,7 +668,10 @@ export const ShipAgent: React.FC<ShipAgentProps> = ({ activeTab }) => {
                 </div>
               )}
               <button
-                onClick={() => alert(`Tug change requested for ${selectedDepartureVessel}.`)}
+                onClick={() => {
+                  setToastMsg(`Tug change requested for ${selectedDepartureVessel}.`);
+                  setTimeout(() => setToastMsg(null), 4000);
+                }}
                 style={{ marginTop: '10px', width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid rgba(0,0,0,0.1)', backgroundColor: 'white', fontWeight: 600, fontSize: '11px', cursor: 'pointer' }}
               >
                 Request Tug Change
@@ -694,7 +704,10 @@ export const ShipAgent: React.FC<ShipAgentProps> = ({ activeTab }) => {
 
           <button
             disabled={checklistDone < checklistItems.length}
-            onClick={() => alert(`Departure confirmed for ${selectedDepartureVessel}. Port authority notified.`)}
+            onClick={() => {
+              setToastMsg(`Departure confirmed for ${selectedDepartureVessel}. Port authority notified.`);
+              setTimeout(() => setToastMsg(null), 4000);
+            }}
             style={{
               padding: '12px',
               borderRadius: '8px',
@@ -713,6 +726,29 @@ export const ShipAgent: React.FC<ShipAgentProps> = ({ activeTab }) => {
             Confirm Departure &amp; Notify Port Authority <ArrowRight size={14} />
           </button>
         </>
+      )}
+
+      {toastMsg && (
+        <div style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          backgroundColor: '#1e293b',
+          color: '#ffffff',
+          padding: '12px 18px',
+          borderRadius: '8px',
+          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.25)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          zIndex: 9999,
+          fontSize: '13px',
+          fontWeight: 600,
+          border: '1px solid rgba(255,255,255,0.1)'
+        }}>
+          <CheckCircle size={16} color="#10b981" />
+          <span>{toastMsg}</span>
+        </div>
       )}
     </div>
   );

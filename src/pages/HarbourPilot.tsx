@@ -112,6 +112,7 @@ export const HarbourPilot: React.FC<HarbourPilotProps> = ({ activeTab }) => {
   ]);
 
   const [selectedVessel, setSelectedVessel] = useState<string>('GRAND ZEPHYR');
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const [vesselProfiles] = useState<{ [key: string]: VesselManeuveringProfile }>({
     'GRAND ZEPHYR': {
@@ -336,10 +337,10 @@ export const HarbourPilot: React.FC<HarbourPilotProps> = ({ activeTab }) => {
                 {anchoredVessels.map((vsl, idx) => (
                   <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', backgroundColor: 'rgba(0,0,0,0.02)', borderRadius: '6px' }}>
                     <div>
-                      <strong>{vsl.vesselName}</strong> • LOA: {vsl.loa} • Draft: {vsl.draft}
-                      <div style={{ color: '#64748b', fontSize: '9px', marginTop: '2px' }}>{vsl.anchorageArea}</div>
+                      <strong style={{ color: '#0f172a' }}>{vsl.vesselName}</strong> <span style={{ color: '#334155' }}>• LOA: {vsl.loa} • Draft: {vsl.draft}</span>
+                      <div style={{ color: '#475569', fontSize: '9.5px', marginTop: '2px', fontWeight: 600 }}>{vsl.anchorageArea}</div>
                     </div>
-                    <span style={{ color: '#2563eb', fontWeight: 600 }}>{vsl.status}</span>
+                    <span style={{ color: '#2563eb', fontWeight: 700 }}>{vsl.status}</span>
                   </div>
                 ))}
               </div>
@@ -348,7 +349,7 @@ export const HarbourPilot: React.FC<HarbourPilotProps> = ({ activeTab }) => {
             {/* Safety guidelines log */}
             <div style={{ backgroundColor: 'rgba(255,255,255,0.6)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: '12px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <h3 style={{ fontSize: '12px', fontWeight: 700, color: '#1e293b', textTransform: 'uppercase', letterSpacing: '0.5px', margin: 0 }}><Shield size={14} /> Boarding Regulations</h3>
-              <div style={{ fontSize: '11px', color: '#475569', lineHeight: '1.5' }}>
+              <div style={{ fontSize: '11px', color: '#1e293b', lineHeight: '1.5' }}>
                 1. Pilot ladder must be rigged on lee side 1.5m above water.<br/>
                 2. Lifejacket and safety harness mandatory for transfers.<br/>
                 3. Master-Pilot exchange checklist must be signed immediately.<br/>
@@ -359,9 +360,9 @@ export const HarbourPilot: React.FC<HarbourPilotProps> = ({ activeTab }) => {
             {/* Port Pilot duty watches roster (Fills the bottom half of Dashboard page!) */}
             <div style={{ gridColumn: 'span 3', backgroundColor: 'rgba(255,255,255,0.6)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: '12px', padding: '20px', width: '100%' }}>
               <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}><Users size={14} color="#2563eb" /> Active Port Pilots Duty Watch Roster</h3>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '11px', textAlign: 'left' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '11px', textAlign: 'left', color: '#0f172a' }}>
                 <thead>
-                  <tr style={{ borderBottom: '1px solid rgba(0,0,0,0.08)', color: '#64748b' }}>
+                  <tr style={{ borderBottom: '1px solid rgba(0,0,0,0.08)', color: '#334155' }}>
                     <th style={{ padding: '8px 12px' }}>Pilot Name</th>
                     <th style={{ padding: '8px 12px' }}>Watch Schedule</th>
                     <th style={{ padding: '8px 12px' }}>Duty Status</th>
@@ -370,13 +371,13 @@ export const HarbourPilot: React.FC<HarbourPilotProps> = ({ activeTab }) => {
                 </thead>
                 <tbody>
                   {pilotRoster.map((pilot, idx) => (
-                    <tr key={pilot.name} style={{ borderBottom: idx < pilotRoster.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
-                      <td style={{ padding: '8px 12px', fontWeight: 700 }}>{pilot.name}</td>
-                      <td style={{ padding: '8px 12px' }}>{pilot.watch}</td>
-                      <td style={{ padding: '8px 12px', fontWeight: 600, color: pilot.status === 'On Duty' ? '#10b981' : pilot.status === 'Standby' ? '#2563eb' : '#64748b' }}>
+                    <tr key={pilot.name} style={{ borderBottom: idx < pilotRoster.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none', color: '#0f172a' }}>
+                      <td style={{ padding: '8px 12px', fontWeight: 700, color: '#0f172a' }}>{pilot.name}</td>
+                      <td style={{ padding: '8px 12px', color: '#1e293b' }}>{pilot.watch}</td>
+                      <td style={{ padding: '8px 12px', fontWeight: 700, color: pilot.status === 'On Duty' ? '#059669' : pilot.status === 'Standby' ? '#2563eb' : '#475569' }}>
                         {pilot.status === 'On Duty' ? 'Active On Duty' : pilot.status === 'Standby' ? 'On Standby' : 'Rest Period'}
                       </td>
-                      <td style={{ padding: '8px 12px', fontWeight: pilot.currentVessel === 'None' ? 400 : 600 }}>
+                      <td style={{ padding: '8px 12px', fontWeight: pilot.currentVessel === 'None' ? 400 : 700, color: '#0f172a' }}>
                         {pilot.currentVessel === 'None' ? 'None Assigned' : pilot.currentVessel}
                       </td>
                     </tr>
@@ -480,7 +481,10 @@ export const HarbourPilot: React.FC<HarbourPilotProps> = ({ activeTab }) => {
                 </div>
 
                 <button 
-                  onClick={() => alert(`Passage checklist for ${selectedVessel} transmitted successfully.`)}
+                  onClick={() => {
+                    setToastMsg(`Passage checklist for ${selectedVessel} transmitted successfully.`);
+                    setTimeout(() => setToastMsg(null), 4000);
+                  }}
                   style={{ width: '100%', padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: '#2563eb', color: 'white', fontWeight: 700, fontSize: '11px', cursor: 'pointer' }}
                 >
                   Send Protocol Update
@@ -519,7 +523,10 @@ export const HarbourPilot: React.FC<HarbourPilotProps> = ({ activeTab }) => {
                     />
                   </div>
                   <button 
-                    onClick={() => alert(`Customized plan saved.`)}
+                    onClick={() => {
+                      setToastMsg(`Customized plan saved.`);
+                      setTimeout(() => setToastMsg(null), 4000);
+                    }}
                     style={{ padding: '8px', borderRadius: '6px', border: 'none', backgroundColor: '#2563eb', color: 'white', fontWeight: 700, fontSize: '11px', cursor: 'pointer', marginTop: '4px' }}
                   >
                     Save Transit Plan
@@ -797,9 +804,9 @@ export const HarbourPilot: React.FC<HarbourPilotProps> = ({ activeTab }) => {
             {/* Wave Height & Swell Sensor Feed Table (Fills bottom half of Conditions page!) */}
             <div style={{ gridColumn: 'span 2', backgroundColor: 'rgba(255,255,255,0.6)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: '12px', padding: '20px', width: '100%', marginTop: '16px' }}>
               <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}><List size={14} color="#2563eb" /> Outer Channel Swell & Wave Height Sensor Feed</h3>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '11px', textAlign: 'left' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '11px', textAlign: 'left', color: '#0f172a' }}>
                 <thead>
-                  <tr style={{ borderBottom: '1px solid rgba(0,0,0,0.08)', color: '#64748b' }}>
+                  <tr style={{ borderBottom: '1px solid rgba(0,0,0,0.08)', color: '#334155' }}>
                     <th style={{ padding: '8px 12px' }}>Sensor ID</th>
                     <th style={{ padding: '8px 12px' }}>Station Location</th>
                     <th style={{ padding: '8px 12px' }}>Significant Wave Height</th>
@@ -810,13 +817,13 @@ export const HarbourPilot: React.FC<HarbourPilotProps> = ({ activeTab }) => {
                 </thead>
                 <tbody>
                   {swellSensors.map((sensor, idx) => (
-                    <tr key={idx} style={{ borderBottom: idx < swellSensors.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
-                      <td style={{ padding: '8px 12px', fontWeight: 700 }}>{sensor.sensorId}</td>
-                      <td style={{ padding: '8px 12px' }}>{sensor.location}</td>
-                      <td style={{ padding: '8px 12px', fontWeight: 600 }}>{sensor.waveHeight}</td>
-                      <td style={{ padding: '8px 12px' }}>{sensor.wavePeriod}</td>
-                      <td style={{ padding: '8px 12px' }}>{sensor.direction}</td>
-                      <td style={{ padding: '8px 12px', color: '#10b981', fontWeight: 600 }}>{sensor.status}</td>
+                    <tr key={idx} style={{ borderBottom: idx < swellSensors.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none', color: '#0f172a' }}>
+                      <td style={{ padding: '8px 12px', fontWeight: 700, color: '#0f172a' }}>{sensor.sensorId}</td>
+                      <td style={{ padding: '8px 12px', color: '#1e293b' }}>{sensor.location}</td>
+                      <td style={{ padding: '8px 12px', fontWeight: 700, color: '#0f172a' }}>{sensor.waveHeight}</td>
+                      <td style={{ padding: '8px 12px', color: '#1e293b' }}>{sensor.wavePeriod}</td>
+                      <td style={{ padding: '8px 12px', color: '#1e293b' }}>{sensor.direction}</td>
+                      <td style={{ padding: '8px 12px', color: '#059669', fontWeight: 700 }}>{sensor.status}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -826,6 +833,29 @@ export const HarbourPilot: React.FC<HarbourPilotProps> = ({ activeTab }) => {
           </div>
         )}
       </div>
+
+      {toastMsg && (
+        <div style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          backgroundColor: '#1e293b',
+          color: '#ffffff',
+          padding: '12px 18px',
+          borderRadius: '8px',
+          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.25)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          zIndex: 9999,
+          fontSize: '13px',
+          fontWeight: 600,
+          border: '1px solid rgba(255,255,255,0.1)'
+        }}>
+          <CheckCircle size={16} color="#10b981" />
+          <span>{toastMsg}</span>
+        </div>
+      )}
     </div>
   );
 };

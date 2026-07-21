@@ -462,16 +462,18 @@ export const Header: React.FC<HeaderProps> = ({
       <div 
         ref={searchWrapperRef} 
         style={{ 
-          flex: showChat ? '0 1 700px' : '0 1 500px', 
-          margin: '0 40px', 
+          flex: showChat ? '1 1 480px' : '1 1 320px', 
+          maxWidth: '560px',
+          minWidth: '220px',
+          margin: '0 16px', 
           position: 'relative',
-          transition: 'flex 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ flex: 1, borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '0 16px', height: '44px', border: isLightMode ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.15)', backgroundColor: isLightMode ? 'rgba(255,255,255,0.6)' : 'var(--glass-dark-bg)' }}>
-            <div style={{ width: '24px', height: '24px', borderRadius: '6px', background: 'linear-gradient(135deg, #3b82f6 0%, var(--accent-cyan) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <Sparkles size={14} color="white" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ flex: 1, borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '0 12px', height: '42px', border: isLightMode ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.15)', backgroundColor: isLightMode ? 'rgba(255,255,255,0.6)' : 'var(--glass-dark-bg)', minWidth: 0 }}>
+            <div style={{ width: '22px', height: '22px', borderRadius: '6px', background: 'linear-gradient(135deg, #3b82f6 0%, var(--accent-cyan) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Sparkles size={13} color="white" />
             </div>
             <input
               type="text"
@@ -482,15 +484,16 @@ export const Header: React.FC<HeaderProps> = ({
                 if (e.key === 'Enter') handleAsk(chatInput);
               }}
               disabled={isStreaming}
-              placeholder={isStreaming ? "Agent is typing..." : "Ask why an allocation was made, or vessel status..."}
+              placeholder={isStreaming ? "Agent is typing..." : "Ask why an allocation was made..."}
               className={isLightMode ? "dark-placeholder" : "light-placeholder"}
               style={{
                 flex: 1,
+                minWidth: 0,
                 backgroundColor: 'transparent',
                 border: 'none',
-                padding: '8px 16px',
+                padding: '6px 10px',
                 color: isLightMode ? '#1e293b' : 'var(--text-primary)',
-                fontSize: '13px',
+                fontSize: '12px',
                 outline: 'none',
                 fontFamily: 'var(--font-sans)',
                 cursor: isStreaming ? 'not-allowed' : 'text'
@@ -502,12 +505,13 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => handleAsk(chatInput)}
             disabled={isStreaming || !chatInput.trim()}
             style={{ 
-              width: '44px', 
-              height: '44px', 
+              width: '42px', 
+              height: '42px', 
               borderRadius: '10px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center', 
+              flexShrink: 0,
               cursor: (isStreaming || !chatInput.trim()) ? 'not-allowed' : 'pointer', 
               border: isLightMode ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.15)', 
               backgroundColor: isLightMode ? 'rgba(255,255,255,0.6)' : 'var(--glass-dark-bg)',
@@ -515,10 +519,10 @@ export const Header: React.FC<HeaderProps> = ({
               outline: 'none'
             }}
           >
-            <Send size={18} color={isLightMode ? '#475569' : "var(--text-secondary)"} />
+            <Send size={16} color={isLightMode ? '#475569' : "var(--text-secondary)"} />
           </button>
-          <div style={{ width: '44px', height: '44px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: isLightMode ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.15)', backgroundColor: isLightMode ? 'rgba(255,255,255,0.6)' : 'var(--glass-dark-bg)' }}>
-            <Mic size={18} color={isLightMode ? '#475569' : "var(--text-secondary)"} />
+          <div style={{ width: '42px', height: '42px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, cursor: 'pointer', border: isLightMode ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.15)', backgroundColor: isLightMode ? 'rgba(255,255,255,0.6)' : 'var(--glass-dark-bg)' }}>
+            <Mic size={16} color={isLightMode ? '#475569' : "var(--text-secondary)"} />
           </div>
         </div>
 
@@ -579,7 +583,7 @@ export const Header: React.FC<HeaderProps> = ({
                           padding: '8px 12px',
                           cursor: 'pointer',
                           transition: 'background-color 0.2s',
-                          animationDelay: `${index * 50}ms`
+                          animationDelay: `${index * 0.05}s`
                         }}
                         onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(37,99,235,0.1)'; }}
                         onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(37,99,235,0.06)'; }}
@@ -590,23 +594,30 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                 </div>
               )}
-              {messages.map(msg => (
-                <div key={msg.id} style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
+              {messages.map((msg) => (
+                <div 
+                  key={msg.id}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                    gap: '4px'
+                  }}
+                >
                   <div 
-                    className="staggered-item"
                     style={{
-                      maxWidth: '85%',
-                      padding: '10px 12px',
-                      borderRadius: '10px',
+                      maxWidth: '88%',
+                      padding: '10px 14px',
+                      borderRadius: '12px',
                       fontSize: '12px',
-                      lineHeight: '1.6',
-                      whiteSpace: 'pre-line',
-                      backgroundColor: msg.role === 'user' ? '#2563eb' : (msg.role === 'system' ? '#f8fafc' : 'rgba(0,0,0,0.04)'),
-                      color: msg.role === 'user' ? 'white' : '#1e293b',
-                      border: msg.role === 'system' ? '1px solid #e2e8f0' : 'none'
+                      lineHeight: '1.5',
+                      whiteSpace: 'pre-wrap',
+                      backgroundColor: msg.role === 'user' ? '#2563eb' : '#f8fafc',
+                      color: msg.role === 'user' ? '#ffffff' : '#1e293b',
+                      border: msg.role === 'user' ? 'none' : '1px solid #e2e8f0',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
                     }}
                   >
-                    {/* Organic Thinking status box with 3 dots animation */}
                     {msg.isThinking && msg.thinkingText && (
                       <div style={{
                         marginBottom: msg.text ? '8px' : '0',
@@ -795,54 +806,55 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Right: Weather & Status Panel + User Role Dropdown */}
-      <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0 }}>
         <div style={{
           display: 'flex',
-          gap: '20px',
-          padding: '8px 16px',
+          gap: '10px',
+          padding: '6px 10px',
           borderRadius: '10px',
-          fontSize: '11px',
+          fontSize: '10px',
           color: isLightMode ? '#1e293b' : '#ffffff',
           border: isLightMode ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.15)',
           backgroundColor: isLightMode ? 'rgba(255,255,255,0.6)' : 'var(--glass-dark-bg)',
-          alignItems: 'center'
+          alignItems: 'center',
+          flexShrink: 0
         }}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ color: isLightMode ? '#64748b' : 'var(--text-muted)', fontSize: '8px', textTransform: 'uppercase', fontWeight: 600 }}>Current Time</span>
-            <span style={{ fontWeight: 600, color: isLightMode ? '#0f172a' : '#ffffff' }}>17:31:54 UTC+2</span>
+            <span style={{ color: isLightMode ? '#64748b' : 'var(--text-muted)', fontSize: '8px', textTransform: 'uppercase', fontWeight: 600 }}>Time</span>
+            <span style={{ fontWeight: 600, color: isLightMode ? '#0f172a' : '#ffffff' }}>17:31</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <span style={{ color: isLightMode ? '#64748b' : 'var(--text-muted)', fontSize: '8px', textTransform: 'uppercase', fontWeight: 600 }}>Wind</span>
-            <span style={{ fontWeight: 600, color: isLightMode ? '#0f172a' : '#ffffff' }}>SW 14 kt</span>
+            <span style={{ fontWeight: 600, color: isLightMode ? '#0f172a' : '#ffffff' }}>SW 14kt</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ color: isLightMode ? '#64748b' : 'var(--text-muted)', fontSize: '8px', textTransform: 'uppercase', fontWeight: 600 }}>Visibility</span>
-            <span style={{ fontWeight: 600, color: isLightMode ? '#0f172a' : '#ffffff' }}>12 NM vis</span>
+            <span style={{ color: isLightMode ? '#64748b' : 'var(--text-muted)', fontSize: '8px', textTransform: 'uppercase', fontWeight: 600 }}>Vis</span>
+            <span style={{ fontWeight: 600, color: isLightMode ? '#0f172a' : '#ffffff' }}>12 NM</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <span style={{ color: isLightMode ? '#64748b' : 'var(--text-muted)', fontSize: '8px', textTransform: 'uppercase', fontWeight: 600 }}>Temp</span>
             <span style={{ fontWeight: 600, color: isLightMode ? '#0f172a' : '#ffffff' }}>24°C</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ color: isLightMode ? '#64748b' : 'var(--text-muted)', fontSize: '8px', textTransform: 'uppercase', fontWeight: 600 }}>Port State</span>
-            <span style={{ fontWeight: 600, color: '#16a34a' }}>Port: Good</span>
+            <span style={{ color: isLightMode ? '#64748b' : 'var(--text-muted)', fontSize: '8px', textTransform: 'uppercase', fontWeight: 600 }}>State</span>
+            <span style={{ fontWeight: 700, color: '#16a34a' }}>Good</span>
           </div>
         </div>
 
         {/* User Role Dropdown */}
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', flexShrink: 0 }}>
           <button
             onClick={() => setShowRoleDropdown(!showRoleDropdown)}
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              padding: '8px 16px',
+              gap: '6px',
+              padding: '6px 10px',
               borderRadius: '10px',
               border: isLightMode ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.15)',
               backgroundColor: isLightMode ? 'rgba(255,255,255,0.6)' : 'var(--glass-dark-bg)',
               color: isLightMode ? '#1e293b' : '#ffffff',
-              fontSize: '13px',
+              fontSize: '12px',
               fontWeight: 600,
               cursor: 'pointer',
               outline: 'none',
@@ -850,24 +862,25 @@ export const Header: React.FC<HeaderProps> = ({
             }}
           >
             <div style={{
-              width: '32px',
-              height: '32px',
+              width: '26px',
+              height: '26px',
               borderRadius: '50%',
               backgroundColor: '#2563eb',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '14px',
+              fontSize: '12px',
               fontWeight: 700,
-              color: 'white'
+              color: 'white',
+              flexShrink: 0
             }}>
               {currentRoleData?.shortLabel.charAt(0)}
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
-              <span style={{ fontSize: '10px', color: isLightMode ? '#64748b' : 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>User Role</span>
-              <span style={{ fontSize: '12px', fontWeight: 700 }}>{currentRoleData?.shortLabel}</span>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0px' }}>
+              <span style={{ fontSize: '8px', color: isLightMode ? '#64748b' : 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600, lineHeight: 1 }}>USER ROLE</span>
+              <span style={{ fontSize: '11px', fontWeight: 700, lineHeight: 1.2 }}>{currentRoleData?.shortLabel}</span>
             </div>
-            <ChevronDown size={16} style={{ marginLeft: '4px', transition: 'transform 0.2s ease', transform: showRoleDropdown ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+            <ChevronDown size={14} style={{ marginLeft: '2px', transition: 'transform 0.2s ease', transform: showRoleDropdown ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }} />
           </button>
 
           {/* Dropdown Menu */}

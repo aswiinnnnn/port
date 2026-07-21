@@ -103,6 +103,7 @@ export const TugOperator: React.FC<TugOperatorProps> = ({ activeTab }) => {
   ]);
 
   const [selectedVesselChecklist, setSelectedVesselChecklist] = useState<string>('GRAND ZEPHYR');
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
   const [vesselStates, setVesselStates] = useState<{ [vesselName: string]: any }>({
     'GRAND ZEPHYR': {
       checklist: {
@@ -485,7 +486,10 @@ export const TugOperator: React.FC<TugOperatorProps> = ({ activeTab }) => {
                 </div>
 
                 <button 
-                  onClick={() => alert(`Protocol for ${selectedVesselChecklist} updated.`)}
+                  onClick={() => {
+                    setToastMsg(`Protocol for ${selectedVesselChecklist} updated.`);
+                    setTimeout(() => setToastMsg(null), 4000);
+                  }}
                   style={{ width: '100%', padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: '#2563eb', color: 'white', fontWeight: 700, fontSize: '11px', cursor: 'pointer' }}
                 >
                   Send Protocol Update
@@ -514,8 +518,9 @@ export const TugOperator: React.FC<TugOperatorProps> = ({ activeTab }) => {
                   />
                   <button 
                     onClick={() => {
-                      alert(`Delay of ${delayDuration} logged for ${selectedVesselChecklist}`);
+                      setToastMsg(`Delay of ${delayDuration} logged for ${selectedVesselChecklist}`);
                       setDelayReason('');
+                      setTimeout(() => setToastMsg(null), 4000);
                     }}
                     style={{ padding: '8px', borderRadius: '6px', border: 'none', backgroundColor: '#ef4444', color: 'white', fontWeight: 700, fontSize: '11px', cursor: 'pointer' }}
                   >
@@ -836,6 +841,29 @@ export const TugOperator: React.FC<TugOperatorProps> = ({ activeTab }) => {
           </div>
         )}
       </div>
+
+      {toastMsg && (
+        <div style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          backgroundColor: '#1e293b',
+          color: '#ffffff',
+          padding: '12px 18px',
+          borderRadius: '8px',
+          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.25)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          zIndex: 9999,
+          fontSize: '13px',
+          fontWeight: 600,
+          border: '1px solid rgba(255,255,255,0.1)'
+        }}>
+          <CheckCircle size={16} color="#10b981" />
+          <span>{toastMsg}</span>
+        </div>
+      )}
     </div>
   );
 };

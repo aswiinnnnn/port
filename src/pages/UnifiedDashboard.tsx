@@ -522,14 +522,14 @@ export interface UnifiedDashboardProps {
 
 const VesselArrivalsChart: React.FC = () => {
   return (
-    <div className="glass-dark-panel" style={{ padding: '12px 16px', borderRadius: '12px', marginTop: '12px', flex: 1, minWidth: '280px', border: '1px solid rgba(255,255,255,0.15)', background: 'var(--card-gradient-1)' }}>
-      <div style={{ fontSize: '10px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: '8px' }}>
+    <div className="glass-dark-panel" style={{ padding: '16px 20px', borderRadius: '14px', marginTop: '12px', flex: 1, minWidth: '280px', border: '1px solid rgba(255,255,255,0.15)', background: 'var(--card-gradient-1)' }}>
+      <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: '12px' }}>
         DAILY VESSEL ARRIVALS
       </div>
       
-      <div style={{ display: 'flex', gap: '12px', height: '116px', position: 'relative' }}>
+      <div style={{ display: 'flex', gap: '12px', height: '155px', position: 'relative' }}>
         {/* Y Axis Labels */}
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontSize: '9px', color: 'var(--text-muted)', height: '90px', textAlign: 'right', width: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', height: '125px', textAlign: 'right', width: '18px' }}>
           <span>16</span>
           <span>12</span>
           <span>8</span>
@@ -539,7 +539,7 @@ const VesselArrivalsChart: React.FC = () => {
 
         {/* Chart Canvas */}
         <div style={{ flex: 1, position: 'relative', height: '100%' }}>
-          <svg viewBox="0 0 500 90" preserveAspectRatio="none" style={{ width: '100%', height: '90px', overflow: 'visible' }}>
+          <svg viewBox="0 0 500 125" preserveAspectRatio="none" style={{ width: '100%', height: '125px', overflow: 'visible' }}>
             <defs>
               <linearGradient id="cyanGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="var(--accent-cyan)" stopOpacity="0.35" />
@@ -553,42 +553,42 @@ const VesselArrivalsChart: React.FC = () => {
 
             {/* Grid Lines */}
             <line x1="0" y1="0" x2="500" y2="0" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-            <line x1="0" y1="22.5" x2="500" y2="22.5" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-            <line x1="0" y1="45" x2="500" y2="45" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-            <line x1="0" y1="67.5" x2="500" y2="67.5" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-            <line x1="0" y1="90" x2="500" y2="90" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+            <line x1="0" y1="31" x2="500" y2="31" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+            <line x1="0" y1="62" x2="500" y2="62" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+            <line x1="0" y1="93" x2="500" y2="93" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+            <line x1="0" y1="125" x2="500" y2="125" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
 
             {/* Areas */}
             <path 
               className="animate-area"
-              d="M 0,41 C 125,52 125,52 250,32 C 375,36 375,36 500,57 L 500,90 L 0,90 Z" 
+              d="M 0,55 C 125,72 125,72 250,45 C 375,50 375,50 500,80 L 500,125 L 0,125 Z" 
               fill="url(#greenGrad)" 
             />
             <path 
               className="animate-area"
-              d="M 0,28 C 125,42 125,42 250,18 C 375,26 375,26 500,45 L 500,90 L 0,90 Z" 
+              d="M 0,38 C 125,58 125,58 250,25 C 375,35 375,35 500,62 L 500,125 L 0,125 Z" 
               fill="url(#cyanGrad)" 
             />
 
             {/* Lines */}
             <path 
               className="animate-path"
-              d="M 0,41 C 125,52 125,52 250,32 C 375,36 375,36 500,57" 
+              d="M 0,55 C 125,72 125,72 250,45 C 375,50 375,50 500,80" 
               fill="none" 
               stroke="var(--accent-green)" 
-              strokeWidth="2" 
+              strokeWidth="2.5" 
             />
             <path 
               className="animate-path"
-              d="M 0,28 C 125,42 125,42 250,18 C 375,26 375,26 500,45" 
+              d="M 0,38 C 125,58 125,58 250,25 C 375,35 375,35 500,62" 
               fill="none" 
               stroke="var(--accent-cyan)" 
-              strokeWidth="2" 
+              strokeWidth="2.5" 
             />
           </svg>
 
           {/* X Axis Labels */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: 'var(--text-muted)', marginTop: '6px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', marginTop: '8px' }}>
             <span>01 Jul</span>
             <span>02 Jul</span>
             <span>03 Jul</span>
@@ -603,14 +603,14 @@ const VesselArrivalsChart: React.FC = () => {
 
 const TurnaroundTimeChart: React.FC = () => {
   return (
-    <div className="glass-dark-panel" style={{ padding: '12px 16px', borderRadius: '12px', marginTop: '12px', flex: 1, minWidth: '280px', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'var(--card-gradient-1)' }}>
-      <div style={{ fontSize: '10px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: '8px' }}>
+    <div className="glass-dark-panel" style={{ padding: '16px 20px', borderRadius: '14px', marginTop: '12px', flex: 1, minWidth: '280px', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'var(--card-gradient-1)' }}>
+      <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: '12px' }}>
         AVG TURNAROUND TIME (HOURS)
       </div>
       
-      <div style={{ display: 'flex', gap: '12px', height: '116px', position: 'relative' }}>
+      <div style={{ display: 'flex', gap: '12px', height: '155px', position: 'relative' }}>
         {/* Y Axis Labels */}
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontSize: '9px', color: 'var(--text-muted)', height: '90px', textAlign: 'right', width: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', height: '125px', textAlign: 'right', width: '18px' }}>
           <span>18</span>
           <span>16</span>
           <span>14</span>
@@ -619,32 +619,32 @@ const TurnaroundTimeChart: React.FC = () => {
 
         {/* Chart Canvas */}
         <div style={{ flex: 1, position: 'relative', height: '100%' }}>
-          <svg viewBox="0 0 500 90" preserveAspectRatio="none" style={{ width: '100%', height: '90px', overflow: 'visible' }}>
+          <svg viewBox="0 0 500 125" preserveAspectRatio="none" style={{ width: '100%', height: '125px', overflow: 'visible' }}>
             {/* Grid Lines */}
             <line x1="0" y1="0" x2="500" y2="0" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-            <line x1="0" y1="30" x2="500" y2="30" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-            <line x1="0" y1="60" x2="500" y2="60" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-            <line x1="0" y1="90" x2="500" y2="90" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+            <line x1="0" y1="41" x2="500" y2="41" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+            <line x1="0" y1="83" x2="500" y2="83" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+            <line x1="0" y1="125" x2="500" y2="125" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
 
             {/* Line Curve */}
             <path 
               className="animate-path"
-              d="M 0,27 C 125,32 125,32 250,46 C 375,44 375,44 500,56" 
+              d="M 0,38 C 125,45 125,45 250,65 C 375,62 375,62 500,78" 
               fill="none" 
               stroke="#3b82f6" 
               strokeWidth="2.5" 
             />
 
             {/* Dots */}
-            <circle cx="0" cy="27" r="4.5" className="animate-point" style={{ transformBox: 'fill-box', transformOrigin: 'center', opacity: 0 }} fill="#3b82f6" stroke="#121418" strokeWidth="1.5" />
-            <circle cx="125" cy="32" r="4.5" className="animate-point" style={{ transformBox: 'fill-box', transformOrigin: 'center', opacity: 0, animationDelay: '0.4s' }} fill="#3b82f6" stroke="#121418" strokeWidth="1.5" />
-            <circle cx="250" cy="46" r="4.5" className="animate-point" style={{ transformBox: 'fill-box', transformOrigin: 'center', opacity: 0, animationDelay: '0.8s' }} fill="#3b82f6" stroke="#121418" strokeWidth="1.5" />
-            <circle cx="375" cy="44" r="4.5" className="animate-point" style={{ transformBox: 'fill-box', transformOrigin: 'center', opacity: 0, animationDelay: '1.2s' }} fill="#3b82f6" stroke="#121418" strokeWidth="1.5" />
-            <circle cx="500" cy="56" r="4.5" className="animate-point" style={{ transformBox: 'fill-box', transformOrigin: 'center', opacity: 0, animationDelay: '1.6s' }} fill="#3b82f6" stroke="#121418" strokeWidth="1.5" />
+            <circle cx="0" cy="38" r="5" className="animate-point" style={{ transformBox: 'fill-box', transformOrigin: 'center', opacity: 0 }} fill="#3b82f6" stroke="#121418" strokeWidth="1.5" />
+            <circle cx="125" cy="45" r="5" className="animate-point" style={{ transformBox: 'fill-box', transformOrigin: 'center', opacity: 0, animationDelay: '0.4s' }} fill="#3b82f6" stroke="#121418" strokeWidth="1.5" />
+            <circle cx="250" cy="65" r="5" className="animate-point" style={{ transformBox: 'fill-box', transformOrigin: 'center', opacity: 0, animationDelay: '0.8s' }} fill="#3b82f6" stroke="#121418" strokeWidth="1.5" />
+            <circle cx="375" cy="62" r="5" className="animate-point" style={{ transformBox: 'fill-box', transformOrigin: 'center', opacity: 0, animationDelay: '1.2s' }} fill="#3b82f6" stroke="#121418" strokeWidth="1.5" />
+            <circle cx="500" cy="78" r="5" className="animate-point" style={{ transformBox: 'fill-box', transformOrigin: 'center', opacity: 0, animationDelay: '1.6s' }} fill="#3b82f6" stroke="#121418" strokeWidth="1.5" />
           </svg>
 
           {/* X Axis Labels */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: 'var(--text-muted)', marginTop: '6px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', marginTop: '8px' }}>
             <span>01 Jul</span>
             <span>02 Jul</span>
             <span>03 Jul</span>
@@ -1528,26 +1528,26 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
 
   // DEFAULT VIEW (live-map side-by-side map + list view)
   return (
-    <div className="animate-fade-in" style={{ display: 'flex', width: '100%', height: '100%', gap: '32px', padding: '24px 40px 0 40px' }}>
+    <div className="animate-fade-in" style={{ display: 'flex', width: '100%', height: '100%', gap: '16px', padding: '16px 20px 0 20px', overflow: 'hidden' }}>
       
       {/* Left Dashboard Panel */}
-      <div style={{ flex: 1.2, display: 'flex', flexDirection: 'column', gap: '16px', overflowY: 'auto', paddingRight: '12px' }}>
+      <div style={{ flex: '1 1 55%', display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto', paddingRight: '8px', minWidth: '320px' }}>
         
-        {/* Main Stats Header (Transparent, borderless, clean white text and graphs) */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '48px', marginTop: '16px', padding: '0 8px' }}>
+        {/* Main Stats Header */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '16px', marginTop: '8px', padding: '0 4px' }}>
           
           {/* Card 1: Berth Utilization */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <span style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.65)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>Berth Utilization</span>
-              <div style={{ fontSize: '32px', fontWeight: 700, color: 'white' }}>71%</div>
-              <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <span style={{ fontSize: '9px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.65)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Berth Utilization</span>
+              <div style={{ fontSize: '26px', fontWeight: 700, color: 'white' }}>71%</div>
+              <span style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 ↑ 6% vs yesterday
               </span>
             </div>
             {/* Mini Sparkline Graph */}
-            <div style={{ width: '80px', height: '40px', display: 'flex', alignItems: 'center' }}>
-              <svg width="80" height="40" viewBox="0 0 100 40" style={{ overflow: 'visible' }}>
+            <div style={{ width: '60px', height: '32px', display: 'flex', alignItems: 'center' }}>
+              <svg width="60" height="32" viewBox="0 0 100 40" style={{ overflow: 'visible' }}>
                 <defs>
                   <linearGradient id="berth-grad-white" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
@@ -1572,16 +1572,16 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
 
           {/* Card 2: On-Time Rate */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <span style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.65)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>On-Time Rate</span>
-              <div style={{ fontSize: '32px', fontWeight: 700, color: 'white' }}>87%</div>
-              <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <span style={{ fontSize: '9px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.65)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>On-Time Rate</span>
+              <div style={{ fontSize: '26px', fontWeight: 700, color: 'white' }}>87%</div>
+              <span style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 ↑ 4% vs yesterday
               </span>
             </div>
             {/* Mini Sparkline Graph */}
-            <div style={{ width: '80px', height: '40px', display: 'flex', alignItems: 'center' }}>
-              <svg width="80" height="40" viewBox="0 0 100 40" style={{ overflow: 'visible' }}>
+            <div style={{ width: '60px', height: '32px', display: 'flex', alignItems: 'center' }}>
+              <svg width="60" height="32" viewBox="0 0 100 40" style={{ overflow: 'visible' }}>
                 <defs>
                   <linearGradient id="ontime-grad-white" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
@@ -1606,16 +1606,16 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
 
           {/* Card 3: Vessels Today */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <span style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.65)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>Vessels Today</span>
-              <div style={{ fontSize: '32px', fontWeight: 700, color: 'white' }}>7</div>
-              <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <span style={{ fontSize: '9px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.65)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Vessels Today</span>
+              <div style={{ fontSize: '26px', fontWeight: 700, color: 'white' }}>7</div>
+              <span style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 ↑ 2 vs yesterday
               </span>
             </div>
             {/* Mini Sparkline Graph */}
-            <div style={{ width: '80px', height: '40px', display: 'flex', alignItems: 'center' }}>
-              <svg width="80" height="40" viewBox="0 0 100 40" style={{ overflow: 'visible' }}>
+            <div style={{ width: '60px', height: '32px', display: 'flex', alignItems: 'center' }}>
+              <svg width="60" height="32" viewBox="0 0 100 40" style={{ overflow: 'visible' }}>
                 <defs>
                   <linearGradient id="vessels-grad-white" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
@@ -1641,13 +1641,13 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
         </div>
 
         {/* Vessel Performance Trend Charts */}
-        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', width: '100%' }}>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', width: '100%' }}>
           <VesselArrivalsChart />
           <TurnaroundTimeChart />
         </div>
 
         {/* Bottom Row Stats */}
-        <div className="glass-dark-panel" style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 28px', borderRadius: '12px', fontSize: '14px', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'var(--card-gradient-1)' }}>
+        <div className="glass-dark-panel" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', padding: '16px 24px', borderRadius: '12px', fontSize: '13px', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'var(--card-gradient-1)' }}>
           <div><span style={{ color: 'var(--text-muted)' }}>CO₂ Saved</span> <span style={{ fontWeight: 600, marginLeft: '6px', color: 'var(--accent-cyan)' }}>18.4T</span></div>
           <div><span style={{ color: 'var(--text-muted)' }}>Fuel Saved</span> <span style={{ fontWeight: 600, marginLeft: '6px' }}>6.2T</span></div>
           <div><span style={{ color: 'var(--accent-cyan)' }}>Active Berths</span> <span style={{ fontWeight: 600, color: 'var(--accent-cyan)', marginLeft: '6px' }}>5/7</span></div>
@@ -1656,12 +1656,12 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
         </div>
 
         {/* Vessels Upcoming Header */}
-        <h3 style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.5px', marginTop: '0px', marginBottom: '0px' }}>
+        <h3 style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.2px', marginTop: '4px', marginBottom: '0px' }}>
           Vessels Upcoming
         </h3>
 
         {/* Ship Cards Carousel */}
-        <div style={{ display: 'flex', gap: '20px', overflowX: 'auto', paddingBottom: '20px', marginTop: '-12px' }}>
+        <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '16px', marginTop: '-4px' }}>
           {shipsData.map((ship, idx) => {
             const isSelected = selectedShipName === ship.name;
             const hasUnread = ship.name === 'MSC BARCELONA' || ship.name === 'ATLANTIC HORIZON' || ship.name === 'GRAND ZEPHYR';
@@ -1672,12 +1672,13 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
                 key={idx}
                 id={`ship-card-${ship.name.replace(/\s+/g, '-').toLowerCase()}`}
                 style={{
-                  minWidth: '400px',
-                  borderRadius: '14px',
-                  padding: '20px',
+                  minWidth: '280px',
+                  maxWidth: '320px',
+                  borderRadius: '12px',
+                  padding: '14px',
                   display: 'flex',
                   flexDirection: 'row',
-                  gap: '16px',
+                  gap: '12px',
                   background: 'var(--card-gradient-1)',
                   border: isSelected
                     ? '2px solid var(--accent-cyan)'
@@ -1738,7 +1739,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
                   </div>
 
                   {/* Specs overlay layout */}
-                  <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', marginTop: '64px', fontSize: '11px', color: 'rgba(255,255,255,0.85)', textShadow: '0 1px 2px rgba(0,0,0,0.5)', whiteSpace: 'nowrap' }}>
+                  <div style={{ display: 'flex', flexDirection: 'row', gap: '6px', marginTop: '16px', fontSize: '10px', color: 'rgba(255,255,255,0.85)', textShadow: '0 1px 2px rgba(0,0,0,0.5)', whiteSpace: 'nowrap' }}>
                     <div>LOA <span style={{ fontWeight: 600 }}>{ship.loa}</span></div>
                     <div style={{ color: 'rgba(255,255,255,0.3)' }}>·</div>
                     <div>Draft <span style={{ fontWeight: 600 }}>{ship.draft}</span></div>
