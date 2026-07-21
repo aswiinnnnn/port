@@ -207,6 +207,13 @@ body {
   animation: fadeIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
+/* Custom Tooltip Hover Trigger */
+.custom-tooltip-trigger:hover .custom-tooltip-card {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+}
+
 /* 
   When Browser Zoom is 100% at 1920x1080, available viewport height is ~880px-940px.
   When Browser Zoom is 125%, effective viewport height is larger (~1080px equivalent).

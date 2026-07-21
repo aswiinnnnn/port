@@ -495,12 +495,14 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <span style={{ fontSize: '9px', color: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>AI SUGGESTED</span>
                     <div 
-                      className="group"
-                      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '3px', borderRadius: '50%' }}
+                      className="custom-tooltip-trigger"
+                      title={`AI Rationale: Selected based on vessel LOA (${vessel?.loa || '280m'}) and required bollard pull efficiency for optimal maneuverability.`}
+                      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '4px', borderRadius: '50%' }}
                     >
                       <Info size={14} color="#2563eb" />
                       {/* Custom UI Tooltip Card */}
                       <div 
+                        className="custom-tooltip-card"
                         style={{
                           position: 'absolute',
                           bottom: 'calc(100% + 8px)',
@@ -510,17 +512,17 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                           backgroundColor: '#0f172a',
                           color: '#ffffff',
                           borderRadius: '8px',
-                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.25)',
+                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
                           fontSize: '11px',
                           lineHeight: '1.4',
                           pointerEvents: 'none',
                           opacity: 0,
+                          visibility: 'hidden',
                           transform: 'translateY(4px)',
                           transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                          zIndex: 9999,
-                          border: '1px solid rgba(255,255,255,0.1)'
+                          zIndex: 99999,
+                          border: '1px solid rgba(255,255,255,0.15)'
                         }} 
-                        className="group-hover:opacity-100 group-hover:translate-y-0"
                       >
                         <div style={{ fontWeight: 700, color: '#38bdf8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                           <Sparkles size={11} color="#38bdf8" /> AI Allocation Rationale
@@ -621,12 +623,14 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <span style={{ fontSize: '9px', color: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>AI SUGGESTED</span>
                     <div 
-                      className="group"
-                      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '3px', borderRadius: '50%' }}
+                      className="custom-tooltip-trigger"
+                      title={`AI Rationale: Matched pilot certification rank to vessel draft (${vessel?.draft || '12m'}) and current tide window.`}
+                      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '4px', borderRadius: '50%' }}
                     >
                       <Info size={14} color="#2563eb" />
                       {/* Custom UI Tooltip Card */}
                       <div 
+                        className="custom-tooltip-card"
                         style={{
                           position: 'absolute',
                           bottom: 'calc(100% + 8px)',
@@ -636,17 +640,17 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                           backgroundColor: '#0f172a',
                           color: '#ffffff',
                           borderRadius: '8px',
-                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.25)',
+                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
                           fontSize: '11px',
                           lineHeight: '1.4',
                           pointerEvents: 'none',
                           opacity: 0,
+                          visibility: 'hidden',
                           transform: 'translateY(4px)',
                           transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                          zIndex: 9999,
-                          border: '1px solid rgba(255,255,255,0.1)'
+                          zIndex: 99999,
+                          border: '1px solid rgba(255,255,255,0.15)'
                         }} 
-                        className="group-hover:opacity-100 group-hover:translate-y-0"
                       >
                         <div style={{ fontWeight: 700, color: '#38bdf8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                           <Sparkles size={11} color="#38bdf8" /> AI Allocation Rationale
@@ -745,12 +749,14 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <span style={{ fontSize: '9px', color: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>AI SUGGESTED</span>
                     <div 
-                      className="group"
-                      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '3px', borderRadius: '50%' }}
+                      className="custom-tooltip-trigger"
+                      title="AI Rationale: High-speed gantry crane assigned to maximize container clearance rate."
+                      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '4px', borderRadius: '50%' }}
                     >
                       <Info size={14} color="#2563eb" />
                       {/* Custom UI Tooltip Card */}
                       <div 
+                        className="custom-tooltip-card"
                         style={{
                           position: 'absolute',
                           bottom: 'calc(100% + 8px)',
@@ -760,17 +766,17 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                           backgroundColor: '#0f172a',
                           color: '#ffffff',
                           borderRadius: '8px',
-                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.25)',
+                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
                           fontSize: '11px',
                           lineHeight: '1.4',
                           pointerEvents: 'none',
                           opacity: 0,
+                          visibility: 'hidden',
                           transform: 'translateY(4px)',
                           transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                          zIndex: 9999,
-                          border: '1px solid rgba(255,255,255,0.1)'
+                          zIndex: 99999,
+                          border: '1px solid rgba(255,255,255,0.15)'
                         }} 
-                        className="group-hover:opacity-100 group-hover:translate-y-0"
                       >
                         <div style={{ fontWeight: 700, color: '#38bdf8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                           <Sparkles size={11} color="#38bdf8" /> AI Allocation Rationale
@@ -870,12 +876,14 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <span style={{ fontSize: '9px', color: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>AI SUGGESTED</span>
                     <div 
-                      className="group"
-                      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '3px', borderRadius: '50%' }}
+                      className="custom-tooltip-trigger"
+                      title="AI Rationale: Optimal depth berth closest to assigned container yard zone."
+                      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '4px', borderRadius: '50%' }}
                     >
                       <Info size={14} color="#2563eb" />
                       {/* Custom UI Tooltip Card */}
                       <div 
+                        className="custom-tooltip-card"
                         style={{
                           position: 'absolute',
                           bottom: 'calc(100% + 8px)',
@@ -885,17 +893,17 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                           backgroundColor: '#0f172a',
                           color: '#ffffff',
                           borderRadius: '8px',
-                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.25)',
+                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
                           fontSize: '11px',
                           lineHeight: '1.4',
                           pointerEvents: 'none',
                           opacity: 0,
+                          visibility: 'hidden',
                           transform: 'translateY(4px)',
                           transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                          zIndex: 9999,
-                          border: '1px solid rgba(255,255,255,0.1)'
+                          zIndex: 99999,
+                          border: '1px solid rgba(255,255,255,0.15)'
                         }} 
-                        className="group-hover:opacity-100 group-hover:translate-y-0"
                       >
                         <div style={{ fontWeight: 700, color: '#38bdf8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                           <Sparkles size={11} color="#38bdf8" /> AI Allocation Rationale
