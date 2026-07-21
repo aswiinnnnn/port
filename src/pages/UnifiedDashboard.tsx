@@ -502,8 +502,6 @@ const shipsData: ShipData[] = [
     eta: '09 Jul 08:30',
     cargo: 'Grain',
     berth: 'SOUTH-DOCK-B1',
-    risk: 42,
-    tugs: 2,
     riskLevel: 'MEDIUM RISK',
     operator: 'Atlantic Chartering',
     lat: 41.315,
@@ -522,14 +520,14 @@ export interface UnifiedDashboardProps {
 
 const VesselArrivalsChart: React.FC = () => {
   return (
-    <div className="glass-dark-panel" style={{ padding: '16px 20px', borderRadius: '14px', marginTop: '12px', flex: 1, minWidth: '280px', border: '1px solid rgba(255,255,255,0.15)', background: 'var(--card-gradient-1)' }}>
+    <div className="glass-dark-panel" style={{ padding: '16px 20px', borderRadius: '14px', flex: 1, minWidth: '260px', border: '1px solid rgba(255,255,255,0.15)', background: 'var(--card-gradient-1)' }}>
       <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: '12px' }}>
         DAILY VESSEL ARRIVALS
       </div>
       
-      <div style={{ display: 'flex', gap: '12px', height: '155px', position: 'relative' }}>
+      <div className="dashboard-chart-box" style={{ display: 'flex', gap: '12px', height: '195px', position: 'relative' }}>
         {/* Y Axis Labels */}
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', height: '125px', textAlign: 'right', width: '18px' }}>
+        <div className="dashboard-chart-y" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', height: '150px', textAlign: 'right', width: '18px' }}>
           <span>16</span>
           <span>12</span>
           <span>8</span>
@@ -539,7 +537,7 @@ const VesselArrivalsChart: React.FC = () => {
 
         {/* Chart Canvas */}
         <div style={{ flex: 1, position: 'relative', height: '100%' }}>
-          <svg viewBox="0 0 500 125" preserveAspectRatio="none" style={{ width: '100%', height: '125px', overflow: 'visible' }}>
+          <svg className="dashboard-chart-svg" viewBox="0 0 500 125" preserveAspectRatio="none" style={{ width: '100%', height: '150px', overflow: 'visible' }}>
             <defs>
               <linearGradient id="cyanGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="var(--accent-cyan)" stopOpacity="0.35" />
@@ -603,14 +601,14 @@ const VesselArrivalsChart: React.FC = () => {
 
 const TurnaroundTimeChart: React.FC = () => {
   return (
-    <div className="glass-dark-panel" style={{ padding: '16px 20px', borderRadius: '14px', marginTop: '12px', flex: 1, minWidth: '280px', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'var(--card-gradient-1)' }}>
+    <div className="glass-dark-panel" style={{ padding: '16px 20px', borderRadius: '14px', flex: 1, minWidth: '260px', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'var(--card-gradient-1)' }}>
       <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: '12px' }}>
         AVG TURNAROUND TIME (HOURS)
       </div>
       
-      <div style={{ display: 'flex', gap: '12px', height: '155px', position: 'relative' }}>
+      <div className="dashboard-chart-box" style={{ display: 'flex', gap: '12px', height: '195px', position: 'relative' }}>
         {/* Y Axis Labels */}
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', height: '125px', textAlign: 'right', width: '18px' }}>
+        <div className="dashboard-chart-y" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', height: '150px', textAlign: 'right', width: '18px' }}>
           <span>18</span>
           <span>16</span>
           <span>14</span>
@@ -619,7 +617,7 @@ const TurnaroundTimeChart: React.FC = () => {
 
         {/* Chart Canvas */}
         <div style={{ flex: 1, position: 'relative', height: '100%' }}>
-          <svg viewBox="0 0 500 125" preserveAspectRatio="none" style={{ width: '100%', height: '125px', overflow: 'visible' }}>
+          <svg className="dashboard-chart-svg" viewBox="0 0 500 125" preserveAspectRatio="none" style={{ width: '100%', height: '150px', overflow: 'visible' }}>
             {/* Grid Lines */}
             <line x1="0" y1="0" x2="500" y2="0" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
             <line x1="0" y1="41" x2="500" y2="41" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
@@ -1528,19 +1526,19 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
 
   // DEFAULT VIEW (live-map side-by-side map + list view)
   return (
-    <div className="animate-fade-in" style={{ display: 'flex', width: '100%', height: '100%', gap: '16px', padding: '16px 20px 0 20px', overflow: 'hidden' }}>
+    <div className="animate-fade-in dashboard-main-container" style={{ display: 'flex', width: '100%', height: '100%', gap: '16px', padding: '16px 20px 0 20px', overflow: 'hidden' }}>
       
       {/* Left Dashboard Panel */}
-      <div style={{ flex: '1 1 55%', display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto', paddingRight: '8px', minWidth: '320px' }}>
+      <div style={{ flex: '1 1 45%', display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto', paddingRight: '8px', minWidth: '300px' }}>
         
         {/* Main Stats Header */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '16px', marginTop: '8px', padding: '0 4px' }}>
+        <div className="dashboard-kpi-header" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '16px', marginTop: '8px', padding: '0 4px' }}>
           
           {/* Card 1: Berth Utilization */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <span style={{ fontSize: '9px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.65)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Berth Utilization</span>
-              <div style={{ fontSize: '26px', fontWeight: 700, color: 'white' }}>71%</div>
+              <div className="dashboard-kpi-val" style={{ fontSize: '26px', fontWeight: 700, color: 'white' }}>71%</div>
               <span style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 ↑ 6% vs yesterday
               </span>
@@ -1574,7 +1572,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <span style={{ fontSize: '9px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.65)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>On-Time Rate</span>
-              <div style={{ fontSize: '26px', fontWeight: 700, color: 'white' }}>87%</div>
+              <div className="dashboard-kpi-val" style={{ fontSize: '26px', fontWeight: 700, color: 'white' }}>87%</div>
               <span style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 ↑ 4% vs yesterday
               </span>
@@ -1589,7 +1587,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
                   </linearGradient>
                 </defs>
                 <path 
-                  d="M 0 38 C 15 32, 25 38, 40 22 C 55 15, 65 25, 80 10 C 90 5, 95 8, 100 2 L 100 40 L 0 40 Z" 
+                  d="M 0 38 C 125,32 25,38 40 22 C 55 15, 65 25, 80 10 C 90 5, 95 8, 100 2 L 100 40 L 0 40 Z" 
                   fill="url(#ontime-grad-white)" 
                 />
                 <path 
@@ -1608,7 +1606,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <span style={{ fontSize: '9px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.65)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Vessels Today</span>
-              <div style={{ fontSize: '26px', fontWeight: 700, color: 'white' }}>7</div>
+              <div className="dashboard-kpi-val" style={{ fontSize: '26px', fontWeight: 700, color: 'white' }}>7</div>
               <span style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 ↑ 2 vs yesterday
               </span>
@@ -1647,7 +1645,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
         </div>
 
         {/* Bottom Row Stats */}
-        <div className="glass-dark-panel" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', padding: '16px 24px', borderRadius: '12px', fontSize: '13px', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'var(--card-gradient-1)' }}>
+        <div className="glass-dark-panel dashboard-bottom-bar" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', padding: '18px 24px', borderRadius: '14px', fontSize: '14px', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'var(--card-gradient-1)' }}>
           <div><span style={{ color: 'var(--text-muted)' }}>CO₂ Saved</span> <span style={{ fontWeight: 600, marginLeft: '6px', color: 'var(--accent-cyan)' }}>18.4T</span></div>
           <div><span style={{ color: 'var(--text-muted)' }}>Fuel Saved</span> <span style={{ fontWeight: 600, marginLeft: '6px' }}>6.2T</span></div>
           <div><span style={{ color: 'var(--accent-cyan)' }}>Active Berths</span> <span style={{ fontWeight: 600, color: 'var(--accent-cyan)', marginLeft: '6px' }}>5/7</span></div>
@@ -1671,14 +1669,16 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
               <div
                 key={idx}
                 id={`ship-card-${ship.name.replace(/\s+/g, '-').toLowerCase()}`}
+                className="dashboard-vessel-card"
                 style={{
-                  minWidth: '280px',
-                  maxWidth: '320px',
-                  borderRadius: '12px',
-                  padding: '14px',
+                  minWidth: '340px',
+                  maxWidth: '380px',
+                  minHeight: '200px',
+                  borderRadius: '14px',
+                  padding: '18px',
                   display: 'flex',
                   flexDirection: 'row',
-                  gap: '12px',
+                  gap: '16px',
                   background: 'var(--card-gradient-1)',
                   border: isSelected
                     ? '2px solid var(--accent-cyan)'
@@ -1739,7 +1739,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
                   </div>
 
                   {/* Specs overlay layout */}
-                  <div style={{ display: 'flex', flexDirection: 'row', gap: '6px', marginTop: '16px', fontSize: '10px', color: 'rgba(255,255,255,0.85)', textShadow: '0 1px 2px rgba(0,0,0,0.5)', whiteSpace: 'nowrap' }}>
+                  <div className="dashboard-vessel-specs" style={{ display: 'flex', flexDirection: 'row', gap: '6px', marginTop: '36px', fontSize: '11px', color: 'rgba(255,255,255,0.85)', textShadow: '0 1px 2px rgba(0,0,0,0.5)', whiteSpace: 'nowrap' }}>
                     <div>LOA <span style={{ fontWeight: 600 }}>{ship.loa}</span></div>
                     <div style={{ color: 'rgba(255,255,255,0.3)' }}>·</div>
                     <div>Draft <span style={{ fontWeight: 600 }}>{ship.draft}</span></div>
@@ -1752,12 +1752,13 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
                 <img 
                   src={ship.image} 
                   alt={ship.name} 
+                  className="dashboard-vessel-img"
                   style={{ 
                     position: 'absolute', 
                     left: '-42px', 
-                    bottom: '28px', 
-                    height: '110px', 
-                    width: '60%', 
+                    bottom: '24px', 
+                    height: '135px', 
+                    width: '65%', 
                     objectFit: 'contain', 
                     objectPosition: 'left bottom', 
                     pointerEvents: 'none',
@@ -1815,7 +1816,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
         </div>
       </div>
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 1.6, display: 'flex', flexDirection: 'column' }}>
         <div className="glass-panel" style={{ flex: 1, overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px', backgroundColor: 'rgba(15, 23, 42, 0.2)' }}>
           
           {/* Leaflet Map canvas (Always rendered but hidden in vector mode to keep Leaflet instance alive) */}
