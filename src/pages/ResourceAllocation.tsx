@@ -482,9 +482,7 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                   <div style={{ width: `${vesselMetrics.utilizationPct}%`, height: '100%', backgroundColor: vesselMetrics.utilizationPct > 85 ? '#ef4444' : '#2563eb', borderRadius: '3px' }} />
                 </div>
               </div>
-            </div>
-
-            {/* Tug Boat Selector (Shadcn UI style) */}
+            </div>            {/* Tug Boat Selector (Shadcn UI style) */}
             <div style={{ backgroundColor: '#ffffff', padding: '14px', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.08)', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <label style={{ fontSize: '11px', fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -500,7 +498,7 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                       style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '4px', borderRadius: '50%' }}
                     >
                       <Info size={14} color="#2563eb" />
-                      {/* Custom UI Tooltip Card */}
+                      {/* Custom Light Theme UI Tooltip Card */}
                       <div 
                         className="custom-tooltip-card"
                         style={{
@@ -509,10 +507,10 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                           right: '0',
                           width: '240px',
                           padding: '10px 12px',
-                          backgroundColor: '#0f172a',
-                          color: '#ffffff',
+                          backgroundColor: '#ffffff',
+                          color: '#334155',
                           borderRadius: '8px',
-                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
+                          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
                           fontSize: '11px',
                           lineHeight: '1.4',
                           pointerEvents: 'none',
@@ -521,11 +519,11 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                           transform: 'translateY(4px)',
                           transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                           zIndex: 99999,
-                          border: '1px solid rgba(255,255,255,0.15)'
+                          border: '1px solid #e2e8f0'
                         }} 
                       >
-                        <div style={{ fontWeight: 700, color: '#38bdf8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <Sparkles size={11} color="#38bdf8" /> AI Allocation Rationale
+                        <div style={{ fontWeight: 700, color: '#2563eb', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Sparkles size={11} color="#2563eb" /> AI Allocation Rationale
                         </div>
                         Selected based on vessel LOA ({vessel?.loa || '280m'}) and required bollard pull efficiency for optimal maneuverability.
                       </div>
@@ -628,7 +626,7 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                       style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '4px', borderRadius: '50%' }}
                     >
                       <Info size={14} color="#2563eb" />
-                      {/* Custom UI Tooltip Card */}
+                      {/* Custom Light Theme UI Tooltip Card */}
                       <div 
                         className="custom-tooltip-card"
                         style={{
@@ -637,10 +635,10 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                           right: '0',
                           width: '240px',
                           padding: '10px 12px',
-                          backgroundColor: '#0f172a',
-                          color: '#ffffff',
+                          backgroundColor: '#ffffff',
+                          color: '#334155',
                           borderRadius: '8px',
-                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
+                          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
                           fontSize: '11px',
                           lineHeight: '1.4',
                           pointerEvents: 'none',
@@ -649,11 +647,11 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                           transform: 'translateY(4px)',
                           transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                           zIndex: 99999,
-                          border: '1px solid rgba(255,255,255,0.15)'
+                          border: '1px solid #e2e8f0'
                         }} 
                       >
-                        <div style={{ fontWeight: 700, color: '#38bdf8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <Sparkles size={11} color="#38bdf8" /> AI Allocation Rationale
+                        <div style={{ fontWeight: 700, color: '#2563eb', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Sparkles size={11} color="#2563eb" /> AI Allocation Rationale
                         </div>
                         Matched pilot certification rank to vessel draft ({vessel?.draft || '12m'}) and current tide window.
                       </div>
@@ -754,7 +752,7 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                       style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '4px', borderRadius: '50%' }}
                     >
                       <Info size={14} color="#2563eb" />
-                      {/* Custom UI Tooltip Card */}
+                      {/* Custom Light Theme UI Tooltip Card */}
                       <div 
                         className="custom-tooltip-card"
                         style={{
@@ -763,10 +761,10 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                           right: '0',
                           width: '240px',
                           padding: '10px 12px',
-                          backgroundColor: '#0f172a',
-                          color: '#ffffff',
+                          backgroundColor: '#ffffff',
+                          color: '#334155',
                           borderRadius: '8px',
-                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
+                          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
                           fontSize: '11px',
                           lineHeight: '1.4',
                           pointerEvents: 'none',
@@ -775,11 +773,11 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                           transform: 'translateY(4px)',
                           transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                           zIndex: 99999,
-                          border: '1px solid rgba(255,255,255,0.15)'
+                          border: '1px solid #e2e8f0'
                         }} 
                       >
-                        <div style={{ fontWeight: 700, color: '#38bdf8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <Sparkles size={11} color="#38bdf8" /> AI Allocation Rationale
+                        <div style={{ fontWeight: 700, color: '#2563eb', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Sparkles size={11} color="#2563eb" /> AI Allocation Rationale
                         </div>
                         High-speed gantry crane assigned to maximize container clearance rate.
                       </div>
@@ -881,7 +879,7 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                       style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer', backgroundColor: '#dbeafe', padding: '4px', borderRadius: '50%' }}
                     >
                       <Info size={14} color="#2563eb" />
-                      {/* Custom UI Tooltip Card */}
+                      {/* Custom Light Theme UI Tooltip Card */}
                       <div 
                         className="custom-tooltip-card"
                         style={{
@@ -890,10 +888,10 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                           right: '0',
                           width: '240px',
                           padding: '10px 12px',
-                          backgroundColor: '#0f172a',
-                          color: '#ffffff',
+                          backgroundColor: '#ffffff',
+                          color: '#334155',
                           borderRadius: '8px',
-                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
+                          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
                           fontSize: '11px',
                           lineHeight: '1.4',
                           pointerEvents: 'none',
@@ -902,11 +900,11 @@ export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = (
                           transform: 'translateY(4px)',
                           transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                           zIndex: 99999,
-                          border: '1px solid rgba(255,255,255,0.15)'
+                          border: '1px solid #e2e8f0'
                         }} 
                       >
-                        <div style={{ fontWeight: 700, color: '#38bdf8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <Sparkles size={11} color="#38bdf8" /> AI Allocation Rationale
+                        <div style={{ fontWeight: 700, color: '#2563eb', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Sparkles size={11} color="#2563eb" /> AI Allocation Rationale
                         </div>
                         Optimal depth berth closest to assigned container yard zone.
                       </div>
