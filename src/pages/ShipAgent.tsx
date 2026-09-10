@@ -48,6 +48,7 @@ interface CommMessage {
 }
 
 const PORT_CALLS: PortCallNotification[] = [
+  { id: 'pcn-msc', vesselName: 'MSC BARCELONA', flag: '🇵🇦', imo: 'IMO 9705217', eta: '09 Jul 16:12', status: 'Submitted', cargo: 'Containers · 14,200 TEU', loa: '366m', draft: '14.2m', agent: 'Mediterranean Shipping Agency', timestamp: '09 Jul 15:30' },
   { id: 'pcn-1', vesselName: 'GRAND ZEPHYR', flag: '🇲🇹', imo: 'IMO 9812345', eta: '09 Jul 14:30', status: 'Submitted', cargo: 'Vehicles & Trucks · 1,200 units', loa: '198m', draft: '6.8m', agent: 'Mediterranean Shipping Agency', timestamp: '08 Jul 10:15' },
   { id: 'pcn-2', vesselName: 'MARITIME STAR', flag: '🇱🇷', imo: 'IMO 9456782', eta: '10 Jul 08:00', status: 'Draft', cargo: 'Breakbulk · 5,000 MT steel coils', loa: '176m', draft: '9.4m', agent: 'Mediterranean Shipping Agency', timestamp: '08 Jul 09:45' },
   { id: 'pcn-3', vesselName: 'ATLANTIC HORIZON', flag: '🇲🇭', imo: 'IMO 9456123', eta: '08 Jul 15:00', status: 'Acknowledged', cargo: 'Iron Ore · 44,000 MT', loa: '225m', draft: '13.5m', agent: 'Mediterranean Shipping Agency', timestamp: '07 Jul 16:20' },
@@ -56,6 +57,8 @@ const PORT_CALLS: PortCallNotification[] = [
 ];
 
 const DOCUMENTS: DocumentFile[] = [
+  { id: 'doc-msc-1', name: 'IMO FAL Form 1 — General Declaration', vessel: 'MSC BARCELONA', type: 'PDF', status: 'Approved', uploadDate: '09 Jul', size: '245 KB' },
+  { id: 'doc-msc-2', name: 'Customs Pre-Clearance & Dangerous Goods', vessel: 'MSC BARCELONA', type: 'PDF', status: 'Approved', uploadDate: '09 Jul', size: '310 KB' },
   { id: 'doc-1', name: 'IMO FAL Form 1 — General Declaration', vessel: 'GRAND ZEPHYR', type: 'PDF', status: 'Approved', uploadDate: '08 Jul', size: '212 KB' },
   { id: 'doc-2', name: 'IMO FAL Form 6 — Dangerous Goods', vessel: 'GRAND ZEPHYR', type: 'PDF', status: 'Submitted', uploadDate: '08 Jul', size: '184 KB' },
   { id: 'doc-3', name: 'Maritime Health Declaration', vessel: 'GRAND ZEPHYR', type: 'PDF', status: 'Pending', uploadDate: '08 Jul', size: '96 KB' },
@@ -65,6 +68,7 @@ const DOCUMENTS: DocumentFile[] = [
 ];
 
 const BERTHS: BerthReservation[] = [
+  { id: 'br-msc', vesselName: 'MSC BARCELONA', berth: 'BEST-T1-B4', terminal: 'BEST Container Terminal', arrivalTime: '09 Jul 16:12', status: 'Confirmed', pilot: 'Capt. Marina Solà', tug: 'Boluda Tugs (4 Units)' },
   { id: 'br-1', vesselName: 'GRAND ZEPHYR', berth: 'RoRo-T2', terminal: 'RoRo Terminal', arrivalTime: '09 Jul 14:30', status: 'Confirmed', pilot: 'Capt. Rodriguez', tug: 'Boluda Tug COSTA BRAVA' },
   { id: 'br-2', vesselName: 'MARITIME STAR', berth: 'South-Cargo-B3', terminal: 'South General Cargo', arrivalTime: '10 Jul 08:00', status: 'Requested', pilot: 'Unassigned', tug: 'Unassigned' },
   { id: 'br-3', vesselName: 'ATLANTIC HORIZON', berth: 'North-Dock-B8', terminal: 'North Dock', arrivalTime: '08 Jul 15:00', status: 'Occupied', pilot: 'Capt. Martínez', tug: 'Boluda Tug BARCELONA' },

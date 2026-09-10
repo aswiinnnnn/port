@@ -166,25 +166,22 @@ Users can switch roles using the role dropdown in the header (top-right corner).
 
 ---
 
-## Role Switcher
+## Authentication & Profile Access
 
-### Location
-Top-right corner of the header, next to the weather panel.
+### Login Portal
+The application features a light-themed **Login Screen** (`LoginPage.tsx`) with single sign-on authentication and quick-fill profile credentials for demo recordings.
+
+### Default Profile Credentials:
+1. **Port Service Provider / Admin**: `elena.vidal@portdebarcelona.cat`
+2. **Ship Agent**: `t.riera@msc-agency.com`
+3. **Tug Operator**: `laia.puig@boluda.com`
+4. **Harbour Pilot**: `j.rodriguez@pilotstationbcn.es`
+5. **Crane Operator**: `m.silva@best-terminal.com`
 
 ### Features:
-- **User Profile Button**: Shows current role with avatar and name
-- **Dropdown Menu**: Lists all 4 available roles
-- **Visual Indicators**: 
-  - Current role highlighted in blue
-  - Checkmark on active role
-  - Smooth chevron rotation on toggle
-  - Hover effects on other roles
-
-### Behavior:
-- Click profile button to open dropdown
-- Select any role to switch instantly
-- Sidebar navigation adjusts based on role (Port Service Provider shows all pages, others show role-specific content)
-- All role switching is stateful and persists during session
+- **Authenticated Header Display**: Shows active user's avatar, name, and role title in top header.
+- **Log Out Dropdown**: Clicking the profile card opens a dropdown menu with user details and a "Log Out" button.
+- **Session Management**: Logging out clears session state and redirects to the Login Page.
 
 ---
 

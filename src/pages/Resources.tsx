@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { renderToString } from 'react-dom/server';
 import L from 'leaflet';
 import { Anchor, Ship, Info } from 'lucide-react';
 import { ResourceDetailModal, type ResourceDetailData } from '../components/ResourceDetailModal';
+
+const ANCHOR_SVG_STRING = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>`;
+const SHIP_SVG_STRING = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.81 7.76"/><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M12 10V2"/></svg>`;
 
 interface ResourceItem {
   id: string;
@@ -213,7 +215,7 @@ export const Resources: React.FC = () => {
     const tug = TUG_FLEET.find(t => t.id === selectedTugId);
     if (!tug || tug.lat === undefined || tug.lng === undefined) return;
 
-    const tugIconSvg = renderToString(<Anchor size={16} color="white" />);
+    const tugIconSvg = ANCHOR_SVG_STRING;
     const tugColor = getStatusColor(tug.status);
 
     const tugHtml = `
@@ -245,7 +247,7 @@ export const Resources: React.FC = () => {
     const bounds: [number, number][] = [[tug.lat, tug.lng]];
 
     if (tug.assignedShip) {
-      const shipIconSvg = renderToString(<Ship size={16} color="white" />);
+      const shipIconSvg = SHIP_SVG_STRING;
       const shipHtml = `
         <div style="position: relative; width: 32px; height: 32px; margin-left: -16px; margin-top: -16px;">
           <div style="

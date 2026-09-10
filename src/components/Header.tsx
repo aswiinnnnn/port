@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Sparkles, Mic, Send, ChevronDown, Check, X, Sliders, MessageSquare, ClipboardList, Map, Anchor, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { Sparkles, Mic, Send, ChevronDown, Check, X, Sliders, MessageSquare, ClipboardList, Map, Anchor, LogOut, User, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { answerQuestion, findVesselByFuzzyName } from '../lib/aiAssistant';
 import type { PageId } from '../types';
+import type { UserProfile } from '../pages/LoginPage';
 
-type UserRole = 'port-service-provider' | 'tug-operator' | 'ship-agent' | 'harbour-pilot';
+type UserRole = 'port-service-provider' | 'tug-operator' | 'ship-agent' | 'harbour-pilot' | 'crane-operator';
 
 interface ChatAction {
   label: string;
@@ -35,6 +36,8 @@ interface HeaderProps {
   pageTitle?: string;
   isLightMode?: boolean;
   currentRole?: UserRole;
+  currentUserProfile?: UserProfile;
+  onLogout?: () => void;
   onRoleChange?: (role: UserRole) => void;
   onSelectVesselForAllocation?: (vesselName: string | null) => void;
   onPageChange?: (pageId: PageId) => void;
@@ -44,7 +47,8 @@ const ROLES: { id: UserRole; label: string; shortLabel: string }[] = [
   { id: 'port-service-provider', label: 'Port Service Provider', shortLabel: 'Port Service Provider' },
   { id: 'tug-operator', label: 'Tug Operator', shortLabel: 'Tug Operator' },
   { id: 'ship-agent', label: 'Ship Agent', shortLabel: 'Ship Agent' },
-  { id: 'harbour-pilot', label: 'Harbour Pilot', shortLabel: 'Harbour Pilot' }
+  { id: 'harbour-pilot', label: 'Harbour Pilot', shortLabel: 'Harbour Pilot' },
+  { id: 'crane-operator', label: 'Crane Operator', shortLabel: 'Crane Operator' }
 ];
 
 const getThinkingStepsForQuestion = (question: string, vesselName?: string): string[] => {
@@ -152,8 +156,11 @@ const getActionsForAnswer = (question: string, answer: any): ChatAction[] => {
 };
 
 export const Header: React.FC<HeaderProps> = ({ 
-  isLightMode, 
-  currentRole = 'port-service-provider', 
+  pageTitle = 'Operations Platform',
+  isLightMode = false,
+  currentRole = 'port-service-provider',
+  currentUserProfile,
+  onLogout,
   onRoleChange,
   onSelectVesselForAllocation,
   onPageChange
@@ -165,8 +172,12 @@ export const Header: React.FC<HeaderProps> = ({
   const [isStreaming, setIsStreaming] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const searchWrapperRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const currentRoleData = ROLES.find(r => r.id === currentRole);
+  const displayName = currentUserProfile?.name || 'Elena Vidal';
+  const displayRoleTitle = currentUserProfile?.roleTitle || 'Port Authority Admin';
+  const displayEmail = currentUserProfile?.email || 'elena.vidal@portdebarcelona.com';
+  const displayAvatarBg = currentUserProfile?.avatarBg || '#2563eb';
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -178,6 +189,9 @@ export const Header: React.FC<HeaderProps> = ({
     const handleClickOutside = (e: MouseEvent) => {
       if (searchWrapperRef.current && !searchWrapperRef.current.contains(e.target as Node)) {
         setShowChat(false);
+      }
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setShowRoleDropdown(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -338,6 +352,27 @@ export const Header: React.FC<HeaderProps> = ({
     }));
   };
 
+  const getActionIcon = (type: string) => {
+    switch (type) {
+      case 'approve_allocation':
+        return <Check size={13} style={{ flexShrink: 0 }} />;
+      case 'modify_allocation':
+        return <Sliders size={13} style={{ flexShrink: 0 }} />;
+      case 'decline_allocation':
+        return <X size={13} style={{ flexShrink: 0 }} />;
+      case 'contact_vessel':
+        return <MessageSquare size={13} style={{ flexShrink: 0 }} />;
+      case 'view_checklist':
+        return <ClipboardList size={13} style={{ flexShrink: 0 }} />;
+      case 'view_live_map':
+        return <Map size={13} style={{ flexShrink: 0 }} />;
+      case 'check_tugs':
+        return <Anchor size={13} style={{ flexShrink: 0 }} />;
+      default:
+        return null;
+    }
+  };
+
   const STYLE_SHEET = `
     @keyframes slideDownFadeIn {
       from {
@@ -396,27 +431,6 @@ export const Header: React.FC<HeaderProps> = ({
     }
   `;
 
-  const getActionIcon = (type: string) => {
-    switch (type) {
-      case 'approve_allocation':
-        return <Check size={13} style={{ flexShrink: 0 }} />;
-      case 'modify_allocation':
-        return <Sliders size={13} style={{ flexShrink: 0 }} />;
-      case 'decline_allocation':
-        return <X size={13} style={{ flexShrink: 0 }} />;
-      case 'contact_vessel':
-        return <MessageSquare size={13} style={{ flexShrink: 0 }} />;
-      case 'view_checklist':
-        return <ClipboardList size={13} style={{ flexShrink: 0 }} />;
-      case 'view_live_map':
-        return <Map size={13} style={{ flexShrink: 0 }} />;
-      case 'check_tugs':
-        return <Anchor size={13} style={{ flexShrink: 0 }} />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <header 
       style={{
@@ -448,24 +462,37 @@ export const Header: React.FC<HeaderProps> = ({
         <span style={{ 
           marginLeft: '12px', 
           fontFamily: 'var(--font-sans)', 
-          fontSize: '18px', 
-          fontWeight: 600, 
+          fontSize: '15px', 
+          fontWeight: 800, 
+          letterSpacing: '-0.3px', 
           color: isLightMode ? '#1e293b' : '#ffffff',
-          letterSpacing: '-0.3px',
           whiteSpace: 'nowrap'
         }}>
           Port de Barcelona
+        </span>
+        <span style={{ 
+          marginLeft: '8px', 
+          fontSize: '11px', 
+          fontWeight: 600, 
+          color: isLightMode ? '#64748b' : '#94a3b8', 
+          backgroundColor: isLightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.1)', 
+          padding: '2px 8px', 
+          borderRadius: '4px',
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px'
+        }}>
+          Operations
         </span>
       </div>
 
       {/* Middle: AI Assistant Search Bar */}
       <div 
-        ref={searchWrapperRef} 
+        ref={searchWrapperRef}
         style={{ 
-          flex: showChat ? '1 1 480px' : '1 1 320px', 
+          flex: showChat ? '1 1 480px' : '1 1 320px',
           maxWidth: '560px',
           minWidth: '220px',
-          margin: '0 16px', 
+          margin: '0 16px',
           position: 'relative',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
@@ -512,8 +539,8 @@ export const Header: React.FC<HeaderProps> = ({
               alignItems: 'center', 
               justifyContent: 'center', 
               flexShrink: 0,
-              cursor: (isStreaming || !chatInput.trim()) ? 'not-allowed' : 'pointer', 
-              border: isLightMode ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.15)', 
+              cursor: (isStreaming || !chatInput.trim()) ? 'not-allowed' : 'pointer',
+              border: isLightMode ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.15)',
               backgroundColor: isLightMode ? 'rgba(255,255,255,0.6)' : 'var(--glass-dark-bg)',
               opacity: (isStreaming || !chatInput.trim()) ? 0.6 : 1,
               outline: 'none'
@@ -805,8 +832,9 @@ export const Header: React.FC<HeaderProps> = ({
         )}
       </div>
 
-      {/* Right: Weather & Status Panel + User Role Dropdown */}
-      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0 }}>
+      {/* Right Controls: Weather & Status Panel + User Profile Dropdown */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        {/* Weather & Status Panel */}
         <div style={{
           display: 'flex',
           gap: '10px',
@@ -841,31 +869,32 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* User Role Dropdown */}
-        <div style={{ position: 'relative', flexShrink: 0 }}>
+        {/* User Profile & Dropdown */}
+        <div style={{ position: 'relative' }} ref={dropdownRef}>
           <button
             onClick={() => setShowRoleDropdown(!showRoleDropdown)}
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              padding: '6px 10px',
+              gap: '8px',
+              padding: '6px 12px',
               borderRadius: '10px',
               border: isLightMode ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.15)',
-              backgroundColor: isLightMode ? 'rgba(255,255,255,0.6)' : 'var(--glass-dark-bg)',
+              backgroundColor: isLightMode ? 'rgba(255,255,255,0.7)' : 'rgba(15, 23, 42, 0.6)',
               color: isLightMode ? '#1e293b' : '#ffffff',
               fontSize: '12px',
               fontWeight: 600,
               cursor: 'pointer',
               outline: 'none',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              backdropFilter: 'blur(10px)'
             }}
           >
             <div style={{
-              width: '26px',
-              height: '26px',
+              width: '28px',
+              height: '28px',
               borderRadius: '50%',
-              backgroundColor: '#2563eb',
+              backgroundColor: displayAvatarBg,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -874,87 +903,62 @@ export const Header: React.FC<HeaderProps> = ({
               color: 'white',
               flexShrink: 0
             }}>
-              {currentRoleData?.shortLabel.charAt(0)}
+              {displayName.charAt(0)}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0px' }}>
-              <span style={{ fontSize: '8px', color: isLightMode ? '#64748b' : 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600, lineHeight: 1 }}>USER ROLE</span>
-              <span style={{ fontSize: '11px', fontWeight: 700, lineHeight: 1.2 }}>{currentRoleData?.shortLabel}</span>
+              <span style={{ fontSize: '11px', fontWeight: 700, lineHeight: 1.2 }}>{displayName}</span>
+              <span style={{ fontSize: '9px', color: isLightMode ? '#64748b' : '#94a3b8', textTransform: 'uppercase', fontWeight: 600, lineHeight: 1 }}>{displayRoleTitle}</span>
             </div>
-            <ChevronDown size={14} style={{ marginLeft: '2px', transition: 'transform 0.2s ease', transform: showRoleDropdown ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }} />
+            <ChevronDown size={14} style={{ marginLeft: '4px', transition: 'transform 0.2s ease', transform: showRoleDropdown ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }} />
           </button>
 
-          {/* Dropdown Menu */}
+          {/* User Profile Dropdown Menu */}
           {showRoleDropdown && (
             <div style={{
               position: 'absolute',
               top: '100%',
               right: 0,
               marginTop: '8px',
-              backgroundColor: isLightMode ? '#ffffff' : 'var(--glass-dark-bg)',
-              border: isLightMode ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.15)',
-              borderRadius: '10px',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+              backgroundColor: '#ffffff',
+              border: '1px solid rgba(0,0,0,0.08)',
+              borderRadius: '12px',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
               zIndex: 1000,
-              minWidth: '200px',
+              minWidth: '220px',
               overflow: 'hidden'
             }}>
-              {ROLES.map((role, index) => (
-                <button
-                  key={role.id}
-                  onClick={() => {
-                    onRoleChange?.(role.id as any);
-                    setShowRoleDropdown(false);
-                  }}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    border: 'none',
-                    backgroundColor: currentRole === role.id
-                      ? (isLightMode ? 'rgba(37, 99, 235, 0.08)' : 'rgba(37, 99, 235, 0.15)')
-                      : 'transparent',
-                    color: currentRole === role.id ? '#2563eb' : (isLightMode ? '#1e293b' : '#ffffff'),
-                    fontSize: '13px',
-                    fontWeight: currentRole === role.id ? 700 : 500,
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    transition: 'all 0.2s ease',
-                    borderBottom: index < ROLES.length - 1 ? (isLightMode ? '1px solid rgba(0,0,0,0.04)' : '1px solid rgba(255,255,255,0.08)') : 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (currentRole !== role.id) {
-                      (e.target as HTMLButtonElement).style.backgroundColor = isLightMode ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.08)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (currentRole !== role.id) {
-                      (e.target as HTMLButtonElement).style.backgroundColor = 'transparent';
-                    }
-                  }}
-                >
-                  <div style={{
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '50%',
-                    backgroundColor: currentRole === role.id ? '#2563eb' : 'rgba(37, 99, 235, 0.2)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    color: currentRole === role.id ? 'white' : '#2563eb',
-                    flexShrink: 0
-                  }}>
-                    {role.label.charAt(0)}
-                  </div>
-                  <span>{role.label}</span>
-                  {currentRole === role.id && (
-                    <span style={{ marginLeft: 'auto', fontSize: '12px', fontWeight: 700 }}>✓</span>
-                  )}
-                </button>
-              ))}
+              <div style={{ padding: '12px 16px', borderBottom: '1px solid #f1f5f9', backgroundColor: '#f8fafc' }}>
+                <div style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a' }}>{displayName}</div>
+                <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>{displayEmail}</div>
+                <div style={{ fontSize: '10px', color: '#2563eb', fontWeight: 700, marginTop: '4px', textTransform: 'uppercase' }}>{displayRoleTitle}</div>
+              </div>
+
+              <button
+                onClick={() => {
+                  setShowRoleDropdown(false);
+                  onLogout?.();
+                }}
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  color: '#ef4444',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  transition: 'background-color 0.2s'
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#fef2f2'; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent'; }}
+              >
+                <LogOut size={14} color="#ef4444" />
+                <span>Log Out</span>
+              </button>
             </div>
           )}
         </div>

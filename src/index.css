@@ -248,6 +248,125 @@ body {
     min-height: 145px !important;
     padding: 10px 12px !important;
   }
+
+/* SaaS Demo Preview Animations */
+/* Outer wrapper: expands from 0 width, pushing flex siblings to the right */
+@keyframes mscExpandWidth {
+  0%   { max-width: 0; opacity: 1; overflow: hidden; }
+  99%  { max-width: 392px; opacity: 1; overflow: hidden; }
+  100% { max-width: 392px; opacity: 1; overflow: visible; }
+}
+
+/* Inner card: slides from left into its final position */
+@keyframes mscSlideCard {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: translateX(0);    opacity: 1; }
+}
+
+.msc-push-wrapper {
+  flex-shrink: 0;
+  overflow: visible;
+  padding: 12px;
+  margin: -12px;
+  animation: mscExpandWidth 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.msc-push-inner {
+  animation: mscSlideCard 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: visible;
+}
+
+/* 3-Blink Glow animation for new ship card arrival (Minimal White Glow) */
+@keyframes blinkGlow3Times {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+  15% {
+    box-shadow: 0 0 14px 2px rgba(255, 255, 255, 0.75), 0 0 5px 1px rgba(255, 255, 255, 0.5);
+    border-color: #ffffff;
+  }
+  30% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+  45% {
+    box-shadow: 0 0 14px 2px rgba(255, 255, 255, 0.75), 0 0 5px 1px rgba(255, 255, 255, 0.5);
+    border-color: #ffffff;
+  }
+  60% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+  75% {
+    box-shadow: 0 0 14px 2px rgba(255, 255, 255, 0.75), 0 0 5px 1px rgba(255, 255, 255, 0.5);
+    border-color: #ffffff;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.msc-card-glow-blink {
+  animation: blinkGlow3Times 2.1s ease-in-out 0.4s 1 forwards !important;
+  overflow: visible !important;
+}
+
+
+@keyframes pulseAlert {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.8);
+  }
+  50% {
+    transform: scale(1.18);
+    box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+@keyframes pulseGlowBorder {
+  0%, 100% {
+    border-color: rgba(59, 130, 246, 0.6);
+    box-shadow: 0 10px 35px rgba(37, 99, 235, 0.25), 0 0 15px rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    border-color: rgba(99, 102, 241, 0.9);
+    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.45), 0 0 25px rgba(99, 102, 241, 0.6);
+  }
+}
+
+@keyframes slideInRightToLeft {
+  0% {
+    transform: translateX(calc(100% + 40px));
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-left {
+  animation: slideInFromLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-right-to-left {
+  animation: slideInRightToLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pulse-alert {
+  animation: pulseAlert 1.5s infinite ease-in-out;
+}
+
+.animate-pulse-glow-border {
+  animation: pulseGlowBorder 2.5s infinite ease-in-out;
+}
   .dashboard-vessel-img {
     height: 85px !important;
     bottom: 12px !important;

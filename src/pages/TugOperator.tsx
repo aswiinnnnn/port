@@ -63,9 +63,15 @@ interface RadioArchive {
 
 interface TugOperatorProps {
   activeTab: 'dashboard' | 'assignments' | 'fleet' | 'communications';
+  isMscBarcelonaAccepted?: boolean;
+  onAcceptMscBarcelona?: () => void;
 }
 
-export const TugOperator: React.FC<TugOperatorProps> = ({ activeTab }) => {
+export const TugOperator: React.FC<TugOperatorProps> = ({ 
+  activeTab,
+  isMscBarcelonaAccepted = false,
+  onAcceptMscBarcelona
+}) => {
   const [tugFleet] = useState<TugStatus[]>([
     { id: 'tug-1', name: 'Poseidon', bollardPull: '65t', currentStatus: 'Assisting', location: 'South Terminal', fuel: 85, assignments: 2, engineHealth: 'Nominal', winchStatus: 'Ready', crewCount: 4, lastInspection: '2026-07-01', bhp: '4,800 BHP', propulsion: 'ASD (Azimuth Stern Drive)', winchTension: '120t Cap', oilPressure: '4.2 bar', temp: '82°C', firefightingClass: 'FiFi-1 (2,400 m3/h)', generatorOutput: '2x 120 ekW', ropeLength: '220m Steel Core' },
     { id: 'tug-2', name: 'Neptune', bollardPull: '60t', currentStatus: 'Available', location: 'Main Port', fuel: 92, assignments: 0, engineHealth: 'Nominal', winchStatus: 'Ready', crewCount: 4, lastInspection: '2026-06-28', bhp: '4,500 BHP', propulsion: 'ASD', winchTension: '110t Cap', oilPressure: '4.1 bar', temp: '79°C', firefightingClass: 'FiFi-1', generatorOutput: '2x 100 ekW', ropeLength: '200m Steel Core' },
@@ -76,6 +82,7 @@ export const TugOperator: React.FC<TugOperatorProps> = ({ activeTab }) => {
   ]);
 
   const [assignments] = useState<Assignment[]>([
+    { id: 'asn-msc', vessel: 'MSC BARCELONA', berth: 'BEST-T1-B4', operation: 'Arrival', eta: '2026-07-09 16:12', status: 'Assigned', pilotName: 'Capt. Marina Solà', towlines: 4, bollardPullReq: '120t', priority: 'Urgent' },
     { id: 'asn-1', vessel: 'GRAND ZEPHYR', berth: 'South T2', operation: 'Arrival', eta: '2026-07-09 14:30', status: 'Assigned', pilotName: 'Capt. Davies', towlines: 2, bollardPullReq: '60t', priority: 'Urgent' },
     { id: 'asn-2', vessel: 'MARITIME STAR', berth: 'RoRo Terminal', operation: 'Arrival', eta: '2026-07-10 08:00', status: 'Assigned', pilotName: 'Capt. Henderson', towlines: 1, bollardPullReq: '45t', priority: 'Routine' },
     { id: 'asn-3', vessel: 'CARGO EXPRESS', berth: 'Container T1', operation: 'Departure', eta: '2026-07-09 18:00', status: 'En Route', pilotName: 'Capt. Martinez', towlines: 2, bollardPullReq: '65t', priority: 'High' }
@@ -102,9 +109,27 @@ export const TugOperator: React.FC<TugOperatorProps> = ({ activeTab }) => {
     { timestamp: '14:31', speaker: 'Poseidon Master', channel: 'VHF 14', message: 'Poseidon in position. Preparing to heave line.' }
   ]);
 
-  const [selectedVesselChecklist, setSelectedVesselChecklist] = useState<string>('GRAND ZEPHYR');
+  const [selectedVesselChecklist, setSelectedVesselChecklist] = useState<string>('MSC BARCELONA');
   const [toastMsg, setToastMsg] = useState<string | null>(null);
   const [vesselStates, setVesselStates] = useState<{ [vesselName: string]: any }>({
+    'MSC BARCELONA': {
+      checklist: {
+        'Radio Contact Established': true,
+        'Towlines Attached & Tensioned': true,
+        'Vessel Speed Under 4 Knots': true,
+        'Pilot Briefing Completed': true,
+        'Tug Power Set to Assist': true,
+      },
+      telemetry: {
+        winchTension: '58.4 tonnes',
+        winchStatus: 'NOMINAL',
+        winchPercent: '82%',
+        engineRpm: '1,920 RPM (74%)',
+        enginePercent: '74%',
+        towlineAngle: 'Starboard 12° Vector',
+        tugName: '4x Tugs (Poseidon, Neptune, Triton, Meridian)'
+      }
+    },
     'GRAND ZEPHYR': {
       checklist: {
         'Radio Contact Established': true,
@@ -173,13 +198,22 @@ export const TugOperator: React.FC<TugOperatorProps> = ({ activeTab }) => {
 
   const [assignmentList, setAssignmentList] = useState<Assignment[]>(assignments);
   const nextAssignment = assignmentList.find(a => a.status === 'Assigned') ?? null;
-  const [dispatchStatus, setDispatchStatus] = useState<'pending' | 'accepted' | 'declined'>('pending');
+  const [dispatchStatus, setDispatchStatus] = useState<'pending' | 'accepted' | 'declined'>(
+    isMscBarcelonaAccepted ? 'accepted' : 'pending'
+  );
+
+  React.useEffect(() => {
+    if (isMscBarcelonaAccepted) {
+      setDispatchStatus('accepted');
+    }
+  }, [isMscBarcelonaAccepted]);
 
   const availableTugs = tugFleet.filter(t => t.currentStatus === 'Available');
   const fleetAvgFuel = Math.round(tugFleet.reduce((sum, t) => sum + t.fuel, 0) / tugFleet.length);
 
   const handleAcceptTowage = () => {
     setDispatchStatus('accepted');
+    onAcceptMscBarcelona?.();
     if (nextAssignment) {
       setAssignmentList(prev => prev.map(a => a.id === nextAssignment.id ? { ...a, status: 'En Route' } : a));
     }
