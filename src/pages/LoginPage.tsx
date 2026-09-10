@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, Mail, Shield, User, Anchor, Ship, Navigation, ArrowRight, CheckCircle2, Layers } from 'lucide-react';
+import { Lock, Mail, Shield, Anchor, Ship, Navigation, ArrowRight, Layers } from 'lucide-react';
 
 export type UserRole = 'port-service-provider' | 'tug-operator' | 'ship-agent' | 'harbour-pilot' | 'crane-operator';
 

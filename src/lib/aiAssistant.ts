@@ -74,7 +74,6 @@ const explainAllocation = (vessel: VesselListItem): AllocationExplanation => {
   const departureBerth = berthPool[(seed + 1) % berthPool.length];
 
   const availableTugs = TUG_FLEET.filter(t => t.status === 'Available').map(t => t.name);
-  const availablePilots = PILOT_ROSTER.filter(p => p.status === 'Available').map(p => p.name);
 
   const reasons: string[] = [];
 
@@ -177,7 +176,7 @@ export const answerQuestion = (question: string): AssistantAnswer => {
   if (vessel) {
     const explanation = explainAllocation(vessel);
     return {
-      text: `${vessel.flag} ${vessel.name} is currently allocated Tug: ${explanation.tug.name}, Pilot: ${explanation.pilot.name}, Berth: ${explanation.berth.name}. Ask "why" to get the full reasoning.`,
+      text: `${vessel.flag} ${vessel.name} is currently allocated Tug: ${explanation.arrivalTug.name}, Pilot: ${explanation.arrivalPilot.name}, Berth: ${explanation.arrivalBerth.name}. Ask "why" to get the full reasoning.`,
       vessel
     };
   }

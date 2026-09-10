@@ -6,19 +6,13 @@ import {
   CheckCircle, 
   AlertCircle, 
   Sparkles, 
-  ChevronRight, 
-  MessageSquare, 
   Cpu,
   Users,
   Shield,
   Hammer,
   Calendar,
-  Radio,
-  HardDrive,
   Wrench,
-  BarChart2,
-  TrendingUp,
-  FileText
+  BarChart2
 } from 'lucide-react';
 import { CraneSlaModal } from './ResourceAllocation';
 
@@ -162,7 +156,7 @@ export const CraneOperator: React.FC<CraneOperatorProps> = ({
 
   const [selectedVessel, setSelectedVessel] = useState<string>('MSC BARCELONA');
   const [selectedCraneId, setSelectedCraneId] = useState<string>('cr-1');
-  const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const [_toastMsg, setToastMsg] = useState<string | null>(null);
   const [dispatchStatus, setDispatchStatus] = useState<'pending' | 'accepted' | 'declined'>(
     isMscBarcelonaAccepted ? 'accepted' : 'pending'
   );

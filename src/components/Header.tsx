@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Sparkles, Mic, Send, ChevronDown, Check, X, Sliders, MessageSquare, ClipboardList, Map, Anchor, LogOut, User, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { Sparkles, Mic, Send, ChevronDown, Check, X, Sliders, MessageSquare, ClipboardList, Map, Anchor, LogOut, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { answerQuestion, findVesselByFuzzyName } from '../lib/aiAssistant';
 import type { PageId } from '../types';
 import type { UserProfile } from '../pages/LoginPage';
@@ -42,14 +42,6 @@ interface HeaderProps {
   onSelectVesselForAllocation?: (vesselName: string | null) => void;
   onPageChange?: (pageId: PageId) => void;
 }
-
-const ROLES: { id: UserRole; label: string; shortLabel: string }[] = [
-  { id: 'port-service-provider', label: 'Port Service Provider', shortLabel: 'Port Service Provider' },
-  { id: 'tug-operator', label: 'Tug Operator', shortLabel: 'Tug Operator' },
-  { id: 'ship-agent', label: 'Ship Agent', shortLabel: 'Ship Agent' },
-  { id: 'harbour-pilot', label: 'Harbour Pilot', shortLabel: 'Harbour Pilot' },
-  { id: 'crane-operator', label: 'Crane Operator', shortLabel: 'Crane Operator' }
-];
 
 const getThinkingStepsForQuestion = (question: string, vesselName?: string): string[] => {
   const qLower = question.toLowerCase();
@@ -156,12 +148,12 @@ const getActionsForAnswer = (question: string, answer: any): ChatAction[] => {
 };
 
 export const Header: React.FC<HeaderProps> = ({ 
-  pageTitle = 'Operations Platform',
+  pageTitle: _pageTitle = 'Operations Platform',
   isLightMode = false,
-  currentRole = 'port-service-provider',
+  currentRole: _currentRole = 'port-service-provider',
   currentUserProfile,
   onLogout,
-  onRoleChange,
+  onRoleChange: _onRoleChange,
   onSelectVesselForAllocation,
   onPageChange
 }) => {

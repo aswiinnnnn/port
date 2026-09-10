@@ -274,6 +274,7 @@ interface ResourceAllocationModalProps {
   vesselName: string | null;
   onClose: () => void;
   onAccept: () => void;
+  isMscBarcelonaAccepted?: boolean;
 }
 
 export const ResourceAllocationModal: React.FC<ResourceAllocationModalProps> = ({ vesselName, onClose, onAccept }) => {

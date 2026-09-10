@@ -47,7 +47,7 @@ export const VesselCarousel: React.FC<VesselCarouselProps> = ({
   return (
     <div style={{ overflowX: 'clip', overflowY: 'visible', marginTop: '-16px', paddingTop: '12px' }}>
     <div ref={containerRef} style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '24px', paddingTop: '12px' }}>
-      {visibleShips.map((ship, idx) => {
+      {visibleShips.map((ship) => {
         const isMsc = ship.name === 'MSC BARCELONA';
         const isSelected = selectedShipName === ship.name;
         const hasUnread = ship.name === 'MSC BARCELONA' || ship.name === 'ATLANTIC HORIZON' || ship.name === 'GRAND ZEPHYR';

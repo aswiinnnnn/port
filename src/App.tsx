@@ -123,8 +123,8 @@ function App() {
     }
   };
 
-  const handleSelectVesselForAllocation = (vesselName: string, withDelay?: boolean) => {
-    if (withDelay) {
+  const handleSelectVesselForAllocation = (vesselName: string | null, withDelay?: boolean) => {
+    if (vesselName && withDelay) {
       setTimeout(() => {
         setSelectedVesselForAllocation(vesselName);
       }, 300);

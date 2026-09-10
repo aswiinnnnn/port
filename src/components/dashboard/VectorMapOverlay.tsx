@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
-import { Play, RotateCcw, X, Eye } from 'lucide-react';
+import { Play, X } from 'lucide-react';
 import { docks, getRotatedCoords, shipsData, type DockDetail } from './dashboardData';
 import { DockDetailPanel } from './DockDetailPanel';
 import { PreviewNotificationCard } from './PreviewNotificationCard';
@@ -145,7 +145,7 @@ export const VectorMapOverlay: React.FC<VectorMapOverlayProps> = ({
 
   const [selectedDock, setSelectedDock] = useState<DockDetail | null>(null);
   const [hasUserSelected, setHasUserSelected] = useState(false);
-  const [mapViewMode, setMapViewMode] = useState<'harbor' | 'vector'>('harbor');
+  const [mapViewMode] = useState<'harbor' | 'vector'>('harbor');
   
   const [isPreviewRunning, setIsPreviewRunning] = useState(false);
   const [isVesselInRadius, setIsVesselInRadius] = useState(false);
@@ -401,17 +401,6 @@ export const VectorMapOverlay: React.FC<VectorMapOverlayProps> = ({
     animRef.current = requestAnimationFrame(animateVessel);
   };
 
-  const handleResetPreview = () => {
-    if (animRef.current) cancelAnimationFrame(animRef.current);
-    // Remove the MSC BARCELONA marker from the map entirely on reset
-    if (mscMarkerRef.current) {
-      mscMarkerRef.current.remove();
-      mscMarkerRef.current = null;
-    }
-    setIsPreviewRunning(false);
-    setIsVesselInRadius(false);
-    if (onVesselEnterRadius) onVesselEnterRadius(false);
-  };
 
   return (
     <div style={{ flex: 1.6, display: 'flex', flexDirection: 'column' }}>
