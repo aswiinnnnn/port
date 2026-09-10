@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
-import { Play, X } from 'lucide-react';
 import { docks, getRotatedCoords, shipsData, type DockDetail } from './dashboardData';
 import { DockDetailPanel } from './DockDetailPanel';
 import { PreviewNotificationCard } from './PreviewNotificationCard';
@@ -12,7 +11,7 @@ interface VectorMapOverlayProps {
   onVesselEnterRadius?: (inRadius: boolean) => void;
 }
 
-const SHIP_SVG_STRING = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21 22 21"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4a11.6 11.6 0 0 0 1.62 6"/><path d="M12 10V4"/><path d="M8 7h8"/></svg>`;
+const SHIP_SVG_STRING = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.81 7.76"/><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M12 10V2"/></svg>`;
 
 const START_LAT_LNG: [number, number] = [41.370, 2.232];
 const TARGET_LAT_LNG: [number, number] = [41.365, 2.225];
@@ -23,111 +22,54 @@ const createMscIconHtml = (hasNotification: boolean) => {
   const ringColor = hasNotification ? 'rgba(37, 99, 235, 0.6)' : 'rgba(16, 185, 129, 0.6)';
 
   return `
-  <div style="position: relative; width: 32px; height: 32px; margin-left: -16px; margin-top: -16px; cursor: pointer;">
-    ${hasNotification ? `
+    <div style="position: relative; width: 32px; height: 32px; margin-left: -16px; margin-top: -16px; cursor: pointer;">
       <div style="
         position: absolute;
-        top: -6px;
-        left: -6px;
-        width: 44px;
-        height: 44px;
-        border: 2px solid ${primaryColor};
+        inset: -6px;
         border-radius: 50%;
-        animation: pulse 1.5s infinite;
-        box-shadow: 0 0 16px ${ringColor};
-        transition: all 0.6s ease;
+        border: 2px solid ${ringColor};
+        animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
       "></div>
-    ` : `
-      <div style="
-        position: absolute;
-        top: -4px;
-        left: -4px;
-        width: 40px;
-        height: 40px;
-        border: 1.5px solid ${primaryColor};
-        border-radius: 50%;
-        opacity: 0.85;
-        transition: all 0.6s ease;
-      "></div>
-    `}
-    
-    <div style="
-      width: 32px;
-      height: 32px;
-      background-color: ${primaryColor};
-      border: 2px solid white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      transition: background-color 0.6s ease, border-color 0.6s ease;
-    ">
-      ${SHIP_SVG_STRING}
-    </div>
 
-    ${hasNotification ? `
       <div style="
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        width: 20px;
-        height: 20px;
+        width: 32px;
+        height: 32px;
         background-color: ${primaryColor};
         border: 2px solid white;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-        font-size: 10px;
-        transition: background-color 0.6s ease;
+        box-shadow: 0 4px 12px ${ringColor};
+        position: relative;
+        z-index: 2;
       ">
-        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        ${SHIP_SVG_STRING}
       </div>
-    ` : `
+
       <div style="
         position: absolute;
-        top: -3px;
-        right: -3px;
-        width: 14px;
-        height: 14px;
+        top: 38px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
         background-color: ${primaryColor};
-        border: 1.5px solid white;
-        border-radius: 50%;
+        color: #ffffff;
+        font-family: var(--font-sans, system-ui);
+        font-size: 10px;
+        font-weight: 800;
+        padding: 3px 8px;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,255,255,0.2);
         display: flex;
         align-items: center;
-        justify-content: center;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.25);
-        transition: background-color 0.6s ease;
+        gap: 3px;
+        letter-spacing: 0.5px;
       ">
-        <span style="font-size: 8px; color: white;">★</span>
+        <span>MSC BARCELONA</span>
       </div>
-    `}
-
-    <div style="
-      position: absolute;
-      top: 38px;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: nowrap;
-      background-color: ${primaryColor};
-      color: #ffffff;
-      font-family: var(--font-sans);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      border: 1px solid rgba(0,0,0,0.05);
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      transition: background-color 0.6s ease;
-    ">
-      MSC BARCELONA
     </div>
-  </div>
   `;
 };
 
@@ -149,7 +91,6 @@ export const VectorMapOverlay: React.FC<VectorMapOverlayProps> = ({
   
   const [isPreviewRunning, setIsPreviewRunning] = useState(false);
   const [isVesselInRadius, setIsVesselInRadius] = useState(false);
-  const [isSimButtonHidden, setIsSimButtonHidden] = useState(false);
 
   const getBerthColor = (status: string, isSelected: boolean) => {
     if (isSelected) return '#3b82f6';
@@ -230,7 +171,7 @@ export const VectorMapOverlay: React.FC<VectorMapOverlayProps> = ({
     const radiusCenter = L.latLng(41.360, 2.176);
     const radiusMeters = 3704;
 
-    // Draw ship markers — skip MSC BARCELONA (only shown during preview)
+    // Draw ship markers — skip MSC BARCELONA (only shown during automated movement)
     shipsData.forEach((ship) => {
       if (ship.name === 'MSC BARCELONA') return;
 
@@ -335,7 +276,7 @@ export const VectorMapOverlay: React.FC<VectorMapOverlayProps> = ({
     }
   }, [selectedDock, hasUserSelected]);
 
-  // Start vessel arrival animation when Start Preview is clicked
+  // Start vessel arrival animation automatically
   const handleStartPreview = () => {
     if (isPreviewRunning) return;
     setIsPreviewRunning(true);
@@ -401,65 +342,18 @@ export const VectorMapOverlay: React.FC<VectorMapOverlayProps> = ({
     animRef.current = requestAnimationFrame(animateVessel);
   };
 
+  // Automatically start vessel movement animation upon mounting (on login or page refresh)
+  useEffect(() => {
+    const autoStartTimer = setTimeout(() => {
+      handleStartPreview();
+    }, 400);
+
+    return () => clearTimeout(autoStartTimer);
+  }, []);
 
   return (
     <div style={{ flex: 1.6, display: 'flex', flexDirection: 'column' }}>
       <div className="glass-panel" style={{ flex: 1, overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px', backgroundColor: 'rgba(15, 23, 42, 0.2)' }}>
-        
-        {/* Floating Simulation Control — hidden during active simulation or when dismissed */}
-        <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 999 }}>
-          {!isVesselInRadius && !isPreviewRunning && !isSimButtonHidden && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <button
-                  onClick={handleStartPreview}
-                  style={{
-                    backgroundColor: '#10b981',
-                    color: '#042f2e',
-                    border: '1px solid rgba(255,255,255,0.3)',
-                    padding: '10px 18px',
-                    borderRadius: '12px',
-                    fontSize: '13px',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    boxShadow: '0 4px 16px rgba(16, 185, 129, 0.5), 0 0 20px rgba(16, 185, 129, 0.3)',
-                    transition: 'all 0.2s ease',
-                    letterSpacing: '0.5px'
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#34d399')}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#10b981')}
-                >
-                  <Play size={16} fill="#042f2e" />
-                  <span>Simulate Vessel Arrival</span>
-                </button>
-                <button
-                  onClick={() => setIsSimButtonHidden(true)}
-                  style={{
-                    backgroundColor: 'rgba(15, 23, 42, 0.75)',
-                    color: '#94a3b8',
-                    border: '1px solid rgba(255,255,255,0.15)',
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    backdropFilter: 'blur(10px)',
-                    transition: 'all 0.2s ease'
-                  }}
-                  title="Hide simulation button"
-                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.85)'; e.currentTarget.style.color = '#fff'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(15, 23, 42, 0.75)'; e.currentTarget.style.color = '#94a3b8'; }}
-                >
-                  <X size={15} />
-                </button>
-              </div>
-          )}
-        </div>
-
         {/* Leaflet Map canvas */}
         <div 
           className="custom-map" 

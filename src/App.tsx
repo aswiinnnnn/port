@@ -63,8 +63,8 @@ function App() {
       setCurrentPage('live-map');
     }
 
-    // Trigger toaster notification on login after 2s delay if VITE_MSC_BARCELONA_AUTO_ACCEPTED is false
-    if (!isAutoAcceptedEnv && !isMscBarcelonaAccepted) {
+    // Trigger toaster notification on login after 2s delay if VITE_MSC_BARCELONA_AUTO_ACCEPTED is false (disabled for port authority admin)
+    if (!isAutoAcceptedEnv && !isMscBarcelonaAccepted && currentUser.role !== 'port-service-provider') {
       const timer = setTimeout(() => {
         setShowMscToaster(true);
       }, 2000);
@@ -204,7 +204,7 @@ function App() {
           </Layout>
 
           {/* Bottom-Right Toaster Notification for MSC BARCELONA */}
-          {showMscToaster && !isMscBarcelonaAccepted && (
+          {showMscToaster && !isMscBarcelonaAccepted && currentUser.role !== 'port-service-provider' && (
             <MscBarcelonaToaster
               onAccept={handleAcceptMscBarcelona}
               onClose={() => setShowMscToaster(false)}
