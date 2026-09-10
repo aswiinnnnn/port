@@ -8,7 +8,8 @@ import {
   MessageSquare,
   FileText,
   Clipboard,
-  Settings
+  Settings,
+  Clock
 } from 'lucide-react';
 import type { PageId } from '../types';
 
@@ -67,6 +68,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange, cur
           { id: 'pilot-assignments', icon: Clipboard },
           { id: 'pilot-vessel-data', icon: FileText },
           { id: 'pilot-conditions', icon: Cloud }
+        ]
+      : currentUserRole === 'crane-operator'
+      ? [
+          { id: 'crane-dashboard', icon: LayoutDashboard },
+          { id: 'crane-assignments', icon: Clipboard },
+          { id: 'crane-roster', icon: CraneIcon as any },
+          { id: 'crane-sla-timeline', icon: Clock }
         ]
       : [
           { id: 'live-map', icon: LayoutDashboard },

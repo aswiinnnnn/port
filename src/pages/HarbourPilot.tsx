@@ -73,14 +73,15 @@ interface HarbourPilotProps {
 
 export const HarbourPilot: React.FC<HarbourPilotProps> = ({ activeTab }) => {
   const [assignments] = useState<PilotAssignment[]>([
+    { id: 'pa-msc', vessel: 'MSC BARCELONA', operation: 'Arrival', eta: '2026-07-09 16:12', berth: 'BEST-T1-B4', status: 'Scheduled', certification: 'Deep Draft Certified (Capt. Marina Solà)', loa: '366m', draft: '14.2m', tugCount: 4 },
     { id: 'pa-1', vessel: 'GRAND ZEPHYR', operation: 'Arrival', eta: '2026-07-09 14:30', berth: 'South T2', status: 'Scheduled', certification: 'Deep Draft Certified', loa: '198m', draft: '11.2m', tugCount: 2 },
     { id: 'pa-2', vessel: 'MARITIME STAR', operation: 'Arrival', eta: '2026-07-10 08:00', berth: 'RoRo Terminal', status: 'Scheduled', certification: 'Cruise Vessel Certified', loa: '240m', draft: '8.5m', tugCount: 2 },
     { id: 'pa-3', vessel: 'CARGO EXPRESS', operation: 'Departure', eta: '2026-07-09 18:00', berth: 'Container T1', status: 'Briefed', certification: 'Standard Certified', loa: '150m', draft: '7.8m', tugCount: 1 }
   ]);
 
   const [pastPilotages] = useState<PastPilotage[]>([
+    { id: 'pp-msc', date: '2026-07-08', vessel: 'MSC BARCELONA', loa: '366m', draft: '14.2m', berth: 'BEST-T1-B4', notes: 'Required 4 tugs due to high wind load and 14.2m draft.' },
     { id: 'pp-1', date: '2026-07-08', vessel: 'ATLANTIC HORIZON', loa: '225m', draft: '9.8m', berth: 'Bulk Pier 1', notes: 'Completed without incidents. Wind gusting 15kts.' },
-    { id: 'pp-2', date: '2026-07-07', vessel: 'MSC BARCELONA', loa: '366m', draft: '14.5m', berth: 'Container T2', notes: 'Required 3 tugs due to strong flooding currents.' },
     { id: 'pp-3', date: '2026-07-05', vessel: 'COSTA FORTUNA', loa: '272m', draft: '8.2m', berth: 'Cruise Pier A', notes: 'Smooth mooring, Azipods fully functional.' }
   ]);
 

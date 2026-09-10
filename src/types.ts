@@ -23,7 +23,11 @@ export type PageId =
   | 'pilot-dashboard'
   | 'pilot-assignments'
   | 'pilot-vessel-data'
-  | 'pilot-conditions';
+  | 'pilot-conditions'
+  | 'crane-dashboard'
+  | 'crane-assignments'
+  | 'crane-roster'
+  | 'crane-sla-timeline';
 
 export interface NavItem {
   id: PageId;

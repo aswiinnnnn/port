@@ -2,8 +2,9 @@ import React from 'react';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import type { PageId } from '../types';
+import type { UserProfile } from '../pages/LoginPage';
 
-type UserRole = 'port-service-provider' | 'tug-operator' | 'ship-agent' | 'harbour-pilot';
+type UserRole = 'port-service-provider' | 'tug-operator' | 'ship-agent' | 'harbour-pilot' | 'crane-operator';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,6 +12,8 @@ interface LayoutProps {
   pageTitle: string;
   onPageChange: (pageId: PageId) => void;
   currentUserRole?: UserRole;
+  currentUserProfile?: UserProfile;
+  onLogout?: () => void;
   onUserRoleChange?: (role: UserRole) => void;
   onSelectVesselForAllocation?: (vesselName: string | null) => void;
 }
@@ -21,6 +24,8 @@ export const Layout: React.FC<LayoutProps> = ({
   pageTitle,
   onPageChange,
   currentUserRole,
+  currentUserProfile,
+  onLogout,
   onUserRoleChange,
   onSelectVesselForAllocation
 }) => {
@@ -56,7 +61,7 @@ export const Layout: React.FC<LayoutProps> = ({
           zIndex: 0
         }}
       />
-      {/* Floating Sidebar Navigation (Absolutely positioned, no long background bar) */}
+      {/* Floating Sidebar Navigation */}
       <div style={{ position: 'absolute', left: '12px', top: '24px', bottom: '24px', zIndex: 10000, display: 'flex', alignItems: 'center' }}>
         <Sidebar currentPage={currentPage} onPageChange={onPageChange} currentUserRole={currentUserRole} />
       </div>
@@ -68,7 +73,7 @@ export const Layout: React.FC<LayoutProps> = ({
           flex: 1,
           height: '100%',
           overflow: 'hidden',
-          padding: '0px 16px 16px 80px', /* Offset left padding to clear floating sidebar icons */
+          padding: '0px 16px 16px 80px',
           gap: '12px',
           position: 'relative',
           zIndex: 1
@@ -78,6 +83,8 @@ export const Layout: React.FC<LayoutProps> = ({
           pageTitle={pageTitle}
           isLightMode={currentPage !== 'live-map'}
           currentRole={currentUserRole}
+          currentUserProfile={currentUserProfile}
+          onLogout={onLogout}
           onRoleChange={onUserRoleChange}
           onSelectVesselForAllocation={onSelectVesselForAllocation}
           onPageChange={onPageChange}

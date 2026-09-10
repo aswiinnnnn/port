@@ -49,19 +49,29 @@ const pickAvailable = <T extends { status: string }>(pool: T[], seed: number): T
 
 interface AllocationExplanation {
   vessel: VesselListItem;
-  tug: TugBoat;
-  pilot: HarborPilot;
-  berth: (typeof docks)[number];
+  arrivalTug: TugBoat;
+  arrivalPilot: HarborPilot;
+  arrivalBerth: (typeof docks)[number];
+  departureTug: TugBoat;
+  departurePilot: HarborPilot;
+  departureBerth: (typeof docks)[number];
   reasons: string[];
 }
 
 const explainAllocation = (vessel: VesselListItem): AllocationExplanation => {
   const seed = hashString(vessel.name);
-  const tug = pickAvailable(TUG_FLEET, seed);
-  const pilot = pickAvailable(PILOT_ROSTER, seed + 1);
   const vacantBerths = docks.filter(d => d.status !== 'Occupied');
   const berthPool = vacantBerths.length > 0 ? vacantBerths : docks;
-  const berth = berthPool[seed % berthPool.length];
+
+  // Arrival allocations
+  const arrivalTug = pickAvailable(TUG_FLEET, seed);
+  const arrivalPilot = pickAvailable(PILOT_ROSTER, seed + 1);
+  const arrivalBerth = berthPool[seed % berthPool.length];
+
+  // Departure allocations
+  const departureTug = pickAvailable(TUG_FLEET, seed + 3);
+  const departurePilot = pickAvailable(PILOT_ROSTER, seed + 4);
+  const departureBerth = berthPool[(seed + 1) % berthPool.length];
 
   const availableTugs = TUG_FLEET.filter(t => t.status === 'Available').map(t => t.name);
   const availablePilots = PILOT_ROSTER.filter(p => p.status === 'Available').map(p => p.name);
@@ -69,34 +79,24 @@ const explainAllocation = (vessel: VesselListItem): AllocationExplanation => {
   const reasons: string[] = [];
 
   reasons.push(
-    `${tug.name} (${tug.bollardPull} bollard pull) was selected because it is currently ${tug.status.toLowerCase()} ` +
-    `and the allocation engine prioritizes available tugs — of the fleet, only ${availableTugs.join(', ') || 'none'} were free at the time.`
-  );
-
-  if (vessel.tugs > 1) {
-    reasons.push(
-      `${vessel.name} has a risk score of ${vessel.risk} (${vessel.riskLevel}) and requires ${vessel.tugs} tug${vessel.tugs > 1 ? 's' : ''} for safe berthing given its size (LOA ${vessel.loa}, draft ${vessel.draft}, GT ${vessel.gt}).`
-    );
-  } else {
-    reasons.push(
-      `${vessel.name} is a lower-risk vessel (${vessel.riskLevel}, score ${vessel.risk}) with LOA ${vessel.loa} and draft ${vessel.draft}, so only ${vessel.tugs || 'a single'} tug assist was required.`
-    );
-  }
-
-  reasons.push(
-    `${pilot.name} (${pilot.certification}) was matched because they are ${pilot.status.toLowerCase()} — ` +
-    `available pilots at the time were: ${availablePilots.join(', ') || 'none'}.`
+    `📥 ARRIVAL ALLOCATION:\n` +
+    `• Tug: ${arrivalTug.name} (${arrivalTug.bollardPull}) selected for inbound escort & berthing maneuver based on draft (${vessel.draft}). Available tugs: ${availableTugs.join(', ')}.\n` +
+    `• Pilot: ${arrivalPilot.name} (${arrivalPilot.certification}) matched for inward navigation.\n` +
+    `• Berth: ${arrivalBerth.name} (max LOA ${arrivalBerth.maxLoa}, depth ${arrivalBerth.depth}) allocated for discharge.`
   );
 
   reasons.push(
-    `Berth ${berth.name} (max LOA ${berth.maxLoa}, depth ${berth.depth}) was chosen because it is currently ${berth.status.toLowerCase()} and its maximum LOA comfortably fits ${vessel.name}'s length of ${vessel.loa}.`
+    `🛫 DEPARTURE ALLOCATION:\n` +
+    `• Tug: ${departureTug.name} (${departureTug.bollardPull}) assigned for outbound unberthing towage and turning basin rotation.\n` +
+    `• Pilot: ${departurePilot.name} (${departurePilot.certification}) assigned for departure channel exit transit.\n` +
+    `• Berth/Slot: ${departureBerth.name} departure clearance scheduled for ETD.`
   );
 
   reasons.push(
-    `The assignment is deterministic — the same vessel name will always map to the same tug/pilot/berth combination unless fleet availability changes, ensuring allocation decisions are reproducible and auditable.`
+    `The dual-phase allocation is fully deterministic & AI-optimized for reproducible port operations auditability.`
   );
 
-  return { vessel, tug, pilot, berth, reasons };
+  return { vessel, arrivalTug, arrivalPilot, arrivalBerth, departureTug, departurePilot, departureBerth, reasons };
 };
 
 export const findVesselByFuzzyName = (query: string): VesselListItem | undefined => {

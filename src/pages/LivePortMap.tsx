@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { renderToString } from 'react-dom/server';
 import L from 'leaflet';
 import { Ship, Info, RotateCcw } from 'lucide-react';
+
+const SHIP_SVG_STRING = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.81 7.76"/><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M12 10V2"/></svg>`;
 
 interface DockDetail {
   id: string;
@@ -355,11 +356,13 @@ export const LivePortMap: React.FC = () => {
         }).addTo(map);
       }
 
+      const vesselBgColor = isInsideRadius ? '#2563eb' : '#10b981';
+
       // Inside radius style: blue background with white text
-      // Outside radius style: white background with dark slate text
+      // Outside radius style: green background with white text
       const bgStyle = isInsideRadius 
         ? 'background: #2563eb; color: #ffffff; border: 1px solid rgba(255,255,255,0.2);' 
-        : 'background: #ffffff; color: #0f172a; border: 1px solid rgba(0,0,0,0.05);';
+        : 'background: #10b981; color: #ffffff; border: 1px solid rgba(255,255,255,0.2);';
 
       const labelStar = ship.hasStar ? '<span style="color: #fbbf24; font-size: 9px; margin-left: 2px;">★</span>' : '';
 
@@ -381,11 +384,11 @@ export const LivePortMap: React.FC = () => {
                 opacity: 0.85;
               "></div>
             ` : ''}
-            <!-- Main blue circle -->
+            <!-- Main circle -->
             <div style="
               width: 32px;
               height: 32px;
-              background-color: #2563eb;
+              background-color: ${vesselBgColor};
               border: 2px solid white;
               border-radius: 50%;
               display: flex;
@@ -393,7 +396,7 @@ export const LivePortMap: React.FC = () => {
               justify-content: center;
               box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
             ">
-              ${renderToString(<Ship size={16} color="white" />)}
+              ${SHIP_SVG_STRING}
             </div>
             ${ship.hasStar ? `
               <!-- Star badge -->
